@@ -1,0 +1,13 @@
+{{define "navbar.html"}}
+<div class=navigation>
+    {{if .user}}
+      <a href="/timeline">my timeline</a> |
+      <a href="/timeline">public timeline</a> |
+      <a href="/logout">sign out [{{ .user.username }}]</a>
+    {{else}}
+      <a href="/">public timeline</a> |
+      <a href="/register">sign up</a> |
+      <a href="/login">sign in</a>
+    {{end}}
+</div>
+{{end}}

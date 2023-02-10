@@ -1,54 +1,40 @@
 package main
 
-import "github.com/gin-gonic/gin"
-import "net/http"
-import "log"
-import "database/sql"
-import _ "github.com/mattn/go-sqlite3"
-import "fmt"
+import (
+	globals "DevOps/globals"
+	helpers "DevOps/helpers"
+	middleware "DevOps/middleware"
+	routes "DevOps/routes"
+	"html/template"
 
-//global database variable
-var DB *sql.DB
-
-// Configuration
-const DATABASE = "/tmp/minitwit.db"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
+	"github.com/gin-gonic/gin"
+)
 
 func setupRouter() *gin.Engine {
-	router := gin.Default();
-	router.LoadHTMLGlob("templates/*.tmpl");
-	//router.LoadHTMLFiles("templates/index.tmpl");
-	router.GET("/index", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl", gin.H{
-			"title":"yo dudes",
-		})
+	router := gin.Default()
+	router.Static("/static", "./static")
+	router.SetFuncMap(template.FuncMap{
+		"formatDatetime": helpers.FormatDatetime,
+		"gravatarUrl":    helpers.GravatarUrl,
 	})
+	router.LoadHTMLGlob("templates/*.html")
+	router.Use(middleware.Before())
+	router.Use(middleware.After())
+	router.Use(sessions.Sessions("session", cookie.NewStore(globals.Secret)))
+
+	public := router.Group("/")
+	routes.PublicRoutes(public)
+
+	private := router.Group("/")
+	private.Use(middleware.AuthRequired)
+	routes.PrivateRoutes(private)
+
 	return router
 }
 
 func main() {
-	connect_db()
-	id := get_user_id("Leonora")
-	fmt.Println("id: " + id)
 	r := setupRouter()
 	r.Run(":8080")
-}
-
-
-func connect_db() *sql.DB {
-	db, err := sql.Open("sqlite3", DATABASE)
-	if err != nil {
-		log.Fatal(err)
-	}
-	
-	DB = db
-	return db
-}
-
-func get_user_id(username string) string {
-	var id string
-	err := DB.QueryRow("select user_id from user where username = ?", username).Scan(&id)
-	if err != nil { 
-		log.Fatal(err)
-	}
-	return id
 }
