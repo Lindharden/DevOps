@@ -4,6 +4,7 @@ import (
 	globals "DevOps/globals"
 	helpers "DevOps/helpers"
 	model "DevOps/model"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -17,7 +18,18 @@ func PublicTimelineHandler() gin.HandlerFunc {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
 		db := helpers.GetTypedDb(c)
-		// userProfile := c.Param("username")
+		userProfileName := c.Param("username")
+
+		var profiles =  []model.User{}
+		db.Select(&profiles,`select * from user where username = ?`, userProfileName);
+
+		if(len(profiles) <= 0) {
+			 c.JSON(http.StatusNotFound, gin.H{"error": "User does not exist"})
+			 return
+		}
+		
+
+		fmt.Print("the requested user is:" + userProfileName);
 		entries := []model.TimelineMessage{}
 		db.Select(&entries, `select message.*, user.* from message, user
         where message.flagged = 0 and message.author_id = user.user_id
