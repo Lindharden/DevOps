@@ -3,9 +3,10 @@ package controllers
 import (
 	"github.com/gin-contrib/sessions"
 
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 
 	globals "DevOps/globals"
 	helpers "DevOps/helpers"
@@ -33,6 +34,7 @@ func RegisterGetHandler() gin.HandlerFunc {
 func RegisterPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
+		session.Set(globals.LatestRequest, c.Request) // save latest Register Post request (used in Sim)
 		user := session.Get(globals.Userkey)
 		if user != nil {
 			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "Please logout first"})
