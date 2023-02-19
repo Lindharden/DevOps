@@ -4,7 +4,6 @@ import (
 	globals "DevOps/globals"
 	helpers "DevOps/helpers"
 	model "DevOps/model"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -16,32 +15,40 @@ const PAGE_SIZE = 30
 func UserTimelineHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
-		user := session.Get(globals.Userkey).(model.User)
+		user := session.Get(globals.Userkey)
 		db := helpers.GetTypedDb(c)
 
 		userProfileName := c.Param("username")
 		following := false
-		fmt.Print(userProfileName)
-		var profiles =  []model.User{}
-		db.Select(&profiles,`select * from user where username = ?`, userProfileName);
-	
 
-		if(!helpers.RequestedUserExists(userProfileName, profiles)) {
+		
+		var profile =  model.User{}
+		user_exists_err := db.Get(&profile,`select * from user where username = ?`, userProfileName);
+		
+
+		if(user_exists_err != nil) {
 			 c.JSON(http.StatusNotFound, gin.H{"error": "User does not exist"})
 			 return
 		} 
+
+		if(user != nil) {
+			var following interface {}
+			err := db.Get(&following, `select 1 from follower where
+            follower.who_id = ? and follower.whom_id = ?`,user.(model.User).UserId, profile.UserId)
+			following = err != nil
+		}
 	
 		entries := []model.TimelineMessage{}
 		db.Select(&entries, `select message.*, user.* from message, user
         where message.flagged = 0 and message.author_id = ?
-        order by message.pub_date desc limit ?`, profiles[0].UserId, PAGE_SIZE)
+        order by message.pub_date desc limit ?`, profile.UserId, PAGE_SIZE)
 		// user timeline
 		// gin.H should contain a title text + user object
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
 			"user":         user,
-			"user_profile": profiles[0],
+			"user_profile": profile,
 			"followed":     following,
-			"isSelf":       profiles[0].UserId == user.UserId,
+			"isSelf":       /* profile.UserId == user.UserId*/ false,
 			"messages":     entries,
 			"title":        "Timeline",
 		})
