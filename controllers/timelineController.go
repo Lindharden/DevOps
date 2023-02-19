@@ -20,6 +20,7 @@ func UserTimelineHandler() gin.HandlerFunc {
 
 		userProfileName := c.Param("username")
 		following := false
+		isSelf := false
 
 		
 		var profile =  model.User{}
@@ -36,6 +37,7 @@ func UserTimelineHandler() gin.HandlerFunc {
 			err := db.Get(&following, `select 1 from follower where
             follower.who_id = ? and follower.whom_id = ?`,user.(model.User).UserId, profile.UserId)
 			following = err != nil
+			isSelf = user.(model.User).UserId == profile.UserId
 		}
 	
 		entries := []model.TimelineMessage{}
@@ -48,7 +50,7 @@ func UserTimelineHandler() gin.HandlerFunc {
 			"user":         user,
 			"user_profile": profile,
 			"followed":     following,
-			"isSelf":       /* profile.UserId == user.UserId*/ false,
+			"isSelf":       isSelf,
 			"messages":     entries,
 			"title":        "Timeline",
 		})
