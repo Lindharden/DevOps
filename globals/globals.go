@@ -1,7 +1,9 @@
 package globals
 
 import (
+	"DevOps/helpers"
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -11,6 +13,8 @@ import (
 var Secret = []byte("secret")
 
 const Userkey = "user"
+
+const Username = "username"
 
 const Latest = "latest"
 
@@ -22,4 +26,15 @@ func SaveRequest(c *gin.Context) {
 		c.HTML(http.StatusInternalServerError, "index.html", gin.H{"content": "Failed to save session"})
 		return
 	}
+}
+
+// get user id from a username
+func GetUserId(username string, c *gin.Context) int {
+	db := helpers.GetTypedDb(c)
+
+	user := struct{ UserId int }{} // save user_id here
+	query := fmt.Sprintf("SELECT user.user_id FROM user WHERE username = %s", username)
+	db.Select(&user, query, 1)
+
+	return user.UserId
 }
