@@ -44,8 +44,7 @@ func UserTimelineHandler() gin.HandlerFunc {
 		db.Select(&entries, `select message.*, user.* from message, user
         where message.flagged = 0 and message.author_id = ?
         order by message.pub_date desc limit ?`, profile.UserId, PAGE_SIZE)
-		// user timeline
-		// gin.H should contain a title text + user object
+
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
 			"user":         user,
 			"user_profile": profile,
@@ -54,10 +53,6 @@ func UserTimelineHandler() gin.HandlerFunc {
 			"messages":     entries,
 			"title":        "Timeline",
 		})
-
-		// should contain a user_profile object for a user timeline
-		// should contain whether following or not
-		// should contain whether it is yourself
 	}
 }
 
@@ -82,9 +77,27 @@ func PublicTimelineHandler() gin.HandlerFunc {
 	}
 }
 
-func PrivateTimelineHandler() gin.HandlerFunc {
+func SelfTimeline() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// if not signed in, reroute to public timeline
+		db := helpers.GetTypedDb(c)
+		session := sessions.Default(c)
+		user := session.Get(globals.Userkey).(model.User)
+		timelineEntries := []model.TimelineMessage{}
+		db.Select(&timelineEntries, `select message.*, user.* from message, user
+        where message.flagged = 0 and message.author_id = user.user_id and (
+            user.user_id = ? or
+            user.user_id in (select whom_id from follower
+                                    where who_id = ?))
+        order by message.pub_date desc limit ?`,user.UserId, user.UserId, PAGE_SIZE)
+
+		c.HTML(http.StatusOK, "timeline.html", gin.H{
+			"user":         user,
+			"user_profile": nil,
+			"followed":     false,
+			"isSelf":       true,
+			"messages":     timelineEntries,
+			"title":        `Timeline`,
+		})
 	}
 }
 
