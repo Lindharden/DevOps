@@ -21,4 +21,5 @@ func PrivateRoutes(g *gin.RouterGroup) {
 	g.GET("/logout", controllers.LogoutGetHandler())
 	g.GET("/:username/*action", controllers.FollowHandler())
 	g.GET("/add_message", controllers.AddMessageHandler())
+	g.GET("/msgs", controllers.GetMessageHandler())
 }
