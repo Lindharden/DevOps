@@ -23,25 +23,24 @@ func UserTimelineHandler() gin.HandlerFunc {
 		isSelf := false
 
 		//get the requested user
-		var profile =  model.User{}
-		user_exists_err := db.Get(&profile,`select * from user where username = ?`, userProfileName);
-		
-		
-		if(user_exists_err != nil) {
-			 c.JSON(http.StatusNotFound, gin.H{"error": "User does not exist"})
-			 return
-		} 
+		var profile = model.User{}
+		user_exists_err := db.Get(&profile, `select * from user where username = ?`, userProfileName)
+
+		if user_exists_err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "User does not exist"})
+			return
+		}
 
 		//If the user is signed in, check if we follow said user or is that user ourselves
-		if(user != nil) {
-			var following interface {}
+		if user != nil {
+			var following interface{}
 			err := db.Get(&following, `select 1 from follower where
-            follower.who_id = ? and follower.whom_id = ?`,user.(model.User).UserId, profile.UserId)
+            follower.who_id = ? and follower.whom_id = ?`, user.(model.User).UserId, profile.UserId)
 			//error will be nil if zero rows are returned
 			following = err != nil
 			isSelf = user.(model.User).UserId == profile.UserId
 		}
-	
+
 		//get all the messages from the requested user
 		entries := []model.TimelineMessage{}
 		db.Select(&entries, `select message.*, user.* from message, user
@@ -59,11 +58,10 @@ func UserTimelineHandler() gin.HandlerFunc {
 	}
 }
 
-
 func PublicTimelineHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-	db := helpers.GetTypedDb(c)
-	entries := []model.TimelineMessage{}
+		db := helpers.GetTypedDb(c)
+		entries := []model.TimelineMessage{}
 		db.Select(&entries, `select message.*, user.* from message, user
         where message.flagged = 0 and message.author_id = user.user_id
         order by message.pub_date desc limit ?`, PAGE_SIZE)
@@ -89,7 +87,7 @@ func SelfTimeline() gin.HandlerFunc {
             user.user_id = ? or
             user.user_id in (select whom_id from follower
                                     where who_id = ?))
-        order by message.pub_date desc limit ?`,user.UserId, user.UserId, PAGE_SIZE)
+        order by message.pub_date desc limit ?`, user.UserId, user.UserId, PAGE_SIZE)
 
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
 			"user":         user,
