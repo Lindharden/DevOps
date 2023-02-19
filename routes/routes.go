@@ -13,6 +13,8 @@ func PublicRoutes(g *gin.RouterGroup) {
 	g.POST("/register", controllers.RegisterPostHandler())
 	g.GET("/public", controllers.PublicTimelineHandler())
 	g.GET("/:username", controllers.UserTimelineHandler())
+	g.GET("/latest", controllers.LatestGetHandler())
+	g.GET("/msgs/:username", controllers.GetMessageUserHandler())
 }
 
 func PrivateRoutes(g *gin.RouterGroup) {
@@ -20,4 +22,5 @@ func PrivateRoutes(g *gin.RouterGroup) {
 	g.GET("/logout", controllers.LogoutGetHandler())
 	g.GET("/add_message", controllers.AddMessageHandler())
 	g.GET("/:username/*action", controllers.FollowHandler())
+	g.GET("/msgs", controllers.GetMessageHandler())
 }
