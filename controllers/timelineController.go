@@ -4,6 +4,8 @@ import (
 	globals "DevOps/globals"
 	helpers "DevOps/helpers"
 	model "DevOps/model"
+	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -53,5 +55,31 @@ func AddMessageHandler() gin.HandlerFunc {
 			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "You are not logged in"})
 			return
 		}
+	}
+}
+
+func GetMessageHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		globals.SaveRequest(c)
+
+		db := helpers.GetTypedDb(c)
+		entries := []model.TimelineMessage{}
+		db.Select(&entries, `SELECT message.*, user.* FROM message, user
+        WHERE message.flagged = 0 AND message.author_id = user.user_id
+        ORDER BY message.pub_date DESC LIMIT ?`, PAGE_SIZE)
+
+		type MessageList struct {
+			Messages []model.TimelineMessage `json:"messages"`
+		}
+
+		messageList := MessageList{Messages: entries}
+
+		jsonBytes, err := json.Marshal(messageList)
+		if err != nil {
+			log.Println("Error encoding JSON:", err)
+			return
+		}
+
+		c.JSON(200, jsonBytes)
 	}
 }
