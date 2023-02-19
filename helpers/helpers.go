@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"DevOps/model"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
@@ -60,4 +61,8 @@ func getMD5Hash(text string) string {
 func FormatDatetime(unixTime int64) string {
 	t := time.Unix(unixTime, 0)
 	return t.Format("2 Jan 2006 15:04")
+}
+
+func RequestedUserExists(requestedUser string, users []model.User) bool {
+	return len(users) >= 0 && len(requestedUser) != 0
 }
