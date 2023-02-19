@@ -3,9 +3,10 @@ package controllers
 import (
 	"github.com/gin-contrib/sessions"
 
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 
 	globals "DevOps/globals"
 	helpers "DevOps/helpers"
@@ -55,12 +56,6 @@ func RegisterPostHandler() gin.HandlerFunc {
 			return
 		}
 
-		session.Set(globals.Userkey, username)
-		if err := session.Save(); err != nil {
-			c.HTML(http.StatusInternalServerError, "register.html", gin.H{"content": "Failed to save session"})
-			return
-		}
-
 		c.Redirect(http.StatusMovedPermanently, "/login")
 	}
 }
@@ -79,7 +74,6 @@ func LoginGetHandler() gin.HandlerFunc {
 		}
 		c.HTML(http.StatusOK, "login.html", gin.H{
 			"content": "",
-			"user":    user,
 		})
 	}
 }
@@ -112,7 +106,7 @@ func LoginPostHandler() gin.HandlerFunc {
 			return
 		}
 
-		c.Redirect(http.StatusMovedPermanently, "/index")
+		c.Redirect(http.StatusMovedPermanently, "/public")
 	}
 }
 
@@ -120,7 +114,6 @@ func LogoutGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
-		log.Println("logging out user:", user)
 		if user == nil {
 			log.Println("Invalid session token")
 			return
@@ -131,7 +124,7 @@ func LogoutGetHandler() gin.HandlerFunc {
 			return
 		}
 
-		c.Redirect(http.StatusMovedPermanently, "/")
+		c.Redirect(http.StatusMovedPermanently, "/login")
 	}
 }
 

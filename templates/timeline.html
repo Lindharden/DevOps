@@ -14,7 +14,7 @@
     </div>
   {{else}}
     <div class=twitbox>
-      <h3>What's on your mind {{ .user.username }}?</h3>
+      <h3>What's on your mind {{ .user }}?</h3>
       <form action="/add_message" method=post>
         <p><input type=text name=text size=60>
           <input type=submit value="Share">

@@ -4,7 +4,6 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	"log"
 	"strings"
 	"time"
 
@@ -13,22 +12,7 @@ import (
 )
 
 func CheckUserPass(username, password string) bool {
-	userpass := make(map[string]string)
-	userpass["hello"] = "itsme"
-	userpass["john"] = "doe"
-
-	log.Println("checkUserPass", username, password, userpass)
-
-	if val, ok := userpass[username]; ok {
-		log.Println(val, ok)
-		if val == password {
-			return true
-		} else {
-			return false
-		}
-	} else {
-		return false
-	}
+	return true
 }
 
 func EmptyUserPass(username, password string) bool {
@@ -36,7 +20,7 @@ func EmptyUserPass(username, password string) bool {
 }
 
 func CheckUserRegisterInfo(username, password, password2, email string) bool {
-	return password != password2 && strings.Contains(email, "@") // TODO: also check that the username is not taken
+	return password == password2 && strings.Contains(email, "@") // TODO: also check that the username is not taken
 }
 
 func GetTypedDb(c *gin.Context) *sqlx.DB {
