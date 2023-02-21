@@ -10,6 +10,7 @@ import (
 
 	globals "DevOps/globals"
 	helpers "DevOps/helpers"
+	"DevOps/model"
 )
 
 func RegisterGetHandler() gin.HandlerFunc {
@@ -33,8 +34,10 @@ func RegisterGetHandler() gin.HandlerFunc {
 
 func RegisterPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		db := helpers.GetTypedDb(c)
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
+
 		if user != nil {
 			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "Please logout first"})
 			return
@@ -46,15 +49,30 @@ func RegisterPostHandler() gin.HandlerFunc {
 		email := c.PostForm("email")
 
 		if helpers.EmptyUserPass(username, password) {
-			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "Parameters can't be empty"})
+			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "You have to enter a value"})
 			return
 		}
 
-		if !helpers.CheckUserRegisterInfo(username, password, password2, email) {
-			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "Parameters are bad"})
-			// TODO: make specific messages for bad email, unequal pw1/pw2
+		if !helpers.CheckUserPasswords(password, password2) {
+			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "The two passwords do not match"})
 			return
 		}
+
+		if !helpers.CheckUserEmail(email) {
+			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "You have to enter a valid email address"})
+			return
+		}
+
+		if helpers.CheckUsernameExists(db, username) {
+			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "The username is already taken"})
+			return
+		}
+
+		pw_hash, err := helpers.HashPassword(password)
+		if err != nil {
+			c.AbortWithStatus(404)
+		}
+		db.Exec("insert into user (username, email, pw_hash) values (?, ?, ?)", username, email, pw_hash)
 
 		c.Redirect(http.StatusMovedPermanently, "/login")
 	}
@@ -81,8 +99,9 @@ func LoginGetHandler() gin.HandlerFunc {
 func LoginPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
-		if user != nil {
+		db := helpers.GetTypedDb(c)
+		_, err := helpers.GetUserSession(c)
+		if err == nil {
 			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Please logout first"})
 			return
 		}
@@ -95,12 +114,19 @@ func LoginPostHandler() gin.HandlerFunc {
 			return
 		}
 
-		if !helpers.CheckUserPass(username, password) {
-			c.HTML(http.StatusUnauthorized, "login.html", gin.H{"content": "Incorrect username or password"})
+		if !helpers.CheckUsernameExists(db, username) {
+			c.HTML(http.StatusUnauthorized, "login.html", gin.H{"content": "Invalid username"})
 			return
 		}
 
-		session.Set(globals.Userkey, username)
+		if !helpers.ValidatePassword(db, username, password) {
+			c.HTML(http.StatusUnauthorized, "login.html", gin.H{"content": "Invalid password"})
+			return
+		}
+		userStruct := model.User{}
+		db.Select(&userStruct, "select * from user where username = ?", username)
+
+		helpers.SetUserSession(c, userStruct)
 		if err := session.Save(); err != nil {
 			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Failed to save session"})
 			return
