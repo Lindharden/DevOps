@@ -10,8 +10,9 @@ func SimulatorRoutes(g *gin.RouterGroup) {
 	g.GET("/latest", controllers.LatestGetHandler())
 	g.GET("/msgs/:username", controllers.GetMessageUserHandler())
 	g.GET("/msgs", controllers.GetMessageHandler())
-	g.POST("/fllws/:username", controllers.SimFollowHandler())
 	g.GET("/fllws/:username", controllers.SimGetFollowHandler())
+	g.POST("/fllws/:username", controllers.SimFollowHandler())
+	g.POST("/register", controllers.SimRegisterPostHandler())
 }
 
 func PublicRoutes(g *gin.RouterGroup) {

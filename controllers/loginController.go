@@ -31,6 +31,16 @@ func RegisterGetHandler() gin.HandlerFunc {
 	}
 }
 
+func SimRegisterPostHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		_, err := helpers.RegisterUser(c)
+
+		if err == nil {
+			c.AbortWithStatus(http.StatusNoContent)
+		}
+	}
+}
+
 func RegisterPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
