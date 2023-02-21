@@ -4,9 +4,7 @@ import (
 	globals "DevOps/globals"
 	helpers "DevOps/helpers"
 	model "DevOps/model"
-	"encoding/json"
-	"fmt"
-	"log"
+	"net/http"
 	"time"
 
 	"github.com/gin-contrib/sessions"
@@ -39,6 +37,7 @@ type MessageList struct {
 
 func GetMessageHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		
 		globals.SaveRequest(c)
 
 		// query db
@@ -59,32 +58,29 @@ func GetMessageHandler() gin.HandlerFunc {
 				})
 		}
 
-		// convert to JSON
-		jsonBytes, err := json.Marshal(messageList)
-		if err != nil {
-			log.Println("Error encoding JSON:", err)
-			return
-		}
-
-		c.JSON(200, jsonBytes)
+		c.JSON(200, messageList)
 	}
 }
 
 func GetMessageUserHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		globals.SaveRequest(c)
+		db := helpers.GetTypedDb(c)
 
 		// convert username to user id
 		username := c.Param(globals.Username)
-		user_id := globals.GetUserId(username, c)
+		user_id, err := helpers.GetUserId(db,username)
 
-		db := helpers.GetTypedDb(c)
+		if err != nil {
+			c.AbortWithStatus(http.StatusNotFound)
+			return
+		}
+
 		entries := []model.TimelineMessage{}
-		query := fmt.Sprintf(`SELECT message.*, user.* FROM message, user 
+		db.Select(&entries, `SELECT message.*, user.* FROM message, user 
 		WHERE message.flagged = 0 AND
-		user.user_id = message.author_id AND user.user_id = %d
-		ORDER BY message.pub_date DESC LIMIT 100,`, user_id)
-		db.Select(&entries, query)
+		user.user_id = message.author_id AND user.user_id = ?
+		ORDER BY message.pub_date DESC LIMIT 100`,user_id)
 
 		// filter messages
 		var messageList MessageList = MessageList{}
@@ -97,13 +93,6 @@ func GetMessageUserHandler() gin.HandlerFunc {
 				})
 		}
 
-		// convert to JSON
-		jsonBytes, err := json.Marshal(messageList)
-		if err != nil {
-			log.Println("Error encoding JSON:", err)
-			return
-		}
-
-		c.JSON(200, jsonBytes)
+		c.JSON(200, messageList)
 	}
 }
