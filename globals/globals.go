@@ -38,6 +38,7 @@ func GetLatestRequestId() int {
 	return latestReuqestId
 }
 
+// Deprecated: Use GetUserId in helpers instead
 // get user id from a username
 func GetUserId(username string, c *gin.Context) int {
 	db := helpers.GetTypedDb(c)
