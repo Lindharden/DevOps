@@ -9,7 +9,7 @@ import (
 func SimulatorRoutes(g *gin.RouterGroup) {
 	g.GET("/latest", controllers.LatestGetHandler())
 	g.GET("/msgs/:username", controllers.GetMessageUserHandler())
-	g.GET("/msgs/:username", controllers.PostMessageUserHandler())
+	g.POST("/msgs/:username", controllers.PostMessageUserHandler())
 	g.GET("/msgs", controllers.GetMessageHandler())
 	g.GET("/fllws/:username", controllers.SimGetFollowHandler())
 	g.POST("/fllws/:username", controllers.SimFollowHandler())
