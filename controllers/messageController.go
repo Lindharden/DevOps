@@ -37,9 +37,6 @@ type MessageList struct {
 
 func GetMessageHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		
-		globals.SaveRequest(c)
-
 		// query db
 		db := helpers.GetTypedDb(c)
 		entries := []model.TimelineMessage{}
@@ -64,7 +61,6 @@ func GetMessageHandler() gin.HandlerFunc {
 
 func GetMessageUserHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		globals.SaveRequest(c)
 		db := helpers.GetTypedDb(c)
 
 		// convert username to user id

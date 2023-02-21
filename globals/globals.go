@@ -18,6 +18,8 @@ const Username = "username"
 
 const Latest = "latest"
 
+var latestReuqestId int = -1;
+
 func SaveRequest(c *gin.Context) {
 	session := sessions.Default(c)
 	reqJson, _ := json.Marshal(c.Request)
@@ -26,6 +28,14 @@ func SaveRequest(c *gin.Context) {
 		c.HTML(http.StatusInternalServerError, "index.html", gin.H{"content": "Failed to save session"})
 		return
 	}
+}
+
+func SetLatestRequestId(requestId int){
+	latestReuqestId = requestId
+}
+
+func GetLatestRequestId() int {
+	return latestReuqestId
 }
 
 // get user id from a username
