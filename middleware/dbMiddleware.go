@@ -9,7 +9,7 @@ import (
 )
 
 // Configuration
-const DATABASE = "./itu-minitwit.db"
+const DATABASE = "itu-minitwit.db"
 
 // Make sure we are connected to the database each request and look
 // up the current user so that we know he's there.
