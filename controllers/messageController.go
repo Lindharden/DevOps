@@ -65,7 +65,7 @@ func GetMessageUserHandler() gin.HandlerFunc {
 
 		// convert username to user id
 		username := c.Param(globals.Username)
-		user_id, err := helpers.GetUserId(db,username)
+		user_id, err := helpers.GetUserId(db, username)
 
 		if err != nil {
 			c.AbortWithStatus(http.StatusNotFound)
@@ -76,7 +76,7 @@ func GetMessageUserHandler() gin.HandlerFunc {
 		db.Select(&entries, `SELECT message.*, user.* FROM message, user 
 		WHERE message.flagged = 0 AND
 		user.user_id = message.author_id AND user.user_id = ?
-		ORDER BY message.pub_date DESC LIMIT 100`,user_id)
+		ORDER BY message.pub_date DESC LIMIT 100`, user_id)
 
 		// filter messages
 		var messageList MessageList = MessageList{}
@@ -90,5 +90,20 @@ func GetMessageUserHandler() gin.HandlerFunc {
 		}
 
 		c.JSON(200, messageList)
+	}
+}
+
+func PostMessageUserHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		type PostMessage struct {
+			content string
+		}
+
+		var postMessage PostMessage
+
+		c.BindJSON(postMessage)
+
+		// insert into database
+
 	}
 }
