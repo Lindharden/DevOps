@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"time"
 
+	simModels "DevOps/model/simulatorModel"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
@@ -25,16 +27,6 @@ func AddMessageHandler() gin.HandlerFunc {
 	}
 }
 
-type filteredMessage struct {
-	Text     string `db:"text"`
-	PubDate  int64  `db:"pub_date"`
-	Username string `db:"username"`
-}
-
-type MessageList struct {
-	Messages []filteredMessage `json:"messages"`
-}
-
 func GetMessageHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// query db
@@ -45,10 +37,10 @@ func GetMessageHandler() gin.HandlerFunc {
         ORDER BY message.pub_date DESC LIMIT 100`)
 
 		// filter messages
-		var messageList MessageList = MessageList{}
+		var messageList []simModels.FilteredMessageRequest
 		for _, message := range entries {
-			messageList.Messages = append(messageList.Messages,
-				filteredMessage{
+			messageList = append(messageList,
+				simModels.FilteredMessageRequest{
 					Text:     message.Text,
 					PubDate:  message.PubDate,
 					Username: message.Username,
@@ -79,10 +71,10 @@ func GetMessageUserHandler() gin.HandlerFunc {
 		ORDER BY message.pub_date DESC LIMIT 100`, user_id)
 
 		// filter messages
-		var messageList MessageList = MessageList{}
+		var messageList []simModels.FilteredMessageRequest
 		for _, message := range entries {
-			messageList.Messages = append(messageList.Messages,
-				filteredMessage{
+			messageList = append(messageList,
+				simModels.FilteredMessageRequest{
 					Text:     message.Text,
 					PubDate:  message.PubDate,
 					Username: message.Username,
@@ -95,15 +87,34 @@ func GetMessageUserHandler() gin.HandlerFunc {
 
 func PostMessageUserHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		type PostMessage struct {
-			content string
+
+		var postMessage simModels.MessageRequest
+
+		// bind JSON body to postMessage
+		if err := c.BindJSON(&postMessage); err != nil {
+			c.AbortWithError(http.StatusBadRequest, err)
+			return
 		}
 
-		var postMessage PostMessage
+		// get DB
+		db := helpers.GetTypedDb(c)
 
-		c.BindJSON(postMessage)
+		// get username, and convert to user id
+		username := c.Param("username")
+		userId, err := helpers.GetUserId(db, username)
+		if err != nil {
+			// abort if unsuccessful
+			c.AbortWithStatus(404)
+		}
 
-		// insert into database
+		// get current time as Unix time
+		time := time.Now().Unix()
 
+		// insert into DB
+		db.Exec(`insert into message (author_id, text, pub_date, flagged) values (?, ?, ?, 0)`,
+			userId, postMessage.Content, time)
+
+		// exit with status 204
+		c.Status(http.StatusNoContent)
 	}
 }
