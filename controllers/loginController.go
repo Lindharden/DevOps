@@ -44,7 +44,6 @@ func SimRegisterPostHandler() gin.HandlerFunc {
 func RegisterPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
-		globals.SaveRequest(c) // save Register request (used in Sim)
 		user := session.Get(globals.Userkey)
 		if user != nil {
 			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "Please logout first"})
