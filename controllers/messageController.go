@@ -5,6 +5,7 @@ import (
 	helpers "DevOps/helpers"
 	model "DevOps/model"
 	"net/http"
+	"strconv"
 	"time"
 
 	simModels "DevOps/model/simulatorModel"
@@ -32,9 +33,16 @@ func GetMessageHandler() gin.HandlerFunc {
 		// query db
 		db := helpers.GetTypedDb(c)
 		entries := []model.TimelineMessage{}
+
+		// check for parameter "no" (number of messages)
+		noMsgs, err := strconv.Atoi(c.Query("no"))
+		if err != nil {
+			// if undefined, use default value
+			noMsgs = 100
+		}
 		db.Select(&entries, `SELECT message.*, user.* FROM message, user
         WHERE message.flagged = 0 AND message.author_id = user.user_id
-        ORDER BY message.pub_date DESC LIMIT 100`)
+        ORDER BY message.pub_date DESC LIMIT ?`, noMsgs)
 
 		// filter messages
 		var messageList []simModels.FilteredMessageRequest
