@@ -1,8 +1,13 @@
 import os
 import json
 import base64
+import socket
 import sqlite3
+import subprocess
+import time
 import requests
+import pytest
+
 from contextlib import closing
 
 
@@ -16,6 +21,26 @@ HEADERS = {'Connection': 'close',
            'Content-Type': 'application/json',
            f'Authorization': f'Basic {ENCODED_CREDENTIALS}'}
 
+def wait_for_port(port: int, host: str = 'localhost', timeout: float = 5.0):
+    """Wait until a port starts accepting TCP connections.
+    Args:
+        port: Port number.
+        host: Host address on which the port should exist.
+        timeout: In seconds. How long to wait before raising errors.
+    Raises:
+        TimeoutError: The port isn't accepting connection after time specified in `timeout`.
+    """
+    start_time = time.perf_counter()
+    while True:
+        try:
+            with socket.create_connection((host, port), timeout=timeout):
+                break
+        except OSError as ex:
+            time.sleep(0.01)
+            if time.perf_counter() - start_time >= timeout:
+                raise TimeoutError('Waited too long for the port {} on host {} to start accepting '
+                                   'connections.'.format(port, host)) from ex
+
 
 def init_db():
     """Creates the database tables."""
@@ -27,7 +52,22 @@ def init_db():
 
 # Empty the database and initialize the schema again
 os.system(f'rm {DATABASE}')
+
 init_db()
+
+
+
+
+@pytest.fixture(scope='session', autouse=True)
+def start_service():
+    proc = subprocess.Popen(['go', 'run', 'minitwit.go'],
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.STDOUT,
+                            shell=False)
+    wait_for_port(8080, timeout=20)
+    yield proc
+    subprocess.run(["sudo", "kill","-9", "$(sudo lsof -t -i:8080)"])
+
 
 
 def test_latest():
@@ -193,3 +233,6 @@ def test_a_unfollows_b():
     # verify that latest was updated
     response = requests.get(f'{BASE_URL}/latest', headers=HEADERS)
     assert response.json()['latest'] == 11
+
+def after_tests():
+    print("after")
