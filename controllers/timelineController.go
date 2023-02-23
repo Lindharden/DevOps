@@ -32,10 +32,10 @@ func UserTimelineHandler() gin.HandlerFunc {
 		//If the user is signed in, check if we follow said user or is that user ourselves
 		if err == nil {
 			var following interface{}
-			err := db.Get(&following, `select 1 from follower where
+			err := db.Get(&following, `select * from follower where
             follower.who_id = ? and follower.whom_id = ?`, user.UserId, profile.UserId)
 			//error will be nil if zero rows are returned
-			following = err != nil
+			following = err == nil
 			isSelf = user.UserId == profile.UserId
 		}
 
@@ -115,6 +115,6 @@ func AddMessageHandler() gin.HandlerFunc {
             values (?, ?, ?, 0)`, user.UserId, text, time.Now().Unix())
 		}
 
-		c.AbortWithStatus(200)
+		c.Redirect(http.StatusMovedPermanently, "/")
 	}
 }
