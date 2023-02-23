@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"fmt"
-
 	"github.com/gin-contrib/sessions"
 
 	"log"
@@ -42,12 +40,12 @@ func SimRegisterPostHandler() gin.HandlerFunc {
 		var registerData simModels.RegisterRequest
 
 		if err := c.BindJSON(&registerData); err != nil {
-			fmt.Println(err)
+			c.AbortWithStatus(http.StatusBadRequest)
+			return
 		}
 
-		fmt.Println(registerData)
 		_, err := helpers.RegisterUser(db, registerData.Username, registerData.Pwd, registerData.Pwd, registerData.Email)
-		fmt.Println(err)
+
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error_msg": err.Error()})
 			return
