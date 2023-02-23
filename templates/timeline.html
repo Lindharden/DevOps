@@ -8,7 +8,9 @@
       This is you!
     {{else if .followed}}
       You are currently following this user.
+      <a class=unfollow href="/{{.userProfile.Username}}/unfollow">Unfollow user</a>.
     {{else}}
+      <a class=follow href="/{{.userProfile.Username}}/follow">Follow user</a>.
       You are not yet following this user.
     {{end}}
     </div>

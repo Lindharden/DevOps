@@ -28,6 +28,7 @@ func FollowHandler() gin.HandlerFunc {
 			} else if action == "/unfollow" {
 				db.Exec("delete from follower where who_id=? and whom_id=?", user.UserId, whom_id)
 			}
+
 			c.AbortWithStatus(200)
 		}
 	}

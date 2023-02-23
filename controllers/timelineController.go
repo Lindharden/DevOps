@@ -46,12 +46,12 @@ func UserTimelineHandler() gin.HandlerFunc {
         order by message.pub_date desc limit ?`, profile.UserId, PAGE_SIZE)
 
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
-			"user":         user,
-			"user_profile": profile,
-			"followed":     following,
-			"isSelf":       isSelf,
-			"messages":     entries,
-			"title":        "Timeline",
+			"user":        user,
+			"userProfile": profile,
+			"followed":    following,
+			"isSelf":      isSelf,
+			"messages":    entries,
+			"title":       "Timeline",
 		})
 	}
 }
