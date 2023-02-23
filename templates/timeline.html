@@ -1,7 +1,7 @@
 {{template "header.html" .}}
 <title>{{.title}}</title>
 <h2>{{.title}}</h2>
-{{if .user}}
+{{if .user.UserId}}
   {{if .userProfile}}
     <div class="followstatus">
     {{if .isSelf}}
@@ -14,7 +14,7 @@
     </div>
   {{else}}
     <div class=twitbox>
-      <h3>What's on your mind {{ .user }}?</h3>
+      <h3>What's on your mind {{ .user.Username }}?</h3>
       <form action="/add_message" method=post>
         <p><input type=text name=text size=60>
           <input type=submit value="Share">

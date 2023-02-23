@@ -1,18 +1,19 @@
 package controllers
 
 import (
-	"github.com/gin-contrib/sessions"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 
-	globals "DevOps/globals"
 	helpers "DevOps/helpers"
-	"DevOps/model"
 )
 
 func FollowHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey).(model.User)
+		user, err0 := helpers.GetUserSession(c)
+		if err0 != nil {
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
 		username := c.Param("username") // name of user to follow
 		action := c.Param("action")     // follow or unfollow
 

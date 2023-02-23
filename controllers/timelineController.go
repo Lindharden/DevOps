@@ -1,13 +1,11 @@
 package controllers
 
 import (
-	globals "DevOps/globals"
 	helpers "DevOps/helpers"
 	model "DevOps/model"
 	"net/http"
 	"time"
 
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,8 +13,7 @@ const PAGE_SIZE = 30
 
 func UserTimelineHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
+		user, err := helpers.GetUserSession(c)
 		db := helpers.GetTypedDb(c)
 
 		userProfileName := c.Param("username")
@@ -33,13 +30,13 @@ func UserTimelineHandler() gin.HandlerFunc {
 		}
 
 		//If the user is signed in, check if we follow said user or is that user ourselves
-		if user != nil {
+		if err == nil {
 			var following interface{}
 			err := db.Get(&following, `select 1 from follower where
-            follower.who_id = ? and follower.whom_id = ?`, user.(model.User).UserId, profile.UserId)
+            follower.who_id = ? and follower.whom_id = ?`, user.UserId, profile.UserId)
 			//error will be nil if zero rows are returned
 			following = err != nil
-			isSelf = user.(model.User).UserId == profile.UserId
+			isSelf = user.UserId == profile.UserId
 		}
 
 		//get all the messages from the requested user
@@ -62,12 +59,13 @@ func UserTimelineHandler() gin.HandlerFunc {
 func PublicTimelineHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		db := helpers.GetTypedDb(c)
+		user, _ := helpers.GetUserSession(c)
 		entries := []model.TimelineMessage{}
 		db.Select(&entries, `select message.*, user.* from message, user
         where message.flagged = 0 and message.author_id = user.user_id
         order by message.pub_date desc limit ?`, PAGE_SIZE)
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
-			"user":         nil,
+			"user":         user,
 			"user_profile": nil,
 			"followed":     false,
 			"isSelf":       false,
@@ -80,8 +78,10 @@ func PublicTimelineHandler() gin.HandlerFunc {
 func SelfTimeline() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		db := helpers.GetTypedDb(c)
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey).(model.User)
+		user, err := helpers.GetUserSession(c)
+		if err != nil {
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
 		timelineEntries := []model.TimelineMessage{}
 		db.Select(&timelineEntries, `select message.*, user.* from message, user
         where message.flagged = 0 and message.author_id = user.user_id and (
@@ -103,8 +103,10 @@ func SelfTimeline() gin.HandlerFunc {
 
 func AddMessageHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey).(model.User)
+		user, err := helpers.GetUserSession(c)
+		if err != nil {
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
 		text := c.PostForm("text")
 
 		if text != "" {
@@ -112,5 +114,7 @@ func AddMessageHandler() gin.HandlerFunc {
 			db.Exec(`insert into message (author_id, text, pub_date, flagged)
             values (?, ?, ?, 0)`, user.UserId, text, time.Now().Unix())
 		}
+
+		c.AbortWithStatus(200)
 	}
 }
