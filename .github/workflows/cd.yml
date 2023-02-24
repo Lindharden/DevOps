@@ -1,0 +1,103 @@
+name: Continuous Deployment
+
+on:
+  push:
+    # Run workflow every time something is pushed to the main branch
+    branches:
+      - main
+  # allow manual triggers for now too
+  workflow_dispatch:
+    manual: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      #Docker hub setup
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      #Prepare docker build
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      #Configure SSH keys for deployment
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY"
+          echo "$SSH_KEY" > ~/.ssh/minitwit.key
+          chmod 600 ~/.ssh/minitwit.key
+          cat >>~/.ssh/config <<END
+          Host minitwit
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/minitwit.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+
+      #Install needed tooling for the following steps
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.20.x
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      #Checkout repository files
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Run go unit tests
+      - name: Unit testing
+        run: |
+          go test -v
+      # Run simulator integration tests
+      - name: Simulator tests
+        run: |
+          pip install -r ./tools/requirements.txt
+          pytest ./tools/test_sim_compliance.py
+
+      # Build and push docker image
+      - name: Build and push minitwitimage
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/minitwitimage:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache,mode=max
+      - name: Copy docker-compose.yml to server
+        run: scp docker-compose.yml minitwit:/vagrant/docker-compose.yml
+      
+      - name: Copy deploy.sh to server
+        run: >-
+          chmod +x tools/deploy.sh &&
+          scp tools/deploy.sh minitwit:/vagrant/tools/deploy.sh
+      - name: Deploy to server
+        # Configure the ~./bash_profile file on the Vagrantfile
+        run: ssh minitwit '/vagrant/tools/deploy.sh'
+      #Run linter to check if new code follows the style guidelines
+      - name: lint
+        run: if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
+  # release:
+  # # Create release on GitHub
+  #   name: "Release"
+  #   needs: build
+  #   runs-on: "ubuntu-latest"
+
+  #   steps:
+  #     - name: "Create release"
+  #       uses: "Lindharden/DevOps/.github/workflows/release"
+  #       with:
+  #         github-token: "${{ secrets.GITHUB_TOKEN }}"

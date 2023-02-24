@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
     end
 
     server.vm.hostname = "webserver"
-
+    server.vm.provision "shell", inline: 'echo "export DOCKER_USERNAME=' + "'" + ENV["DOCKER_USERNAME"] + "'" + '" >> ~/.bash_profile'
     server.vm.provision "shell", inline: <<-SHELL
       sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
       cd /vagrant
