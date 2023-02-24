@@ -90,14 +90,13 @@ jobs:
       #Run linter to check if new code follows the style guidelines
       - name: lint
         run: if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
-  # release:
-  # # Create release on GitHub
-  #   name: "Release"
-  #   needs: build
-  #   runs-on: "ubuntu-latest"
-
-  #   steps:
-  #     - name: "Create release"
-  #       uses: "Lindharden/DevOps/.github/workflows/release"
-  #       with:
-  #         github-token: "${{ secrets.GITHUB_TOKEN }}"
+  release:
+    name: "Release"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Automatic release"
