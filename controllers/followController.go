@@ -4,19 +4,18 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 
-	globals "DevOps/globals"
 	helpers "DevOps/helpers"
-	model "DevOps/model"
 	simModels "DevOps/model/simulatorModel"
 )
 
 func FollowHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey).(model.User)
+		user, err0 := helpers.GetUserSession(c)
+		if err0 != nil {
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
 		username := c.Param("username") // name of user to follow
 		action := c.Param("action")     // follow or unfollow
 
@@ -31,8 +30,9 @@ func FollowHandler() gin.HandlerFunc {
 			} else if action == "/unfollow" {
 				db.Exec("delete from follower where who_id=? and whom_id=?", user.UserId, whom_id)
 			}
-			c.AbortWithStatus(200)
 		}
+
+		c.Redirect(http.StatusMovedPermanently, "/"+username)
 	}
 }
 

@@ -27,7 +27,7 @@ func RegisterUser(db *sqlx.DB, username string, password string, password2 strin
 		return model.User{}, errors.New("the username is already taken")
 	}
 
-	pw_hash, err := HashPassword(password)
+	pw_hash, err := hashPassword(password)
 	if err != nil {
 		panic("password hashing failed")
 	}
@@ -51,7 +51,7 @@ func checkUserEmail(email string) bool {
 	return strings.Contains(email, "@")
 }
 
-func HashPassword(password string) (string, error) {
+func hashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	return string(bytes), err
 }

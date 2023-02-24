@@ -10,14 +10,15 @@ import (
 
 	simModels "DevOps/model/simulatorModel"
 
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
 func AddMessageHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey).(model.User)
+		user, err := helpers.GetUserSession(c)
+		if err != nil {
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
 		text := c.PostForm("text")
 
 		if text != "" {
@@ -25,6 +26,8 @@ func AddMessageHandler() gin.HandlerFunc {
 			db.Exec(`insert into message (author_id, text, pub_date, flagged)
             values (?, ?, ?, 0)`, user.UserId, text, time.Now().Unix())
 		}
+
+		c.Redirect(http.StatusMovedPermanently, "/public")
 	}
 }
 

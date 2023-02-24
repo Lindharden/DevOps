@@ -1,12 +1,10 @@
 package controllers
 
 import (
-	globals "DevOps/globals"
 	helpers "DevOps/helpers"
 	model "DevOps/model"
 	"net/http"
 
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,13 +12,13 @@ const PAGE_SIZE = 30
 
 func UserTimelineHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
+		user, err := helpers.GetUserSession(c)
 		db := helpers.GetTypedDb(c)
 
 		userProfileName := c.Param("username")
 		following := false
 		isSelf := false
+		isAuthorized := false
 
 		//get the requested user
 		var profile = model.User{}
@@ -32,13 +30,14 @@ func UserTimelineHandler() gin.HandlerFunc {
 		}
 
 		//If the user is signed in, check if we follow said user or is that user ourselves
-		if user != nil {
-			var following interface{}
-			err := db.Get(&following, `select 1 from follower where
-            follower.who_id = ? and follower.whom_id = ?`, user.(model.User).UserId, profile.UserId)
+		if err == nil {
+			var result = model.FollowingEntry{}
+			err := db.Get(&result, `select * from follower where
+            follower.who_id = ? and follower.whom_id = ? limit 1`, user.UserId, profile.UserId)
 			//error will be nil if zero rows are returned
-			following = err != nil
-			isSelf = user.(model.User).UserId == profile.UserId
+			following = err == nil
+			isSelf = user.UserId == profile.UserId
+			isAuthorized = true
 		}
 
 		//get all the messages from the requested user
@@ -48,12 +47,13 @@ func UserTimelineHandler() gin.HandlerFunc {
         order by message.pub_date desc limit ?`, profile.UserId, PAGE_SIZE)
 
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
-			"user":         user,
-			"user_profile": profile,
-			"followed":     following,
-			"isSelf":       isSelf,
-			"messages":     entries,
-			"title":        "Timeline",
+			"authorized":  isAuthorized,
+			"user":        user,
+			"userProfile": profile,
+			"followed":    following,
+			"isSelf":      isSelf,
+			"messages":    entries,
+			"title":       "Timeline",
 		})
 	}
 }
@@ -61,12 +61,18 @@ func UserTimelineHandler() gin.HandlerFunc {
 func PublicTimelineHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		db := helpers.GetTypedDb(c)
+		user, err := helpers.GetUserSession(c)
+		isAuthorized := false
+		if err == nil {
+			isAuthorized = true
+		}
 		entries := []model.TimelineMessage{}
 		db.Select(&entries, `select message.*, user.* from message, user
         where message.flagged = 0 and message.author_id = user.user_id
         order by message.pub_date desc limit ?`, PAGE_SIZE)
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
-			"user":         nil,
+			"authorized":   isAuthorized,
+			"user":         user,
 			"user_profile": nil,
 			"followed":     false,
 			"isSelf":       false,
@@ -79,8 +85,10 @@ func PublicTimelineHandler() gin.HandlerFunc {
 func SelfTimeline() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		db := helpers.GetTypedDb(c)
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey).(model.User)
+		user, err := helpers.GetUserSession(c)
+		if err != nil {
+			c.AbortWithStatus(http.StatusUnauthorized)
+		}
 		timelineEntries := []model.TimelineMessage{}
 		db.Select(&timelineEntries, `select message.*, user.* from message, user
         where message.flagged = 0 and message.author_id = user.user_id and (
@@ -90,6 +98,7 @@ func SelfTimeline() gin.HandlerFunc {
         order by message.pub_date desc limit ?`, user.UserId, user.UserId, PAGE_SIZE)
 
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
+			"authorized":   true,
 			"user":         user,
 			"user_profile": nil,
 			"followed":     false,

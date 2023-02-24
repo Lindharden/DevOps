@@ -1,23 +1,20 @@
 package controllers
 
 import (
-	"github.com/gin-contrib/sessions"
-
 	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 
-	globals "DevOps/globals"
 	helpers "DevOps/helpers"
+	model "DevOps/model"
 	simModels "DevOps/model/simulatorModel"
 )
 
 func RegisterGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
-		if user != nil {
+		user, err := helpers.GetUserSession(c)
+		if err == nil {
 			c.HTML(http.StatusBadRequest, "register.html",
 				gin.H{
 					"content": "Please logout first",
@@ -27,7 +24,7 @@ func RegisterGetHandler() gin.HandlerFunc {
 		}
 		c.HTML(http.StatusOK, "register.html", gin.H{
 			"content": "",
-			"user":    user,
+			"user":    nil,
 		})
 	}
 }
@@ -58,10 +55,14 @@ func SimRegisterPostHandler() gin.HandlerFunc {
 
 func RegisterPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
-		if user != nil {
-			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "Please logout first"})
+		db := helpers.GetTypedDb(c)
+		user, err := helpers.GetUserSession(c)
+		if err == nil {
+			c.HTML(http.StatusBadRequest, "register.html",
+				gin.H{
+					"content": "Please logout first",
+					"user":    user,
+				})
 			return
 		}
 
@@ -71,21 +72,30 @@ func RegisterPostHandler() gin.HandlerFunc {
 		email := c.PostForm("email")
 
 		if helpers.EmptyUserPass(username, password) {
-			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "Parameters can't be empty"})
+			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "You have to enter a value"})
 			return
 		}
 
-		if !helpers.CheckUserRegisterInfo(username, password, password2, email) {
-			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "Parameters are bad"})
-			// TODO: make specific messages for bad email, unequal pw1/pw2
+		if !helpers.CheckUserPasswords(password, password2) {
+			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "The two passwords do not match"})
 			return
 		}
 
-		session.Set(globals.Userkey, username)
-		if err := session.Save(); err != nil {
-			c.HTML(http.StatusInternalServerError, "register.html", gin.H{"content": "Failed to save session"})
+		if !helpers.CheckUserEmail(email) {
+			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "You have to enter a valid email address"})
 			return
 		}
+
+		if helpers.CheckUsernameExists(db, username) {
+			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "The username is already taken"})
+			return
+		}
+
+		pw_hash, err := helpers.HashPassword(password)
+		if err != nil {
+			c.AbortWithStatus(http.StatusBadRequest)
+		}
+		db.Exec("insert into user (username, email, pw_hash) values (?, ?, ?)", username, email, pw_hash)
 
 		c.Redirect(http.StatusMovedPermanently, "/login")
 	}
@@ -93,9 +103,8 @@ func RegisterPostHandler() gin.HandlerFunc {
 
 func LoginGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
-		if user != nil {
+		user, err := helpers.GetUserSession(c)
+		if err == nil {
 			c.HTML(http.StatusBadRequest, "login.html",
 				gin.H{
 					"content": "Please logout first",
@@ -103,18 +112,15 @@ func LoginGetHandler() gin.HandlerFunc {
 				})
 			return
 		}
-		c.HTML(http.StatusOK, "login.html", gin.H{
-			"content": "",
-			"user":    user,
-		})
+		c.HTML(http.StatusOK, "login.html", nil)
 	}
 }
 
 func LoginPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
-		if user != nil {
+		db := helpers.GetTypedDb(c)
+
+		if _, err := helpers.GetUserSession(c); err == nil {
 			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Please logout first"})
 			return
 		}
@@ -127,47 +133,40 @@ func LoginPostHandler() gin.HandlerFunc {
 			return
 		}
 
-		if !helpers.CheckUserPass(username, password) {
-			c.HTML(http.StatusUnauthorized, "login.html", gin.H{"content": "Incorrect username or password"})
+		if !helpers.CheckUsernameExists(db, username) {
+			c.HTML(http.StatusUnauthorized, "login.html", gin.H{"content": "Invalid username"})
 			return
 		}
 
-		session.Set(globals.Userkey, username)
-		if err := session.Save(); err != nil {
+		if !helpers.ValidatePassword(db, username, password) {
+			c.HTML(http.StatusUnauthorized, "login.html", gin.H{"content": "Invalid password"})
+			return
+		}
+
+		userStruct := model.User{}
+		db.Get(&userStruct, `select * from user where username = ?`, username)
+
+		if err := helpers.SetUserSession(c, userStruct); err != nil {
 			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Failed to save session"})
 			return
 		}
 
-		c.Redirect(http.StatusMovedPermanently, "/index")
+		c.Redirect(http.StatusMovedPermanently, "/public")
 	}
 }
 
 func LogoutGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
-		log.Println("logging out user:", user)
-		if user == nil {
+		if _, err := helpers.GetUserSession(c); err != nil {
 			log.Println("Invalid session token")
 			return
 		}
-		session.Delete(globals.Userkey)
-		if err := session.Save(); err != nil {
+
+		if err := helpers.TerminateUserSession(c); err != nil {
 			log.Println("Failed to save session:", err)
 			return
 		}
 
-		c.Redirect(http.StatusMovedPermanently, "/")
-	}
-}
-
-func IndexGetHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"content": "This is an index page...",
-			"user":    user,
-		})
+		c.Redirect(http.StatusFound, "/login")
 	}
 }
