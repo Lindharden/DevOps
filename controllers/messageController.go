@@ -115,7 +115,6 @@ func PostMessageUserHandler() gin.HandlerFunc {
 			c.AbortWithStatus(404)
 		}
 
-		// get current time as Unix time
 		time := time.Now().Unix()
 
 		// insert into DB
