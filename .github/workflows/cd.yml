@@ -83,7 +83,7 @@ jobs:
       - name: Copy deploy.sh to server
         run: >-
           chmod +x tools/deploy.sh &&
-          scp tools/deploy.sh minitwit:/vagrant/deploy.sh
+          scp tools/deploy.sh minitwit:/vagrant/tools/deploy.sh
       - name: Deploy to server
         # Configure the ~./bash_profile file on the Vagrantfile
         run: ssh minitwit '/vagrant/tools/deploy.sh'
