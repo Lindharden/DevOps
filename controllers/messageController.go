@@ -117,7 +117,6 @@ func PostMessageUserHandler() gin.HandlerFunc {
 
 		time := time.Now().Unix()
 
-		// insert into DB
 		db.Exec(`insert into message (author_id, text, pub_date, flagged) values (?, ?, ?, 0)`,
 			userId, postMessage.Content, time)
 
