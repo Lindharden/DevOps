@@ -1,9 +1,9 @@
 {{define "navbar.html"}}
 <div class=navigation>
     {{if .user}}
-      <a href="/">my timeline</a> |
+      <a href="/private">my timeline</a> |
       <a href="/public">public timeline</a> |
-      <a href="/logout">sign out [{{ .user.Username }}]</a>
+      <a href="/private/logout">sign out [{{ .user.Username }}]</a>
     {{else}}
       <a href="/public">public timeline</a> |
       <a href="/register">sign up</a> |

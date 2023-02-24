@@ -115,6 +115,6 @@ func AddMessageHandler() gin.HandlerFunc {
             values (?, ?, ?, 0)`, user.UserId, text, time.Now().Unix())
 		}
 
-		c.Redirect(http.StatusMovedPermanently, "/")
+		c.Redirect(http.StatusMovedPermanently, "/private")
 	}
 }

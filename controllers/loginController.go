@@ -117,9 +117,10 @@ func LoginPostHandler() gin.HandlerFunc {
 			c.HTML(http.StatusUnauthorized, "login.html", gin.H{"content": "Invalid password"})
 			return
 		}
+
 		userStruct := model.User{}
 		db.Get(&userStruct, `select * from user where username = ?`, username)
-		log.Println("heya", userStruct)
+
 		if err := helpers.SetUserSession(c, userStruct); err != nil {
 			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Failed to save session"})
 			return
@@ -129,7 +130,7 @@ func LoginPostHandler() gin.HandlerFunc {
 	}
 }
 
-func LogoutGetHandler() gin.HandlerFunc {
+func LogoutPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if _, err := helpers.GetUserSession(c); err != nil {
 			log.Println("Invalid session token")
@@ -141,6 +142,6 @@ func LogoutGetHandler() gin.HandlerFunc {
 			return
 		}
 
-		c.Redirect(http.StatusMovedPermanently, "/login")
+		c.Redirect(http.StatusFound, "/login")
 	}
 }
