@@ -91,12 +91,13 @@ jobs:
       - name: lint
         run: if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
   release:
+    needs: "build"
     name: "Release"
     runs-on: "ubuntu-latest"
     steps:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          repo_token: "${{ secrets.GH_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: false
           title: "Automatic release"
