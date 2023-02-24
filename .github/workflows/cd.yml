@@ -77,14 +77,6 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/minitwitimage:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache,mode=max
-
-      - name: Deploy to server
-        run: ssh minitwit 'ECHO test'
-      #Run linter to check if new code follows the style guidelines
-      - name: lint
-        run: if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
-      
-
       - name: Copy docker-compose.yml to server
         run: scp docker-compose.yml minitwit:/vagrant/docker-compose.yml
       
@@ -95,6 +87,9 @@ jobs:
       - name: Deploy to server
         # Configure the ~./bash_profile file on the Vagrantfile
         run: ssh minitwit '/minitwit/deploy.sh'
+      #Run linter to check if new code follows the style guidelines
+      - name: lint
+        run: if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
   # release:
   # # Create release on GitHub
   #   name: "Release"
