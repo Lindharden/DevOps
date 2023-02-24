@@ -1,6 +1,6 @@
 {{define "navbar.html"}}
 <div class=navigation>
-    {{if .user}}
+    {{if .authorized}}
       <a href="/private">my timeline</a> |
       <a href="/public">public timeline</a> |
       <a href="/private/logout">sign out [{{ .user.Username }}]</a>

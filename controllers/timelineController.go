@@ -18,6 +18,7 @@ func UserTimelineHandler() gin.HandlerFunc {
 		userProfileName := c.Param("username")
 		following := false
 		isSelf := false
+		isAuthorized := false
 
 		//get the requested user
 		var profile = model.User{}
@@ -30,12 +31,13 @@ func UserTimelineHandler() gin.HandlerFunc {
 
 		//If the user is signed in, check if we follow said user or is that user ourselves
 		if err == nil {
-			var following interface{}
-			err := db.Get(&following, `select * from follower where
-            follower.who_id = ? and follower.whom_id = ?`, user.UserId, profile.UserId)
+			var result = model.FollowingEntry{}
+			err := db.Get(&result, `select * from follower where
+            follower.who_id = ? and follower.whom_id = ? limit 1`, user.UserId, profile.UserId)
 			//error will be nil if zero rows are returned
 			following = err == nil
 			isSelf = user.UserId == profile.UserId
+			isAuthorized = true
 		}
 
 		//get all the messages from the requested user
@@ -45,6 +47,7 @@ func UserTimelineHandler() gin.HandlerFunc {
         order by message.pub_date desc limit ?`, profile.UserId, PAGE_SIZE)
 
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
+			"authorized":  isAuthorized,
 			"user":        user,
 			"userProfile": profile,
 			"followed":    following,
@@ -58,12 +61,17 @@ func UserTimelineHandler() gin.HandlerFunc {
 func PublicTimelineHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		db := helpers.GetTypedDb(c)
-		user, _ := helpers.GetUserSession(c)
+		user, err := helpers.GetUserSession(c)
+		isAuthorized := false
+		if err == nil {
+			isAuthorized = true
+		}
 		entries := []model.TimelineMessage{}
 		db.Select(&entries, `select message.*, user.* from message, user
         where message.flagged = 0 and message.author_id = user.user_id
         order by message.pub_date desc limit ?`, PAGE_SIZE)
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
+			"authorized":   isAuthorized,
 			"user":         user,
 			"user_profile": nil,
 			"followed":     false,
@@ -90,6 +98,7 @@ func SelfTimeline() gin.HandlerFunc {
         order by message.pub_date desc limit ?`, user.UserId, user.UserId, PAGE_SIZE)
 
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
+			"authorized":   true,
 			"user":         user,
 			"user_profile": nil,
 			"followed":     false,

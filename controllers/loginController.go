@@ -155,7 +155,7 @@ func LoginPostHandler() gin.HandlerFunc {
 	}
 }
 
-func LogoutPostHandler() gin.HandlerFunc {
+func LogoutGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if _, err := helpers.GetUserSession(c); err != nil {
 			log.Println("Invalid session token")

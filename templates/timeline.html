@@ -8,16 +8,16 @@
       This is you!
     {{else if .followed}}
       You are currently following this user.
-      <a class=unfollow href="/{{.userProfile.Username}}/unfollow">Unfollow user</a>.
+      <a class=unfollow href="/private/{{.userProfile.Username}}/unfollow">Unfollow user</a>.
     {{else}}
-      <a class=follow href="/{{.userProfile.Username}}/follow">Follow user</a>.
+      <a class=follow href="/private/{{.userProfile.Username}}/follow">Follow user</a>.
       You are not yet following this user.
     {{end}}
     </div>
   {{else}}
     <div class=twitbox>
       <h3>What's on your mind {{ .user.Username }}?</h3>
-      <form action="/private/add_message" method=post>
+      <form action="/private/message" method=post>
         <p><input type=text name=text size=60>
           <input type=submit value="Share">
       </form>

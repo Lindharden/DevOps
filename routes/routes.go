@@ -27,7 +27,7 @@ func PublicRoutes(g *gin.RouterGroup) {
 
 func PrivateRoutes(g *gin.RouterGroup) {
 	g.GET("/private", controllers.SelfTimeline())
-	g.GET("/private/logout", controllers.LogoutPostHandler())
-	g.GET("/private/add_message", controllers.AddMessageHandler())
-	g.GET("/:username/*action", controllers.FollowHandler())
+	g.GET("/private/logout", controllers.LogoutGetHandler())
+	g.POST("/private/message", controllers.AddMessageHandler())
+	g.GET("/private/:username/*action", controllers.FollowHandler())
 }
