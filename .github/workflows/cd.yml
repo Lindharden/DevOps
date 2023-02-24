@@ -86,7 +86,7 @@ jobs:
           scp tools/deploy.sh minitwit:/vagrant/deploy.sh
       - name: Deploy to server
         # Configure the ~./bash_profile file on the Vagrantfile
-        run: ssh minitwit '/minitwit/deploy.sh'
+        run: ssh minitwit '/vagrant/tools/deploy.sh'
       #Run linter to check if new code follows the style guidelines
       - name: lint
         run: if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
