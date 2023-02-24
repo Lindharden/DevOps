@@ -5,7 +5,6 @@ import (
 	helpers "DevOps/helpers"
 	model "DevOps/model"
 	"net/http"
-	"time"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -98,19 +97,5 @@ func SelfTimeline() gin.HandlerFunc {
 			"messages":     timelineEntries,
 			"title":        `Timeline`,
 		})
-	}
-}
-
-func AddMessageHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		session := sessions.Default(c)
-		user := session.Get(globals.Userkey).(model.User)
-		text := c.PostForm("text")
-
-		if text != "" {
-			db := helpers.GetTypedDb(c)
-			db.Exec(`insert into message (author_id, text, pub_date, flagged)
-            values (?, ?, ?, 0)`, user.UserId, text, time.Now().Unix())
-		}
 	}
 }

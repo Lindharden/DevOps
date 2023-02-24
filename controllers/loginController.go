@@ -3,12 +3,14 @@ package controllers
 import (
 	"github.com/gin-contrib/sessions"
 
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+
 	globals "DevOps/globals"
 	helpers "DevOps/helpers"
+	simModels "DevOps/model/simulatorModel"
 )
 
 func RegisterGetHandler() gin.HandlerFunc {
@@ -27,6 +29,30 @@ func RegisterGetHandler() gin.HandlerFunc {
 			"content": "",
 			"user":    user,
 		})
+	}
+}
+
+func SimRegisterPostHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		db := helpers.GetTypedDb(c)
+
+		var registerData simModels.RegisterRequest
+
+		if err := c.BindJSON(&registerData); err != nil {
+			c.AbortWithStatus(http.StatusBadRequest)
+			return
+		}
+
+		_, err := helpers.RegisterUser(db, registerData.Username, registerData.Pwd, registerData.Pwd, registerData.Email)
+
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error_msg": err.Error()})
+			return
+		}
+
+		c.AbortWithStatus(http.StatusNoContent)
+
 	}
 }
 

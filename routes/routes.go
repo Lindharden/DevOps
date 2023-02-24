@@ -6,6 +6,16 @@ import (
 	controllers "DevOps/controllers"
 )
 
+func SimulatorRoutes(g *gin.RouterGroup) {
+	g.GET("/latest", controllers.LatestGetHandler())
+	g.GET("/msgs/:username", controllers.GetMessageUserHandler())
+	g.POST("/msgs/:username", controllers.PostMessageUserHandler())
+	g.GET("/msgs", controllers.GetMessageHandler())
+	g.GET("/fllws/:username", controllers.SimGetFollowHandler())
+	g.POST("/fllws/:username", controllers.SimFollowHandler())
+	g.POST("/register", controllers.SimRegisterPostHandler())
+}
+
 func PublicRoutes(g *gin.RouterGroup) {
 	g.GET("/login", controllers.LoginGetHandler())
 	g.POST("/login", controllers.LoginPostHandler())
