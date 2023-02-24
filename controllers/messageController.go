@@ -111,7 +111,6 @@ func PostMessageUserHandler() gin.HandlerFunc {
 		username := c.Param("username")
 		userId, err := helpers.GetUserId(db, username)
 		if err != nil {
-			// abort if unsuccessful
 			c.AbortWithStatus(404)
 		}
 
