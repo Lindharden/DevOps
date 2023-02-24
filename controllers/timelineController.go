@@ -4,7 +4,6 @@ import (
 	helpers "DevOps/helpers"
 	model "DevOps/model"
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -98,23 +97,5 @@ func SelfTimeline() gin.HandlerFunc {
 			"messages":     timelineEntries,
 			"title":        `Timeline`,
 		})
-	}
-}
-
-func AddMessageHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		user, err := helpers.GetUserSession(c)
-		if err != nil {
-			c.AbortWithStatus(http.StatusUnauthorized)
-		}
-		text := c.PostForm("text")
-
-		if text != "" {
-			db := helpers.GetTypedDb(c)
-			db.Exec(`insert into message (author_id, text, pub_date, flagged)
-            values (?, ?, ?, 0)`, user.UserId, text, time.Now().Unix())
-		}
-
-		c.Redirect(http.StatusMovedPermanently, "/private")
 	}
 }
