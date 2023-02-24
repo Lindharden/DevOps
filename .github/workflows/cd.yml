@@ -5,6 +5,9 @@ on:
     # Run workflow every time something is pushed to the main branch
     branches:
       - main
+  # allow manual triggers for now too
+  workflow_dispatch:
+    manual: true
 
 jobs:
   build:
@@ -80,3 +83,26 @@ jobs:
       #Run linter to check if new code follows the style guidelines
       - name: lint
         run: if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
+      
+
+      - name: Copy docker-compose.yml to server
+        run: scp docker-compose.yml minitwit:/vagrant/docker-compose.yml
+      
+      - name: Copy deploy.sh to server
+        run: >-
+          chmod +x tools/deploy.sh &&
+          scp tools/deploy.sh minitwit:/vagrant/deploy.sh
+      - name: Deploy to server
+        # Configure the ~./bash_profile file on the Vagrantfile
+        run: ssh minitwit '/minitwit/deploy.sh'
+  # release:
+  # # Create release on GitHub
+  #   name: "Release"
+  #   needs: build
+  #   runs-on: "ubuntu-latest"
+
+  #   steps:
+  #     - name: "Create release"
+  #       uses: "Lindharden/DevOps/.github/workflows/release"
+  #       with:
+  #         github-token: "${{ secrets.GITHUB_TOKEN }}"
