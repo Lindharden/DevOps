@@ -10,7 +10,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func createRegisterRequest() (*http.Request, error) {
+type RegisterData struct {
+	Email     string
+	Username  string
+	Password  string
+	Password2 string
+}
+
+func createRegisterRequest(registerdata RegisterData) (*http.Request, error) {
+	if len(registerdata.Password2) == 0 {
+		registerdata.Password2 = registerdata.Password
+	}
+
 	return http.NewRequest("POST", "/register",
 		strings.NewReader("username=asd&password=123&password2=123&email=test@mail"))
 }
@@ -19,7 +30,7 @@ func TestRegisterRoute(t *testing.T) {
 	router := routes.SetupRouter()
 
 	w := httptest.NewRecorder()
-	req, _ := createRegisterRequest()
+	req, _ := createRegisterRequest(RegisterData{})
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 	router.ServeHTTP(w, req)
 
