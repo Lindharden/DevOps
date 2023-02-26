@@ -5,6 +5,7 @@ import (
 	"DevOps/helpers"
 	"DevOps/middleware"
 	"html/template"
+	"path/filepath"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -18,7 +19,7 @@ func SetupRouter() *gin.Engine {
 		"formatDatetime": helpers.FormatDatetime,
 		"gravatarUrl":    helpers.GravatarUrl,
 	})
-	router.LoadHTMLGlob("../templates/*.html")
+	router.LoadHTMLGlob(filepath.Join(globals.Root, "templates/*.html"))
 	router.Use(middleware.Before())
 	router.Use(middleware.After())
 	router.Use(sessions.Sessions("session", cookie.NewStore(globals.Secret)))

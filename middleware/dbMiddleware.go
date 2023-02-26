@@ -33,7 +33,7 @@ func After() gin.HandlerFunc {
 
 // Returns a new connection to the database
 func connectDb() *sqlx.DB {
-	db, err := sqlx.Open("sqlite3", globals.DATABASE)
+	db, err := sqlx.Open("sqlite3", globals.GetDatabasePath())
 	if err != nil {
 		log.Fatal(err)
 	}

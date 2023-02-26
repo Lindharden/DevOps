@@ -12,7 +12,7 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	db, err := sql.Open("sqlite3", globals.DATABASE)
+	db, err := sql.Open("sqlite3", globals.GetDatabasePath())
 
 	if err != nil {
 		log.Fatal("Could not connect to database")
