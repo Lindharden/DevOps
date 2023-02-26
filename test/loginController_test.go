@@ -84,6 +84,12 @@ func doLogoutRequest(sessionCookie *http.Cookie, router *gin.Engine) *httptest.R
 	return w
 }
 
+func registerAndLogin(loginData RegisterData, router *gin.Engine) *http.Cookie {
+	createRegisterRequest(loginData, router)
+	r := doLoginRequest(loginData.Username, loginData.Password, router)
+	return r.Result().Cookies()[0]
+}
+
 func TestLoginRoute(t *testing.T) {
 	router := routes.SetupRouter()
 
@@ -97,4 +103,30 @@ func TestLoginRoute(t *testing.T) {
 	r = doLogoutRequest(sessionCookie, router)
 	assert.Equal(t, http.StatusFound, r.Code)
 
+}
+
+func doAddMessageRequest(cookie *http.Cookie, text string, router *gin.Engine) *httptest.ResponseRecorder {
+	formParams := fmt.Sprintf("text=%s", text)
+	req, _ := http.NewRequest("POST", "/private/message", strings.NewReader(formParams))
+	req.AddCookie(cookie)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	return w
+}
+
+func TestMessageRecording(t *testing.T) {
+	router := routes.SetupRouter()
+	sessionCookie := registerAndLogin(RegisterData{Username: "foo", Password: "bar"}, router)
+
+	doAddMessageRequest(sessionCookie, "test message 1", router)
+	doAddMessageRequest(sessionCookie, "test message 2", router)
+
+	req, _ := http.NewRequest("GET", "/private", nil)
+	req.AddCookie(sessionCookie)
+	r := httptest.NewRecorder()
+	router.ServeHTTP(r, req)
+	assert.Equal(t, http.StatusOK, r.Code)
+	assert.Contains(t, r.Body.String(), "test message 1")
+	assert.Contains(t, r.Body.String(), "test message 2")
 }
