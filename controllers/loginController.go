@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"DevOps/globals"
 	helpers "DevOps/helpers"
 	model "DevOps/model"
 	simModels "DevOps/model/simulatorModel"
@@ -31,8 +32,7 @@ func RegisterGetHandler() gin.HandlerFunc {
 
 func SimRegisterPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-
-		db := helpers.GetTypedDb(c)
+		db := globals.DB
 
 		var registerData simModels.RegisterRequest
 
@@ -55,7 +55,7 @@ func SimRegisterPostHandler() gin.HandlerFunc {
 
 func RegisterPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		db := helpers.GetTypedDb(c)
+		db := globals.DB
 		user, err := helpers.GetUserSession(c)
 		if err == nil {
 			c.HTML(http.StatusBadRequest, "register.html",
@@ -118,7 +118,7 @@ func LoginGetHandler() gin.HandlerFunc {
 
 func LoginPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		db := helpers.GetTypedDb(c)
+		db := globals.DB
 
 		if _, err := helpers.GetUserSession(c); err == nil {
 			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Please logout first"})

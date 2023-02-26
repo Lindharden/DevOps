@@ -1,5 +1,7 @@
 package globals
 
+import "github.com/jmoiron/sqlx"
+
 var Secret = []byte("secret")
 
 const ENV_KEY = "GO_ENV"
@@ -11,6 +13,8 @@ const Username = "username"
 const Latest = "latest"
 
 var latestRequestId int = -1
+
+var DB *sqlx.DB
 
 func GetDatabasePath() string {
 	/* FIXME: Determine if we want to use an in memory database,

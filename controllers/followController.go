@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"DevOps/globals"
 	helpers "DevOps/helpers"
 	simModels "DevOps/model/simulatorModel"
 )
@@ -19,7 +20,7 @@ func FollowHandler() gin.HandlerFunc {
 		username := c.Param("username") // name of user to follow
 		action := c.Param("action")     // follow or unfollow
 
-		db := helpers.GetTypedDb(c)
+		db := globals.DB
 		whom_id, err := helpers.GetUserId(db, username)
 
 		if err != nil {
@@ -45,7 +46,7 @@ func SimFollowHandler() gin.HandlerFunc {
 			return
 		}
 
-		db := helpers.GetTypedDb(c)
+		db := globals.DB
 
 		username := c.Param("username")
 		userId, err := helpers.GetUserId(db, username)
@@ -87,7 +88,7 @@ func SimGetFollowHandler() gin.HandlerFunc {
 			numberFollowers = 100
 		}
 
-		db := helpers.GetTypedDb(c)
+		db := globals.DB
 
 		query := `SELECT user.username FROM user
 		INNER JOIN follower ON follower.whom_id=user.user_id
