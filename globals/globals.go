@@ -1,10 +1,8 @@
 package globals
 
-import (
-	"os"
-)
-
 var Secret = []byte("secret")
+
+const ENV_KEY = "GO_ENV"
 
 const Userkey = "user"
 
@@ -15,13 +13,16 @@ const Latest = "latest"
 var latestRequestId int = -1
 
 func GetDatabasePath() string {
-	c := os.Getenv("GO_ENV")
-	if c == "TEST" {
+	/* FIXME: Determine if we want to use an in memory database,
+	if it is the case, the database middleware would have to change
+	c := os.Getenv(ENV_KEY)
+	 if c == "TEST" {
 		c = ":memory:"
 	} else {
 		c = "itu-minitwit.db"
 	}
-	return c
+	return c */
+	return "itu-minitwit.db"
 }
 
 func SetLatestRequestId(requestId int) {
