@@ -64,3 +64,24 @@ func TestRegisterRoute(t *testing.T) {
 	assert.Contains(t, r.Body.String(), "You have to enter a valid email address")
 
 }
+
+func doLoginRequest(username string, password string, router *gin.Engine) *httptest.ResponseRecorder {
+	formParams := fmt.Sprintf("username=%s&password=%s", username, password)
+	req, _ := http.NewRequest("POST", "/login",
+		strings.NewReader(formParams))
+
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	return w
+}
+
+func TestLoginRoute(t *testing.T) {
+	router := routes.SetupRouter()
+
+	var user RegisterData = RegisterData{Username: "user1", Password: "default"}
+	createRegisterRequest(user, router)
+	r := doLoginRequest(user.Username, user.Password, router)
+
+	assert.Equal(t, 301, r.Code)
+}
