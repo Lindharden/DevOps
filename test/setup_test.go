@@ -6,13 +6,15 @@ import (
 	"os"
 	"testing"
 
-	"database/sql"
-
+	"github.com/jmoiron/sqlx"
 	"github.com/tanimutomo/sqlfile"
 )
 
 func TestMain(m *testing.M) {
-	db, err := sql.Open("sqlite3", globals.GetDatabasePath())
+	db, err := sqlx.Open("sqlite3", "file:tests?mode=memory&cache=shared")
+
+	// set the global db connection
+	globals.DB = db
 
 	if err != nil {
 		log.Fatal("Could not connect to database")
@@ -25,7 +27,7 @@ func TestMain(m *testing.M) {
 	if loaderr != nil {
 		log.Fatal("Could not load database file")
 	}
-	_, err = s.Exec(db)
+	_, err = s.Exec(db.DB)
 
 	if err != nil {
 		log.Fatal("Error executing startup script")
