@@ -76,12 +76,25 @@ func doLoginRequest(username string, password string, router *gin.Engine) *httpt
 	return w
 }
 
+func doLogoutRequest(sessionCookie *http.Cookie, router *gin.Engine) *httptest.ResponseRecorder {
+	req, _ := http.NewRequest("GET", "/private/logout", nil)
+	req.AddCookie(sessionCookie)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+	return w
+}
+
 func TestLoginRoute(t *testing.T) {
 	router := routes.SetupRouter()
 
 	var user RegisterData = RegisterData{Username: "user1", Password: "default"}
-	createRegisterRequest(user, router)
-	r := doLoginRequest(user.Username, user.Password, router)
+	r := createRegisterRequest(user, router)
 
+	r = doLoginRequest(user.Username, user.Password, router)
 	assert.Equal(t, 301, r.Code)
+
+	sessionCookie := r.Result().Cookies()[0]
+	r = doLogoutRequest(sessionCookie, router)
+	assert.Equal(t, http.StatusFound, r.Code)
+
 }
