@@ -32,10 +32,10 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatal("Error executing startup script")
 	}
+	//code that executes before full test suite
 
-	log.Println("Do stuff BEFORE the tests!")
 	exitVal := m.Run()
-	log.Println("Do stuff AFTER the tests!")
+	//code that executes after full test suite
 
 	os.Exit(exitVal)
 }

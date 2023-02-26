@@ -17,15 +17,6 @@ var latestRequestId int = -1
 var DB *sqlx.DB
 
 func GetDatabasePath() string {
-	/* FIXME: Determine if we want to use an in memory database,
-	if it is the case, the database middleware would have to change
-	c := os.Getenv(ENV_KEY)
-	 if c == "TEST" {
-		c = ":memory:"
-	} else {
-		c = "itu-minitwit.db"
-	}
-	return c */
 	return "itu-minitwit.db"
 }
 
