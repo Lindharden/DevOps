@@ -60,7 +60,7 @@ jobs:
       # Run go unit tests
       - name: Unit testing
         run: |
-          go test -v
+          go test -v ./...
       # Run simulator integration tests
       - name: Simulator tests
         run: |
@@ -79,7 +79,7 @@ jobs:
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache,mode=max
       - name: Copy docker-compose.yml to server
         run: scp docker-compose.yml minitwit:/vagrant/docker-compose.yml
-      
+
       - name: Copy deploy.sh to server
         run: >-
           chmod +x tools/deploy.sh &&
