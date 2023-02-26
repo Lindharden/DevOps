@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"DevOps/globals"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -9,7 +10,6 @@ import (
 )
 
 // Configuration
-const DATABASE = "itu-minitwit.db"
 
 // Make sure we are connected to the database each request and look
 // up the current user so that we know he's there.
@@ -33,7 +33,7 @@ func After() gin.HandlerFunc {
 
 // Returns a new connection to the database
 func connectDb() *sqlx.DB {
-	db, err := sqlx.Open("sqlite3", DATABASE)
+	db, err := sqlx.Open("sqlite3", globals.DATABASE)
 	if err != nil {
 		log.Fatal(err)
 	}
