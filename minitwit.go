@@ -24,6 +24,11 @@ func setupRouter() *gin.Engine {
 	router.Use(middleware.After())
 	router.Use(sessions.Sessions("session", cookie.NewStore(globals.Secret)))
 
+	simulator := router.Group("/sim")
+	simulator.Use(middleware.CheckRequestFromSimulator)
+	simulator.Use(middleware.SimulationRequest)
+	routes.SimulatorRoutes(simulator)
+
 	public := router.Group("/")
 	routes.PublicRoutes(public)
 
