@@ -19,7 +19,7 @@ type RegisterData struct {
 	Password2 string
 }
 
-func createRegisterRequest(registerdata RegisterData, router *gin.Engine) *httptest.ResponseRecorder {
+func register(registerdata RegisterData, router *gin.Engine) *httptest.ResponseRecorder {
 	if len(registerdata.Password2) == 0 {
 		registerdata.Password2 = registerdata.Password
 	}
@@ -40,32 +40,32 @@ func createRegisterRequest(registerdata RegisterData, router *gin.Engine) *httpt
 func TestRegisterRoute(t *testing.T) {
 	router := routes.SetupRouter()
 
-	r := createRegisterRequest(RegisterData{Username: "user1", Password: "default"}, router)
+	r := register(RegisterData{Username: "user1", Password: "default"}, router)
 	assert.Equal(t, http.StatusMovedPermanently, r.Code)
 
-	r = createRegisterRequest(RegisterData{Username: "user1", Password: "default"}, router)
+	r = register(RegisterData{Username: "user1", Password: "default"}, router)
 	assert.Equal(t, http.StatusBadRequest, r.Code)
 	assert.Contains(t, r.Body.String(), "The username is already taken")
 
-	r = createRegisterRequest(RegisterData{Username: "", Password: "default"}, router)
+	r = register(RegisterData{Username: "", Password: "default"}, router)
 	assert.Equal(t, http.StatusBadRequest, r.Code)
 	assert.Contains(t, r.Body.String(), "You have to enter a value")
 
-	r = createRegisterRequest(RegisterData{Username: "user2", Password: ""}, router)
+	r = register(RegisterData{Username: "user2", Password: ""}, router)
 	assert.Equal(t, http.StatusBadRequest, r.Code)
 	assert.Contains(t, r.Body.String(), "You have to enter a value")
 
-	r = createRegisterRequest(RegisterData{Username: "user2", Password: ""}, router)
+	r = register(RegisterData{Username: "user2", Password: ""}, router)
 	assert.Equal(t, http.StatusBadRequest, r.Code)
 	assert.Contains(t, r.Body.String(), "You have to enter a value")
 
-	r = createRegisterRequest(RegisterData{Username: "user2", Password: "default", Email: "broken"}, router)
+	r = register(RegisterData{Username: "user2", Password: "default", Email: "broken"}, router)
 	assert.Equal(t, http.StatusBadRequest, r.Code)
 	assert.Contains(t, r.Body.String(), "You have to enter a valid email address")
 
 }
 
-func doLoginRequest(username string, password string, router *gin.Engine) *httptest.ResponseRecorder {
+func login(username string, password string, router *gin.Engine) *httptest.ResponseRecorder {
 	formParams := fmt.Sprintf("username=%s&password=%s", username, password)
 	req, _ := http.NewRequest("POST", "/login",
 		strings.NewReader(formParams))
@@ -76,7 +76,7 @@ func doLoginRequest(username string, password string, router *gin.Engine) *httpt
 	return w
 }
 
-func doLogoutRequest(sessionCookie *http.Cookie, router *gin.Engine) *httptest.ResponseRecorder {
+func logout(sessionCookie *http.Cookie, router *gin.Engine) *httptest.ResponseRecorder {
 	req, _ := http.NewRequest("GET", "/private/logout", nil)
 	req.AddCookie(sessionCookie)
 	w := httptest.NewRecorder()
@@ -85,8 +85,8 @@ func doLogoutRequest(sessionCookie *http.Cookie, router *gin.Engine) *httptest.R
 }
 
 func registerAndLogin(loginData RegisterData, router *gin.Engine) *http.Cookie {
-	createRegisterRequest(loginData, router)
-	r := doLoginRequest(loginData.Username, loginData.Password, router)
+	register(loginData, router)
+	r := login(loginData.Username, loginData.Password, router)
 	return r.Result().Cookies()[0]
 }
 
@@ -94,18 +94,18 @@ func TestLoginRoute(t *testing.T) {
 	router := routes.SetupRouter()
 
 	var user RegisterData = RegisterData{Username: "user1", Password: "default"}
-	r := createRegisterRequest(user, router)
+	r := register(user, router)
 
-	r = doLoginRequest(user.Username, user.Password, router)
+	r = login(user.Username, user.Password, router)
 	assert.Equal(t, http.StatusMovedPermanently, r.Code)
 
 	sessionCookie := r.Result().Cookies()[0]
-	r = doLogoutRequest(sessionCookie, router)
+	r = logout(sessionCookie, router)
 	assert.Equal(t, http.StatusFound, r.Code)
 
 }
 
-func doAddMessageRequest(cookie *http.Cookie, text string, router *gin.Engine) *httptest.ResponseRecorder {
+func addMessage(cookie *http.Cookie, text string, router *gin.Engine) *httptest.ResponseRecorder {
 	formParams := fmt.Sprintf("text=%s", text)
 	req, _ := http.NewRequest("POST", "/private/message", strings.NewReader(formParams))
 	req.AddCookie(cookie)
@@ -127,8 +127,8 @@ func TestMessageRecording(t *testing.T) {
 	router := routes.SetupRouter()
 	sessionCookie := registerAndLogin(RegisterData{Username: "user", Password: "bar"}, router)
 
-	doAddMessageRequest(sessionCookie, "test message 1", router)
-	doAddMessageRequest(sessionCookie, "test message 2", router)
+	addMessage(sessionCookie, "test message 1", router)
+	addMessage(sessionCookie, "test message 2", router)
 
 	req, _ := http.NewRequest("GET", "/private", nil)
 	req.AddCookie(sessionCookie)
@@ -169,12 +169,12 @@ func TestTimeLine(t *testing.T) {
 	barUser := RegisterData{Username: "bar", Password: "default"}
 	router := routes.SetupRouter()
 	fooSessionCookie := registerAndLogin(fooUser, router)
-	doAddMessageRequest(fooSessionCookie, "the message by foo", router)
+	addMessage(fooSessionCookie, "the message by foo", router)
 
-	doLogoutRequest(fooSessionCookie, router)
+	logout(fooSessionCookie, router)
 
 	barSessionCookie := registerAndLogin(barUser, router)
-	doAddMessageRequest(barSessionCookie, "the message by bar", router)
+	addMessage(barSessionCookie, "the message by bar", router)
 
 	//check that public timeline contains both messages
 	r := getPublicTimeline(router)
