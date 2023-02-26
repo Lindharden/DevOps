@@ -115,9 +115,17 @@ func doAddMessageRequest(cookie *http.Cookie, text string, router *gin.Engine) *
 	return w
 }
 
+func getPrivateTimeline(cookie *http.Cookie, router *gin.Engine) *httptest.ResponseRecorder {
+	req, _ := http.NewRequest("GET", "/private", nil)
+	req.AddCookie(cookie)
+	r := httptest.NewRecorder()
+	router.ServeHTTP(r, req)
+	return r
+}
+
 func TestMessageRecording(t *testing.T) {
 	router := routes.SetupRouter()
-	sessionCookie := registerAndLogin(RegisterData{Username: "foo", Password: "bar"}, router)
+	sessionCookie := registerAndLogin(RegisterData{Username: "user", Password: "bar"}, router)
 
 	doAddMessageRequest(sessionCookie, "test message 1", router)
 	doAddMessageRequest(sessionCookie, "test message 2", router)
@@ -129,4 +137,76 @@ func TestMessageRecording(t *testing.T) {
 	assert.Equal(t, http.StatusOK, r.Code)
 	assert.Contains(t, r.Body.String(), "test message 1")
 	assert.Contains(t, r.Body.String(), "test message 2")
+
+}
+
+func getPublicTimeline(router *gin.Engine) *httptest.ResponseRecorder {
+	req, _ := http.NewRequest("GET", "/public", nil)
+	r := httptest.NewRecorder()
+	router.ServeHTTP(r, req)
+	return r
+}
+
+// Action needs to be: follow | unfollow
+func followOrUnfollowUser(username string, action string, session *http.Cookie, router *gin.Engine) *httptest.ResponseRecorder {
+	uri := fmt.Sprintf("/private/%s/%s", username, action)
+	req, _ := http.NewRequest("GET", uri, nil)
+	req.AddCookie(session)
+	r := httptest.NewRecorder()
+	router.ServeHTTP(r, req)
+	return r
+}
+
+func getUserTimeline(username string, router *gin.Engine) *httptest.ResponseRecorder {
+	req, _ := http.NewRequest("GET", fmt.Sprintf("/%s", username), nil)
+	r := httptest.NewRecorder()
+	router.ServeHTTP(r, req)
+	return r
+}
+
+func TestTimeLine(t *testing.T) {
+	fooUser := RegisterData{Username: "foo1", Password: "default"}
+	barUser := RegisterData{Username: "bar", Password: "default"}
+	router := routes.SetupRouter()
+	fooSessionCookie := registerAndLogin(fooUser, router)
+	doAddMessageRequest(fooSessionCookie, "the message by foo", router)
+
+	doLogoutRequest(fooSessionCookie, router)
+
+	barSessionCookie := registerAndLogin(barUser, router)
+	doAddMessageRequest(barSessionCookie, "the message by bar", router)
+
+	//check that public timeline contains both messages
+	r := getPublicTimeline(router)
+	assert.Contains(t, r.Body.String(), "the message by foo")
+	assert.Contains(t, r.Body.String(), "the message by bar")
+
+	//bars timeline should contain bars message but not foos
+	r = getPrivateTimeline(barSessionCookie, router)
+	assert.NotContains(t, r.Body.String(), "the message by foo")
+	assert.Contains(t, r.Body.String(), "the message by bar")
+
+	//follow foo
+	followOrUnfollowUser(fooUser.Username, "follow", barSessionCookie, router)
+
+	//check that both messages are now on the pr
+	r = getPrivateTimeline(barSessionCookie, router)
+	assert.Contains(t, r.Body.String(), "the message by foo")
+	assert.Contains(t, r.Body.String(), "the message by bar")
+
+	//bar user timeline only shows bar message
+	r = getUserTimeline(barUser.Username, router)
+	assert.NotContains(t, r.Body.String(), "the message by foo")
+	assert.Contains(t, r.Body.String(), "the message by bar")
+
+	//foo user timeline only shows foo message
+	r = getUserTimeline(fooUser.Username, router)
+	assert.Contains(t, r.Body.String(), "the message by foo")
+	assert.NotContains(t, r.Body.String(), "the message by bar")
+
+	//check that unfollow worked
+	r = followOrUnfollowUser(fooUser.Username, "unfollow", barSessionCookie, router)
+	r = getPrivateTimeline(barSessionCookie, router)
+	assert.NotContains(t, r.Body.String(), "the message by foo")
+	assert.Contains(t, r.Body.String(), "the message by bar")
 }
