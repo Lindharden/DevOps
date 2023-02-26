@@ -41,26 +41,26 @@ func TestRegisterRoute(t *testing.T) {
 	router := routes.SetupRouter()
 
 	r := createRegisterRequest(RegisterData{Username: "user1", Password: "default"}, router)
-	assert.Equal(t, 301, r.Code)
+	assert.Equal(t, http.StatusMovedPermanently, r.Code)
 
 	r = createRegisterRequest(RegisterData{Username: "user1", Password: "default"}, router)
-	assert.Equal(t, 400, r.Code)
+	assert.Equal(t, http.StatusBadRequest, r.Code)
 	assert.Contains(t, r.Body.String(), "The username is already taken")
 
 	r = createRegisterRequest(RegisterData{Username: "", Password: "default"}, router)
-	assert.Equal(t, 400, r.Code)
+	assert.Equal(t, http.StatusBadRequest, r.Code)
 	assert.Contains(t, r.Body.String(), "You have to enter a value")
 
 	r = createRegisterRequest(RegisterData{Username: "user2", Password: ""}, router)
-	assert.Equal(t, 400, r.Code)
+	assert.Equal(t, http.StatusBadRequest, r.Code)
 	assert.Contains(t, r.Body.String(), "You have to enter a value")
 
 	r = createRegisterRequest(RegisterData{Username: "user2", Password: ""}, router)
-	assert.Equal(t, 400, r.Code)
+	assert.Equal(t, http.StatusBadRequest, r.Code)
 	assert.Contains(t, r.Body.String(), "You have to enter a value")
 
 	r = createRegisterRequest(RegisterData{Username: "user2", Password: "default", Email: "broken"}, router)
-	assert.Equal(t, 400, r.Code)
+	assert.Equal(t, http.StatusBadRequest, r.Code)
 	assert.Contains(t, r.Body.String(), "You have to enter a valid email address")
 
 }
@@ -91,7 +91,7 @@ func TestLoginRoute(t *testing.T) {
 	r := createRegisterRequest(user, router)
 
 	r = doLoginRequest(user.Username, user.Password, router)
-	assert.Equal(t, 301, r.Code)
+	assert.Equal(t, http.StatusMovedPermanently, r.Code)
 
 	sessionCookie := r.Result().Cookies()[0]
 	r = doLogoutRequest(sessionCookie, router)
