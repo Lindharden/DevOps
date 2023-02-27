@@ -14,7 +14,7 @@ func TestMain(m *testing.M) {
 	db, err := sqlx.Open("sqlite3", "file:tests?mode=memory&cache=shared")
 
 	// set the global db connection
-	globals.DB = db
+	globals.SetDatabase(db)
 
 	if err != nil {
 		log.Fatal("Could not connect to database")

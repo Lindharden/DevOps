@@ -32,7 +32,7 @@ func RegisterGetHandler() gin.HandlerFunc {
 
 func SimRegisterPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		db := globals.DB
+		db := globals.GetDatabase()
 
 		var registerData simModels.RegisterRequest
 
@@ -55,7 +55,7 @@ func SimRegisterPostHandler() gin.HandlerFunc {
 
 func RegisterPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		db := globals.DB
+		db := globals.GetDatabase()
 		user, err := helpers.GetUserSession(c)
 		if err == nil {
 			c.HTML(http.StatusBadRequest, "register.html",
@@ -118,7 +118,7 @@ func LoginGetHandler() gin.HandlerFunc {
 
 func LoginPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		db := globals.DB
+		db := globals.GetDatabase()
 
 		if _, err := helpers.GetUserSession(c); err == nil {
 			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Please logout first"})

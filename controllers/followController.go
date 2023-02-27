@@ -20,7 +20,7 @@ func FollowHandler() gin.HandlerFunc {
 		username := c.Param("username") // name of user to follow
 		action := c.Param("action")     // follow or unfollow
 
-		db := globals.DB
+		db := globals.GetDatabase()
 		whom_id, err := helpers.GetUserId(db, username)
 
 		if err != nil {
@@ -46,7 +46,7 @@ func SimFollowHandler() gin.HandlerFunc {
 			return
 		}
 
-		db := globals.DB
+		db := globals.GetDatabase()
 
 		username := c.Param("username")
 		userId, err := helpers.GetUserId(db, username)
@@ -88,7 +88,7 @@ func SimGetFollowHandler() gin.HandlerFunc {
 			numberFollowers = 100
 		}
 
-		db := globals.DB
+		db := globals.GetDatabase()
 
 		query := `SELECT user.username FROM user
 		INNER JOIN follower ON follower.whom_id=user.user_id

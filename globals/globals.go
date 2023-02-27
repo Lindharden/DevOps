@@ -14,7 +14,15 @@ const Latest = "latest"
 
 var latestRequestId int = -1
 
-var DB *sqlx.DB
+var db *sqlx.DB
+
+func GetDatabase() *sqlx.DB {
+	return db
+}
+
+func SetDatabase(database *sqlx.DB) {
+	db = database
+}
 
 func GetDatabasePath() string {
 	return "itu-minitwit.db"

@@ -8,7 +8,8 @@ import (
 )
 
 func main() {
-	globals.DB = sqlx.MustConnect("sqlite3", globals.GetDatabasePath())
+	db := sqlx.MustConnect("sqlite3", globals.GetDatabasePath())
+	globals.SetDatabase(db)
 	r := routes.SetupRouter()
 	r.Run(":8080")
 }
