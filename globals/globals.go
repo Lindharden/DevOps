@@ -1,6 +1,8 @@
 package globals
 
 import (
+	model "DevOps/model/gorm"
+
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 	"gorm.io/gorm"
@@ -32,6 +34,9 @@ func GetGormDatabase() *gorm.DB {
 func SetDatabase(database_old *sqlx.DB, database *gorm.DB) {
 	db = database_old
 	gormDb = database
+	gormDb.AutoMigrate(&model.User{})
+	gormDb.AutoMigrate(&model.Message{})
+	gormDb.AutoMigrate(&model.Following{})
 }
 
 func GetDatabasePath() string {
