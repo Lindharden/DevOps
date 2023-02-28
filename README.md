@@ -143,6 +143,8 @@ Project Link: [https://github.com/Lindharden/DevOps](https://github.com/Lindhard
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
+[DALL-E 2](https://openai.com/product/dall-e-2)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
