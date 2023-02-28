@@ -18,6 +18,8 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USERNAME}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: db
+      PGDATA: /data/postgres
     volumes:
       - postgres-db:/data/postgres
       - ./tools/schema.sql:/docker-entrypoint-initdb.d/create_tables.sql
