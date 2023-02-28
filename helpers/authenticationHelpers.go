@@ -15,19 +15,19 @@ func RegisterUser(db *sqlx.DB, username string, password string, password2 strin
 		return model.User{}, errors.New("you have to enter a value")
 	}
 
-	if !checkUserPasswords(password, password2) {
+	if !CheckUserPasswords(password, password2) {
 		return model.User{}, errors.New("the two passwords do not match")
 	}
 
-	if !checkUserEmail(email) {
+	if !CheckUserEmail(email) {
 		return model.User{}, errors.New("you have to enter a valid email address")
 	}
 
-	if checkUsernameExists(db, username) {
+	if CheckUsernameExists(db, username) {
 		return model.User{}, errors.New("the username is already taken")
 	}
 
-	pw_hash, err := hashPassword(password)
+	pw_hash, err := HashPassword(password)
 	if err != nil {
 		panic("password hashing failed")
 	}
@@ -38,20 +38,20 @@ func RegisterUser(db *sqlx.DB, username string, password string, password2 strin
 	return model.User{Username: username, UserId: id, Email: email, PwHash: pw_hash}, err
 }
 
-func checkUserPasswords(password, password2 string) bool {
+func CheckUserPasswords(password, password2 string) bool {
 	return password == password2
 }
 
-func checkUsernameExists(db *sqlx.DB, username string) bool {
+func CheckUsernameExists(db *sqlx.DB, username string) bool {
 	_, err := GetUserId(db, username)
 	return err == nil
 }
 
-func checkUserEmail(email string) bool {
+func CheckUserEmail(email string) bool {
 	return strings.Contains(email, "@")
 }
 
-func hashPassword(password string) (string, error) {
+func HashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	return string(bytes), err
 }
