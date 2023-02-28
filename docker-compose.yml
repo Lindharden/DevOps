@@ -9,7 +9,7 @@ services:
     ports:
       - "8080:8080"
   postgres:
-    container_name: database
+    container_name: postgres
     image: postgres:latest
     networks:
       - database-network
