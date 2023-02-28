@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"DevOps/globals"
 	helpers "DevOps/helpers"
 	model "DevOps/model"
 	"net/http"
@@ -13,7 +14,7 @@ const PAGE_SIZE = 30
 func UserTimelineHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		user, err := helpers.GetUserSession(c)
-		db := helpers.GetTypedDb(c)
+		db := globals.GetDatabase()
 
 		userProfileName := c.Param("username")
 		following := false
@@ -60,7 +61,7 @@ func UserTimelineHandler() gin.HandlerFunc {
 
 func PublicTimelineHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		db := helpers.GetTypedDb(c)
+		db := globals.GetDatabase()
 		user, err := helpers.GetUserSession(c)
 		isAuthorized := false
 		if err == nil {
@@ -84,7 +85,7 @@ func PublicTimelineHandler() gin.HandlerFunc {
 
 func SelfTimeline() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		db := helpers.GetTypedDb(c)
+		db := globals.GetDatabase()
 		user, err := helpers.GetUserSession(c)
 		if err != nil {
 			c.AbortWithStatus(http.StatusUnauthorized)

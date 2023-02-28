@@ -22,7 +22,7 @@ func AddMessageHandler() gin.HandlerFunc {
 		text := c.PostForm("text")
 
 		if text != "" {
-			db := helpers.GetTypedDb(c)
+			db := globals.GetDatabase()
 			db.Exec(`insert into message (author_id, text, pub_date, flagged)
             values (?, ?, ?, 0)`, user.UserId, text, time.Now().Unix())
 		}
@@ -34,7 +34,7 @@ func AddMessageHandler() gin.HandlerFunc {
 func GetMessageHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// query db
-		db := helpers.GetTypedDb(c)
+		db := globals.GetDatabase()
 		entries := []model.TimelineMessage{}
 
 		// check for parameter "no" (number of messages)
@@ -64,7 +64,7 @@ func GetMessageHandler() gin.HandlerFunc {
 
 func GetMessageUserHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		db := helpers.GetTypedDb(c)
+		db := globals.GetDatabase()
 
 		// convert username to user id
 		username := c.Param(globals.Username)
@@ -108,7 +108,7 @@ func PostMessageUserHandler() gin.HandlerFunc {
 		}
 
 		// get DB
-		db := helpers.GetTypedDb(c)
+		db := globals.GetDatabase()
 
 		// get username, and convert to user id
 		username := c.Param("username")
