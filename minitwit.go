@@ -2,6 +2,7 @@ package main
 
 import (
 	"DevOps/globals"
+	helpers "DevOps/helpers"
 	routes "DevOps/routes"
 
 	"github.com/jmoiron/sqlx"
@@ -9,7 +10,8 @@ import (
 
 func main() {
 	db := sqlx.MustConnect("sqlite3", globals.GetDatabasePath())
-	globals.SetDatabase(db)
+	gormDb := helpers.GetGormDbConnection()
+	globals.SetDatabase(db, gormDb)
 	r := routes.SetupRouter()
 	r.Run(":8080")
 }
