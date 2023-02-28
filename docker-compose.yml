@@ -1,8 +1,29 @@
-version: '3.9'
+version: "3.9"
 
 services:
   minitwit:
     image: ${DOCKER_USERNAME}/minitwitimage
     container_name: minitwit
+    networks:
+      - database-network
     ports:
       - "8080:8080"
+  postgres:
+    container_name: database
+    image: postgres:latest
+    networks:
+      - database-network
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-db:/data/postgres
+      - ./tools/schema.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+volumes:
+  postgres-db:
+    driver: local
+
+networks:
+  database-network:
+    name: database-network
