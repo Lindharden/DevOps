@@ -3,7 +3,7 @@ package controllers
 import (
 	globals "DevOps/globals"
 	helpers "DevOps/helpers"
-	model "DevOps/model"
+	gormModel "DevOps/model/gorm"
 	"net/http"
 	"strconv"
 	"time"
@@ -15,16 +15,19 @@ import (
 
 func AddMessageHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		user, err := helpers.GetUserSession(c)
+		user, err := helpers.GetUserSession(c) // TODO: Use helper for getting Gorm user
 		if err != nil {
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
 		text := c.PostForm("text")
 
 		if text != "" {
-			db := globals.GetDatabase()
-			db.Exec(`insert into message (author_id, text, pub_date, flagged)
-            values (?, ?, ?, 0)`, user.UserId, text, time.Now().Unix())
+			db := globals.GetGormDatabase()
+			db.Create(&gormModel.Message{UserID: int(user.UserId),
+				User:    gormModel.User{},
+				Text:    text,
+				PubDate: time.Now().Unix(),
+				Flagged: 0})
 		}
 
 		c.Redirect(http.StatusMovedPermanently, "/public")
@@ -34,8 +37,8 @@ func AddMessageHandler() gin.HandlerFunc {
 func GetMessageHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// query db
-		db := globals.GetDatabase()
-		entries := []model.TimelineMessage{}
+		db := globals.GetGormDatabase()
+		entries := []gormModel.Message{}
 
 		// check for parameter "no" (number of messages)
 		noMsgs, err := strconv.Atoi(c.Query("no"))
@@ -43,9 +46,11 @@ func GetMessageHandler() gin.HandlerFunc {
 			// if undefined, use default value
 			noMsgs = 100
 		}
-		db.Select(&entries, `SELECT message.*, user.* FROM message, user
-        WHERE message.flagged = 0 AND message.author_id = user.user_id
-        ORDER BY message.pub_date DESC LIMIT ?`, noMsgs)
+
+		db.Limit(noMsgs).Select("message.*", "user.*").
+			Where("message.flagged = ? AND message.author_id = ?", 0, "user.user_id").
+			Order("message.pub_date desc").
+			Find(&entries)
 
 		// filter messages
 		var messageList []simModels.FilteredMessageRequest
@@ -54,7 +59,7 @@ func GetMessageHandler() gin.HandlerFunc {
 				simModels.FilteredMessageRequest{
 					Text:     message.Text,
 					PubDate:  message.PubDate,
-					Username: message.Username,
+					Username: message.User.Username,
 				})
 		}
 
@@ -64,22 +69,29 @@ func GetMessageHandler() gin.HandlerFunc {
 
 func GetMessageUserHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		db := globals.GetDatabase()
+		db := globals.GetGormDatabase()
 
 		// convert username to user id
 		username := c.Param(globals.Username)
-		user_id, err := helpers.GetUserId(db, username)
+		user_id, err := helpers.GetUserId(globals.GetDatabase(), username) // TODO: Use new GetUserId which uses Gorm
 
 		if err != nil {
 			c.AbortWithStatus(http.StatusNotFound)
 			return
 		}
 
-		entries := []model.TimelineMessage{}
-		db.Select(&entries, `SELECT message.*, user.* FROM message, user 
-		WHERE message.flagged = 0 AND
-		user.user_id = message.author_id AND user.user_id = ?
-		ORDER BY message.pub_date DESC LIMIT 100`, user_id)
+		// check for parameter "no" (number of messages)
+		noMsgs, err := strconv.Atoi(c.Query("no"))
+		if err != nil {
+			// if undefined, use default value
+			noMsgs = 100
+		}
+
+		entries := []gormModel.Message{}
+		db.Limit(noMsgs).Select("message.*", "user.*").
+			Where("message.flagged = ? AND user.user_id = ? AND user.user_id = ?", 0, "message.author_id", user_id).
+			Order("message.pub_date desc").
+			Find(&entries)
 
 		// filter messages
 		var messageList []simModels.FilteredMessageRequest
@@ -88,7 +100,7 @@ func GetMessageUserHandler() gin.HandlerFunc {
 				simModels.FilteredMessageRequest{
 					Text:     message.Text,
 					PubDate:  message.PubDate,
-					Username: message.Username,
+					Username: message.User.Username,
 				})
 		}
 
@@ -108,19 +120,25 @@ func PostMessageUserHandler() gin.HandlerFunc {
 		}
 
 		// get DB
-		db := globals.GetDatabase()
+		db := globals.GetGormDatabase()
 
 		// get username, and convert to user id
 		username := c.Param("username")
-		userId, err := helpers.GetUserId(db, username)
+		userId, err := helpers.GetUserId(globals.GetDatabase(), username) // TODO: Use new GetUserId which uses Gorm
 		if err != nil {
 			c.AbortWithStatus(404)
 		}
 
+		userIntId, _ := strconv.Atoi(userId)
+
 		time := time.Now().Unix()
 
-		db.Exec(`insert into message (author_id, text, pub_date, flagged) values (?, ?, ?, 0)`,
-			userId, postMessage.Content, time)
+		db.Create(&gormModel.Message{
+			UserID:  userIntId,
+			User:    gormModel.User{}, // TODO: Use function for getting a Gorm user
+			Text:    postMessage.Content,
+			PubDate: time,
+			Flagged: 0})
 
 		// exit with status 204
 		c.Status(http.StatusNoContent)
