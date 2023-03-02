@@ -12,19 +12,19 @@ import (
 func RegisterUser(db *sqlx.DB, username string, password string, password2 string, email string) (model.User, error) {
 
 	if EmptyUserPass(username, password) {
-		return model.User{}, errors.New("you have to enter a value")
+		return model.User{}, errors.New("You have to enter a value")
 	}
 
 	if !CheckUserPasswords(password, password2) {
-		return model.User{}, errors.New("the two passwords do not match")
+		return model.User{}, errors.New("The two passwords do not match")
 	}
 
 	if !CheckUserEmail(email) {
-		return model.User{}, errors.New("you have to enter a valid email address")
+		return model.User{}, errors.New("You have to enter a valid email address")
 	}
 
 	if CheckUsernameExists(db, username) {
-		return model.User{}, errors.New("the username is already taken")
+		return model.User{}, errors.New("The username is already taken")
 	}
 
 	pw_hash, err := HashPassword(password)

@@ -71,31 +71,12 @@ func RegisterPostHandler() gin.HandlerFunc {
 		password2 := c.PostForm("password2")
 		email := c.PostForm("email")
 
-		if helpers.EmptyUserPass(username, password) {
-			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "You have to enter a value"})
+		_, signUpError := helpers.RegisterUser(db, username, password, password2, email)
+
+		if signUpError != nil {
+			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": signUpError.Error()})
 			return
 		}
-
-		if !helpers.CheckUserPasswords(password, password2) {
-			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "The two passwords do not match"})
-			return
-		}
-
-		if !helpers.CheckUserEmail(email) {
-			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "You have to enter a valid email address"})
-			return
-		}
-
-		if helpers.CheckUsernameExists(db, username) {
-			c.HTML(http.StatusBadRequest, "register.html", gin.H{"content": "The username is already taken"})
-			return
-		}
-
-		pw_hash, err := helpers.HashPassword(password)
-		if err != nil {
-			c.AbortWithStatus(http.StatusBadRequest)
-		}
-		db.Exec("insert into user (username, email, pw_hash) values (?, ?, ?)", username, email, pw_hash)
 
 		c.Redirect(http.StatusMovedPermanently, "/login")
 	}
