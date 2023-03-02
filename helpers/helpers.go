@@ -1,7 +1,8 @@
 package helpers
 
 import (
-	"DevOps/model"
+	model "DevOps/model"
+	gormModel "DevOps/model/gorm"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
@@ -11,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 func CheckPasswordHash(password, hash string) bool {
@@ -26,14 +28,15 @@ func EmptyUserPass(username, password string) bool {
 	return strings.Trim(username, " ") == "" || strings.Trim(password, " ") == ""
 }
 
-func ValidatePassword(db *sqlx.DB, username, password string) bool {
-	var pw_hash string
-	err := db.QueryRow("select pw_hash from user where username = ?", username).Scan(&pw_hash)
-	if err != nil {
+func ValidatePassword(db *gorm.DB, username, password string) bool {
+	var user gormModel.User
+	res := db.Where("username = ?", username).First(&user)
+	if res.Error != nil {
+
 		return false
 	}
 
-	return CheckPasswordHash(password, pw_hash)
+	return CheckPasswordHash(password, user.PwHash)
 }
 
 func GetTypedDb(c *gin.Context) *sqlx.DB {

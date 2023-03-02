@@ -8,7 +8,7 @@ import (
 
 	"DevOps/globals"
 	helpers "DevOps/helpers"
-	model "DevOps/model"
+	gormModel "DevOps/model/gorm"
 	simModels "DevOps/model/simulatorModel"
 )
 
@@ -32,7 +32,7 @@ func RegisterGetHandler() gin.HandlerFunc {
 
 func SimRegisterPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		db := globals.GetDatabase()
+		db := globals.GetGormDatabase()
 
 		var registerData simModels.RegisterRequest
 
@@ -55,7 +55,7 @@ func SimRegisterPostHandler() gin.HandlerFunc {
 
 func RegisterPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		db := globals.GetDatabase()
+		db := globals.GetGormDatabase()
 		user, err := helpers.GetUserSession(c)
 		if err == nil {
 			c.HTML(http.StatusBadRequest, "register.html",
@@ -99,7 +99,7 @@ func LoginGetHandler() gin.HandlerFunc {
 
 func LoginPostHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		db := globals.GetDatabase()
+		db := globals.GetGormDatabase()
 
 		if _, err := helpers.GetUserSession(c); err == nil {
 			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Please logout first"})
@@ -124,8 +124,8 @@ func LoginPostHandler() gin.HandlerFunc {
 			return
 		}
 
-		userStruct := model.User{}
-		db.Get(&userStruct, `select * from user where username = ?`, username)
+		var userStruct gormModel.User
+		db.Where("username = ?", username).First(&userStruct)
 
 		if err := helpers.SetUserSession(c, userStruct); err != nil {
 			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Failed to save session"})

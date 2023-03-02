@@ -34,10 +34,10 @@ func UserTimelineHandler() gin.HandlerFunc {
 		if err == nil {
 			var result = model.FollowingEntry{}
 			err := db.Get(&result, `select * from follower where
-            follower.who_id = ? and follower.whom_id = ? limit 1`, user.UserId, profile.UserId)
+            follower.who_id = ? and follower.whom_id = ? limit 1`, user.ID, profile.UserId)
 			//error will be nil if zero rows are returned
 			following = err == nil
-			isSelf = user.UserId == profile.UserId
+			isSelf = int64(user.ID) == profile.UserId
 			isAuthorized = true
 		}
 
@@ -96,7 +96,7 @@ func SelfTimeline() gin.HandlerFunc {
             user.user_id = ? or
             user.user_id in (select whom_id from follower
                                     where who_id = ?))
-        order by message.pub_date desc limit ?`, user.UserId, user.UserId, PAGE_SIZE)
+        order by message.pub_date desc limit ?`, user.ID, user.ID, PAGE_SIZE)
 
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
 			"authorized":   true,

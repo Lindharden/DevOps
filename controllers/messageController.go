@@ -24,7 +24,7 @@ func AddMessageHandler() gin.HandlerFunc {
 		if text != "" {
 			db := globals.GetDatabase()
 			db.Exec(`insert into message (author_id, text, pub_date, flagged)
-            values (?, ?, ?, 0)`, user.UserId, text, time.Now().Unix())
+            values (?, ?, ?, 0)`, user.ID, text, time.Now().Unix())
 		}
 
 		c.Redirect(http.StatusMovedPermanently, "/public")
