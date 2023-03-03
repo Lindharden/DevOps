@@ -6,6 +6,6 @@ import (
 
 type Following struct {
 	gorm.Model
-	WhoId  int
-	WhomId int
+	WhoId  uint
+	WhomId uint
 }

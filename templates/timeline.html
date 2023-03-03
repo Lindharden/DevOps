@@ -26,9 +26,9 @@
 <ul class="messages">
 	{{range .messages}}
 	<li>
-		<img src="{{ .Email | gravatarUrl }}" />
+		<img src="{{ .User.Email | gravatarUrl }}" />
 		<p>
-			<strong><a href="/{{.Username}}">{{ .Username }}</a></strong>
+			<strong><a href="/{{.User.Username}}">{{ .User.Username }}</a></strong>
 			{{ .Text }}
 			<small>&mdash; {{ .PubDate | formatDatetime }}</small>
 			{{else}}
