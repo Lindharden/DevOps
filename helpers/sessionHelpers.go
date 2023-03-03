@@ -2,7 +2,7 @@ package helpers
 
 import (
 	"DevOps/globals"
-	"DevOps/model"
+	gormModel "DevOps/model/gorm"
 	"encoding/json"
 	"errors"
 
@@ -10,18 +10,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetUserSession(c *gin.Context) (model.User, error) {
+func GetUserSession(c *gin.Context) (gormModel.User, error) {
 	session := sessions.Default(c)
 	user := session.Get(globals.Userkey)
 	if user != nil {
-		var deserialized model.User
+		var deserialized gormModel.User
 		err := json.Unmarshal(user.([]byte), &deserialized)
 		return deserialized, err
 	}
-	return model.User{}, errors.New("No session active")
+	return gormModel.User{}, errors.New("No session active")
 }
 
-func SetUserSession(c *gin.Context, m model.User) error {
+func SetUserSession(c *gin.Context, m gormModel.User) error {
 	session := sessions.Default(c)
 	serialized, err := json.Marshal(m)
 	if err != nil {

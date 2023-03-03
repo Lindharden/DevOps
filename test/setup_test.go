@@ -2,6 +2,7 @@ package test
 
 import (
 	"DevOps/globals"
+	"DevOps/helpers"
 	"log"
 	"os"
 	"testing"
@@ -12,9 +13,10 @@ import (
 
 func TestMain(m *testing.M) {
 	db, err := sqlx.Open("sqlite3", "file:tests?mode=memory&cache=shared")
-
+	gormDb := helpers.GetGormDbConnection()
 	// set the global db connection
-	globals.SetDatabase(db)
+
+	globals.SetDatabase(db, gormDb)
 
 	if err != nil {
 		log.Fatal("Could not connect to database")

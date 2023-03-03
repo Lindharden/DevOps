@@ -27,9 +27,9 @@ func FollowHandler() gin.HandlerFunc {
 			c.AbortWithStatus(404)
 		} else {
 			if action == "/follow" {
-				db.Exec("insert into follower (who_id, whom_id) values (?, ?)", user.UserId, whom_id)
+				db.Exec("insert into follower (who_id, whom_id) values (?, ?)", user.ID, whom_id)
 			} else if action == "/unfollow" {
-				db.Exec("delete from follower where who_id=? and whom_id=?", user.UserId, whom_id)
+				db.Exec("delete from follower where who_id=? and whom_id=?", user.ID, whom_id)
 			}
 		}
 
