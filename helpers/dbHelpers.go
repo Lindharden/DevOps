@@ -19,7 +19,7 @@ func GetUserId(db *sqlx.DB, username string) (string, error) {
 
 func GetUserIdGorm(db *gorm.DB, username string) (uint, error) {
 	var user model.User
-	res := db.Where("username = ?", username).First(&user)
+	res := db.Where(&model.User{Username: username}).First(&user)
 	return user.ID, res.Error
 }
 

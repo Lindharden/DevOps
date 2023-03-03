@@ -30,7 +30,7 @@ func EmptyUserPass(username, password string) bool {
 
 func ValidatePassword(db *gorm.DB, username, password string) bool {
 	var user gormModel.User
-	res := db.Where("username = ?", username).First(&user)
+	res := db.Where(gormModel.User{Username: username}).First(&user)
 	if res.Error != nil {
 
 		return false

@@ -125,7 +125,7 @@ func LoginPostHandler() gin.HandlerFunc {
 		}
 
 		var userStruct gormModel.User
-		db.Where("username = ?", username).First(&userStruct)
+		db.Where(&gormModel.User{Username: username}).First(&userStruct)
 
 		if err := helpers.SetUserSession(c, userStruct); err != nil {
 			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Failed to save session"})
