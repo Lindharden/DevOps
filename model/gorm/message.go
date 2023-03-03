@@ -6,7 +6,7 @@ import (
 
 type Message struct {
 	gorm.Model
-	UserID  int
+	UserID  uint
 	User    User
 	Text    string
 	PubDate int64

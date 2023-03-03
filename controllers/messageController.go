@@ -15,7 +15,7 @@ import (
 
 func AddMessageHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		user, err := helpers.GetUserSession(c) // TODO: Use helper for getting Gorm user
+		user, err := helpers.GetUserSession(c)
 		if err != nil {
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
@@ -23,7 +23,7 @@ func AddMessageHandler() gin.HandlerFunc {
 
 		if text != "" {
 			db := globals.GetGormDatabase()
-			db.Create(&gormModel.Message{UserID: int(user.UserId),
+			db.Create(&gormModel.Message{UserID: user.ID,
 				User:    gormModel.User{},
 				Text:    text,
 				PubDate: time.Now().Unix(),
@@ -73,7 +73,7 @@ func GetMessageUserHandler() gin.HandlerFunc {
 
 		// convert username to user id
 		username := c.Param(globals.Username)
-		user_id, err := helpers.GetUserId(globals.GetDatabase(), username) // TODO: Use new GetUserId which uses Gorm
+		user_id, err := helpers.GetUserIdGorm(db, username)
 
 		if err != nil {
 			c.AbortWithStatus(http.StatusNotFound)
@@ -124,18 +124,15 @@ func PostMessageUserHandler() gin.HandlerFunc {
 
 		// get username, and convert to user id
 		username := c.Param("username")
-		userId, err := helpers.GetUserId(globals.GetDatabase(), username) // TODO: Use new GetUserId which uses Gorm
+		userId, err := helpers.GetUserIdGorm(db, username)
 		if err != nil {
 			c.AbortWithStatus(404)
 		}
 
-		userIntId, _ := strconv.Atoi(userId)
-
 		time := time.Now().Unix()
 
 		db.Create(&gormModel.Message{
-			UserID:  userIntId,
-			User:    gormModel.User{}, // TODO: Use function for getting a Gorm user
+			UserID:  userId,
 			Text:    postMessage.Content,
 			PubDate: time,
 			Flagged: 0})
