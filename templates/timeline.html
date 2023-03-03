@@ -1,37 +1,43 @@
 {{template "header.html" .}}
 <title>{{.title}}</title>
 <h2>{{.title}}</h2>
-{{if .user.UserId}}
-  {{if .userProfile}}
-    <div class="followstatus">
-    {{if .isSelf}}
-      This is you!
-    {{else if .followed}}
-      You are currently following this user.
-      <a class=unfollow href="/private/{{.userProfile.Username}}/unfollow">Unfollow user</a>.
-    {{else}}
-      <a class=follow href="/private/{{.userProfile.Username}}/follow">Follow user</a>.
-      You are not yet following this user.
-    {{end}}
-    </div>
-  {{else}}
-    <div class=twitbox>
-      <h3>What's on your mind {{ .user.Username }}?</h3>
-      <form action="/private/message" method=post>
-        <p><input type=text name=text size=60>
-          <input type=submit value="Share">
-      </form>
-    </div>
-  {{end}}
-{{end}}
-<ul class="messages">
-{{range .messages}}
-<li><img src="{{ .Email | gravatarUrl }}"><p>
-  <strong><a href="/{{.Username}}">{{ .Username }}</a></strong>
-  {{ .Text }}
-  <small>&mdash; {{ .PubDate | formatDatetime }}</small>
+{{if .user.ID}} {{if .userProfile}}
+<div class="followstatus">
+	{{if .isSelf}} This is you! {{else if .followed}} You are currently following
+	this user.
+	<a class="unfollow" href="/private/{{.userProfile.Username}}/unfollow"
+		>Unfollow user</a
+	>. {{else}}
+	<a class="follow" href="/private/{{.userProfile.Username}}/follow"
+		>Follow user</a
+	>. You are not yet following this user. {{end}}
+</div>
 {{else}}
-  <li><em>There's no message so far.</em>
-{{end}}
+<div class="twitbox">
+	<h3>What's on your mind {{ .user.Username }}?</h3>
+	<form action="/private/message" method="post">
+		<p>
+			<input type="text" name="text" size="60" />
+			<input type="submit" value="Share" />
+		</p>
+	</form>
+</div>
+{{end}} {{end}}
+<ul class="messages">
+	{{range .messages}}
+	<li>
+		<img src="{{ .Email | gravatarUrl }}" />
+		<p>
+			<strong><a href="/{{.Username}}">{{ .Username }}</a></strong>
+			{{ .Text }}
+			<small>&mdash; {{ .PubDate | formatDatetime }}</small>
+			{{else}}
+			<li>
+				<em>There's no message so far.</em>
+				{{end}}
+			</li>
+		</p>
+	</li>
 </ul>
+
 {{template "footer.html"}}
