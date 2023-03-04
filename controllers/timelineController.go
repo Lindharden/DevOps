@@ -47,7 +47,8 @@ func UserTimelineHandler() gin.HandlerFunc {
 		db.Preload("User").
 			Where(gormModel.Message{Flagged: 0, UserID: profile.ID}).
 			Order("pub_date desc").
-			Limit(PAGE_SIZE).Find(&entries)
+			Limit(PAGE_SIZE).
+			Find(&entries)
 
 		c.HTML(http.StatusOK, "timeline.html", gin.H{
 			"authorized":  isAuthorized,
