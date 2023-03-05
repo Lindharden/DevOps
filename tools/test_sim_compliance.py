@@ -42,18 +42,13 @@ def wait_for_port(port: int, host: str = 'localhost', timeout: float = 5.0):
                                    'connections.'.format(port, host)) from ex
 
 
-def init_db():
-    """Creates the database tables."""
-    with closing(sqlite3.connect(DATABASE)) as db:
-        with open("./tools/schema.sql") as fp:
-            db.cursor().executescript(fp.read())
-        db.commit()
+
+
 
 
 # Empty the database and initialize the schema again
 os.system(f'rm {DATABASE}')
 
-init_db()
 
 
 
@@ -65,8 +60,9 @@ def start_service():
                             stderr=subprocess.STDOUT,
                             shell=False)
     wait_for_port(8080, timeout=20)
-    yield proc
-    subprocess.run(["sudo", "kill","-9", "$(sudo lsof -t -i:8080)"])
+    yield
+    os.system("kill -9 $(lsof -t -i:8080)")
+
 
 
 
@@ -93,6 +89,7 @@ def test_register():
     params = {'latest': 1}
     response = requests.post(f'{BASE_URL}/register',
                              data=json.dumps(data), headers=HEADERS, params=params)
+    print(response.content.decode("utf-8"))
     assert response.ok
     # TODO: add another assertion that it is really there
 
@@ -233,6 +230,3 @@ def test_a_unfollows_b():
     # verify that latest was updated
     response = requests.get(f'{BASE_URL}/latest', headers=HEADERS)
     assert response.json()['latest'] == 11
-
-def after_tests():
-    print("after")
