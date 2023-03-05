@@ -2,7 +2,10 @@ version: "3.9"
 
 services:
   minitwit:
-    image: ${DOCKER_USERNAME}/minitwitimage
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    #image: ${DOCKER_USERNAME}/minitwitimage
     environment:
       GO_ENV: production
       POSTGRES_USERNAME: ${POSTGRES_USERNAME}
@@ -14,6 +17,11 @@ services:
       - "8080:8080"
     depends_on:
       - postgres
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
   postgres:
     container_name: postgres
     image: postgres:latest
