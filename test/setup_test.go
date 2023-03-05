@@ -2,18 +2,19 @@ package test
 
 import (
 	"DevOps/globals"
-	"DevOps/helpers"
 	"log"
 	"os"
 	"testing"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/tanimutomo/sqlfile"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 func TestMain(m *testing.M) {
-	db, err := sqlx.Open("sqlite3", "file:tests?mode=memory&cache=shared")
-	gormDb := helpers.GetGormDbConnection()
+	db, _ := sqlx.Open("sqlite3", "file:tests?mode=memory&cache=shared")
+	gormDb, err := gorm.Open(sqlite.Open("file:testsGorm?mode=memory&cache=shared"), &gorm.Config{})
 	// set the global db connection
 
 	globals.SetDatabase(db, gormDb)

@@ -30,7 +30,7 @@ func FollowHandler() gin.HandlerFunc {
 			if action == "/follow" {
 				db.Create(&model.Following{WhoId: user.ID, WhomId: whom_id})
 			} else if action == "/unfollow" {
-				db.Where(&model.Following{WhoId: user.ID, WhomId: whom_id}).Delete(&model.Following{})
+				db.Where(&model.Following{WhoId: user.ID, WhomId: whom_id}).Unscoped().Delete(&model.Following{})
 			}
 		}
 
@@ -74,7 +74,7 @@ func SimFollowHandler() gin.HandlerFunc {
 		if request.Follow != "" {
 			db.Create(&model.Following{WhoId: userId, WhomId: targetUserId})
 		} else if request.Unfollow != "" {
-			db.Delete(&model.Following{WhoId: userId, WhomId: targetUserId})
+			db.Where(&model.Following{WhoId: userId, WhomId: targetUserId}).Unscoped().Delete(&model.Following{})
 		}
 
 		c.Status(http.StatusNoContent)
