@@ -129,7 +129,9 @@ func PostMessageUserHandler() gin.HandlerFunc {
 		username := c.Param("username")
 		userId, err := helpers.GetUserIdGorm(db, username)
 		if err != nil {
-			c.AbortWithStatus(404)
+			user, _ := helpers.RegisterUser(db, username, "pswd", "pswd", "test@mail.com")
+			userId = user.ID
+			//c.AbortWithStatus(404)
 		}
 
 		time := time.Now().Unix()
