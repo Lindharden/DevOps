@@ -1,7 +1,6 @@
 package helpers
 
 import (
-	gormModel "DevOps/model/gorm"
 	model "DevOps/model/gorm"
 	"errors"
 	"strings"
@@ -32,7 +31,7 @@ func RegisterUser(db *gorm.DB, username string, password string, password2 strin
 	if err != nil {
 		panic("password hashing failed")
 	}
-	user := gormModel.User{Username: username, Email: email, PwHash: pw_hash}
+	user := model.User{Username: username, Email: email, PwHash: pw_hash}
 	result := db.Create(&user)
 
 	return user, result.Error
