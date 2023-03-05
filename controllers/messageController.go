@@ -3,7 +3,6 @@ package controllers
 import (
 	globals "DevOps/globals"
 	helpers "DevOps/helpers"
-	gormModel "DevOps/model/gorm"
 	model "DevOps/model/gorm"
 	"net/http"
 	"strconv"
@@ -24,8 +23,8 @@ func AddMessageHandler() gin.HandlerFunc {
 
 		if text != "" {
 			db := globals.GetGormDatabase()
-			db.Create(&gormModel.Message{UserID: user.ID,
-				User:    gormModel.User{},
+			db.Create(&model.Message{UserID: user.ID,
+				User:    model.User{},
 				Text:    text,
 				PubDate: time.Now().Unix(),
 				Flagged: 0})
@@ -39,7 +38,7 @@ func GetMessageHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// query db
 		db := globals.GetGormDatabase()
-		entries := []gormModel.Message{}
+		entries := []model.Message{}
 
 		// check for parameter "no" (number of messages)
 		noMsgs, err := strconv.Atoi(c.Query("no"))
@@ -89,7 +88,7 @@ func GetMessageUserHandler() gin.HandlerFunc {
 			noMsgs = 100
 		}
 
-		entries := []gormModel.Message{}
+		entries := []model.Message{}
 
 		db.Preload("User").
 			Where(&model.Message{Flagged: 0, UserID: user_id}).
@@ -135,7 +134,7 @@ func PostMessageUserHandler() gin.HandlerFunc {
 
 		time := time.Now().Unix()
 
-		db.Create(&gormModel.Message{
+		db.Create(&model.Message{
 			UserID:  userId,
 			Text:    postMessage.Content,
 			PubDate: time,
