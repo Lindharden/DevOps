@@ -4,6 +4,7 @@ import (
 	globals "DevOps/globals"
 	helpers "DevOps/helpers"
 	gormModel "DevOps/model/gorm"
+	model "DevOps/model/gorm"
 	"net/http"
 	"strconv"
 	"time"
@@ -47,9 +48,10 @@ func GetMessageHandler() gin.HandlerFunc {
 			noMsgs = 100
 		}
 
-		db.Limit(noMsgs).Select("message.*", "user.*").
-			Where("message.flagged = ? AND message.author_id = ?", 0, "user.user_id").
-			Order("message.pub_date desc").
+		db.Preload("User").
+			Where(&model.Message{Flagged: 0}).
+			Order("pub_date desc").
+			Limit(noMsgs).
 			Find(&entries)
 
 		// filter messages
@@ -88,9 +90,11 @@ func GetMessageUserHandler() gin.HandlerFunc {
 		}
 
 		entries := []gormModel.Message{}
-		db.Limit(noMsgs).Select("message.*", "user.*").
-			Where("message.flagged = ? AND user.user_id = ? AND user.user_id = ?", 0, "message.author_id", user_id).
-			Order("message.pub_date desc").
+
+		db.Preload("User").
+			Where(&model.Message{Flagged: 0, UserID: user_id}).
+			Order("pub_date desc").
+			Limit(noMsgs).
 			Find(&entries)
 
 		// filter messages

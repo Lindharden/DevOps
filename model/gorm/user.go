@@ -10,5 +10,5 @@ type User struct {
 	Email      string
 	PwHash     string
 	Messages   []Message
-	Followings []Following `gorm:"foreignKey:WhoId"`
+	Followings []Following
 }

@@ -33,7 +33,7 @@ func UserTimelineHandler() gin.HandlerFunc {
 		//If the user is signed in, check if we follow said user or is that user ourselves
 		if err == nil {
 			var result = gormModel.Following{}
-			res := db.Where(gormModel.Following{WhoId: user.ID, WhomId: profile.ID}).Limit(1).First(&result)
+			res := db.Where(gormModel.Following{UserID: user.ID, WhomId: profile.ID}).Limit(1).First(&result)
 
 			//error will be nil if zero rows are returned
 			following = res.Error == nil
@@ -97,7 +97,7 @@ func SelfTimeline() gin.HandlerFunc {
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
 		timelineEntries := []gormModel.Message{}
-		subQuery := db.Select("whom_id").Where(&gormModel.Following{WhoId: user.ID}).Table("followings")
+		subQuery := db.Select("whom_id").Where(&gormModel.Following{UserID: user.ID}).Table("followings")
 
 		db.Preload("User").
 			Where(&gormModel.Message{UserID: user.ID}).

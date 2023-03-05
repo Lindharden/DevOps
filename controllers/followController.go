@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 
 	"DevOps/globals"
 	helpers "DevOps/helpers"
@@ -28,9 +29,9 @@ func FollowHandler() gin.HandlerFunc {
 			c.AbortWithStatus(404)
 		} else {
 			if action == "/follow" {
-				db.Create(&model.Following{WhoId: user.ID, WhomId: whom_id})
+				db.Create(&model.Following{UserID: user.ID, WhomId: whom_id})
 			} else if action == "/unfollow" {
-				db.Where(&model.Following{WhoId: user.ID, WhomId: whom_id}).Unscoped().Delete(&model.Following{})
+				db.Where(&model.Following{UserID: user.ID, WhomId: whom_id}).Unscoped().Delete(&model.Following{})
 			}
 		}
 
@@ -72,9 +73,9 @@ func SimFollowHandler() gin.HandlerFunc {
 		}
 
 		if request.Follow != "" {
-			db.Create(&model.Following{WhoId: userId, WhomId: targetUserId})
+			db.Create(&model.Following{UserID: userId, WhomId: targetUserId})
 		} else if request.Unfollow != "" {
-			db.Where(&model.Following{WhoId: userId, WhomId: targetUserId}).Unscoped().Delete(&model.Following{})
+			db.Where(&model.Following{UserID: userId, WhomId: targetUserId}).Unscoped().Delete(&model.Following{})
 		}
 
 		c.Status(http.StatusNoContent)
@@ -92,21 +93,24 @@ func SimGetFollowHandler() gin.HandlerFunc {
 		db := globals.GetGormDatabase()
 
 		username := c.Param("username")
+		_, err = helpers.GetUserIdGorm(db, username)
 
 		if err != nil {
 			c.AbortWithStatus(http.StatusNotFound)
 			return
 		}
 
-		var list []model.User
-		db.Preload("Following").
+		var list model.User
+
+		db.Preload("Followings", func(tx *gorm.DB) *gorm.DB {
+			return tx.Limit(numberFollowers)
+		}).
 			Where(&model.User{Username: username}).
-			Limit(numberFollowers).
-			Preload("Following.User").
-			Find(&list)
+			Preload("Followings.WhomUser").
+			First(&list)
 
 		c.JSON(http.StatusOK, gin.H{
-			"follows": list,
+			"follows": helpers.Map(list.Followings, func(x model.Following) string { return x.WhomUser.Username }),
 		})
 	}
 }

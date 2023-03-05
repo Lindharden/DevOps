@@ -65,3 +65,11 @@ func FormatDatetime(unixTime int64) string {
 func RequestedUserExists(requestedUser string, users []model.User) bool {
 	return len(users) >= 0 && len(requestedUser) != 0
 }
+
+func Map[T, U any](ts []T, f func(T) U) []U {
+	us := make([]U, len(ts))
+	for i := range ts {
+		us[i] = f(ts[i])
+	}
+	return us
+}

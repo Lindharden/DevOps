@@ -31,8 +31,8 @@ func GetDatabase() *sqlx.DB {
 func GetGormDatabase() *gorm.DB {
 	return gormDb
 }
-func SetDatabase(database_old *sqlx.DB, database *gorm.DB) {
-	db = database_old
+func SetDatabase(database *gorm.DB) {
+
 	gormDb = database
 	gormDb.AutoMigrate(&model.User{})
 	gormDb.AutoMigrate(&model.Message{})
