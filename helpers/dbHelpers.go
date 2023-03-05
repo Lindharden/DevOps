@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"github.com/jmoiron/sqlx"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -25,7 +24,7 @@ func GetUserIdGorm(db *gorm.DB, username string) (uint, error) {
 
 // Open connection to DB, and return DB element
 func GetGormDbConnection() *gorm.DB {
-	dbGorm, err := gorm.Open(sqlite.Open(globals.GetDatabasePath()), &gorm.Config{})
+	dbGorm, err := gorm.Open(globals.GetDatabasePath(), &gorm.Config{})
 	if err != nil {
 		log.Fatal("failed to connect database")
 	}

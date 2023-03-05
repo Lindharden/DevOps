@@ -3,6 +3,10 @@ version: "3.9"
 services:
   minitwit:
     #image: ${DOCKER_USERNAME}/minitwitimage
+    environment:
+      GO_ENV: production
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     build:
       context: .
       dockerfile: Dockerfile
