@@ -36,9 +36,9 @@ require (
 )
 
 require (
-	github.com/gin-contrib/sessions v0.0.4
+	github.com/gin-contrib/sessions v0.0.5
 	github.com/jmoiron/sqlx v1.3.5
-	github.com/mattn/go-sqlite3 v1.14.16
+	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/stretchr/testify v1.8.1
 	golang.org/x/crypto v0.6.0
 	gorm.io/driver/postgres v1.4.8
