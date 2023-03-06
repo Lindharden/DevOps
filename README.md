@@ -112,7 +112,7 @@ See the [open issues](https://github.com/lindharden/devops/issues) for a full li
 <!-- CONTRIBUTING -->
 ## Contributing
 
-See the contributing guide for this project in [CONTRIBUTE](https://github.com/Lindharden/DevOps/blob/main/CONTRIBUTE.md).
+See the contributing guide for this project in [CONTRIBUTING](https://github.com/Lindharden/DevOps/blob/main/CONTRIBUTING.md).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

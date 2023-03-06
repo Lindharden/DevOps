@@ -88,7 +88,7 @@ b4fb15d62216   lind/minitwit   "/minitwit"   8 seconds ago   Up 7 seconds       
 
 ## Step 3: Describe Distributed Workflow
 
-We created the file `CONTRIBUTE.md`, which specifies how we will collaborate in our group.
+We created the file `CONTRIBUTING.md`, which specifies how we will collaborate in our group.
 
 The file looks like this:
 ```
