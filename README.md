@@ -57,7 +57,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-The project is built follwing the course outlined in the following repository: <https://github.com/itu-devops/lecture_notes> 
+The project is built following the course outlined in the following repository: <https://github.com/itu-devops/lecture_notes> 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
