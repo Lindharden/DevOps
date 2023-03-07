@@ -5,11 +5,14 @@ import (
 	"DevOps/helpers"
 	"DevOps/middleware"
 	"html/template"
+	"net/http"
 	"path/filepath"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func SetupRouter() *gin.Engine {
@@ -33,6 +36,9 @@ func SetupRouter() *gin.Engine {
 	private := router.Group("/")
 	private.Use(middleware.AuthRequired)
 	PrivateRoutes(private)
+
+	http.Handle("/metrics", promhttp.Handler())
+	http.ListenAndServe(":2112", nil)
 
 	return router
 }
