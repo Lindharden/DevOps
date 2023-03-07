@@ -11,6 +11,12 @@ import (
 
 const PAGE_SIZE = 30
 
+func BaseUrlHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Redirect(http.StatusMovedPermanently, "/public")
+	}
+}
+
 func UserTimelineHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		user, err := helpers.GetUserSession(c)
