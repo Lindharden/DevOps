@@ -33,25 +33,38 @@ services:
       - postgres-db:/data/postgres
 
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:latest
     container_name: prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    volumes:
+      - prometheus-data:/prometheus
+      - type: bind
+        source: ./prometheus.yml
+        target: /prometheus/prometheus.yml
+        read_only: true
+    restart: unless-stopped
+    command:
+      - "--config.file=prometheus.yml"
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana-oss:latest
+    container_name: grafana
     ports:
       - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=secret
-    depends_on:
-      - prometheus
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    restart: unless-stopped
+    
 
 volumes:
   postgres-db:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
     driver: local
 
 networks:
