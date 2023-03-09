@@ -10,6 +10,7 @@ services:
     container_name: minitwit
     networks:
       - database-network
+      - prometheus-network
     ports:
       - "8080:8080"
     depends_on:
@@ -35,6 +36,8 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
+    networks:
+      - prometheus-network
     ports:
       - "9090:9090"
     volumes:
@@ -70,3 +73,5 @@ volumes:
 networks:
   database-network:
     name: database-network
+  prometheus-network:
+    name: prometheus-network
