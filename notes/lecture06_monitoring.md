@@ -9,10 +9,10 @@ The monitoring system we want to implement is Prometheus. Reasons for choosing P
  - Prometheus can send us alerts if any metrics go over any thresholds that we determine. This can help us catch problems early.
 
 We are going to implement **Application monitoring** and **Infrastructure monitoring**. The metrics we want to measure are:
- - Number of tweet requests per hour - This will help us determining the amount of load our application is under. We will be able to see when something critical is happening to our tweeting system, which is arguably the most important feature in our application.
- - How long it takes to connect to the application - By constantly monitoring (e.g. every 15 minutes) how long it takes to connect to our service, we can determine when our application is unreachable, and roughly for how long it was unreachable. We can also determine whether we have made any changes which makes our application slower to load.
- - Amount of registrations per hour - This will help us determine how many new users we receive. If we suddenly receive a lot of tweet request, logins or some kind of errors, it would be handy to be able to see whether we recently have received a lot of registration requests.
- - Amount of logins per hour - This will help us determine how many logins we receive. If something happens to our service, it would be handy to be able to see whether we have recently received a lot of login requests.
+ - **Number of tweet requests per hour** - This will help us determining the amount of load our application is under. We will be able to see when something critical is happening to our tweeting system, which is arguably the most important feature in our application.
+ - **How long it takes to connect to the application** - By constantly monitoring (e.g. every 15 minutes) how long it takes to connect to our service, we can determine when our application is unreachable, and roughly for how long it was unreachable. We can also determine whether we have made any changes which makes our application slower to load.
+ - **Error codes** - This metric shows us the total amount of errors which the system reports. This metric can be used to determine whether everything runs as expected. If the dashboard displays an unusual amount of errors, this might be a hint that something is going on with the system.
+ - **Hardware load** - This metric reports system load, CPU and memory usage, disk I/O and amount of network transmit and receive requests. This can be useful for determining whether everything runs as expected.
 
 In order to add Prometheus and Grafana to our application, we added the following to our `docker-compose.yml` file:
 ``` yaml
@@ -25,6 +25,7 @@ prometheus:
     container_name: prometheus
     networks:
       - prometheus-network
+      - monitoring
     ports:
       - "9090:9090"
     volumes:
@@ -42,11 +43,30 @@ prometheus:
     container_name: grafana
     ports:
       - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USERNAME}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
     volumes:
       - grafana-data:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
       - ./grafana/dashboards:/var/lib/grafana/dashboards
     restart: unless-stopped
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.rootfs=/rootfs"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+    networks:
+      - monitoring
+
 
 volumes:
   postgres-db:
