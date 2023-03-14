@@ -54,6 +54,8 @@ services:
   grafana:
     image: grafana/grafana-oss:latest
     container_name: grafana
+    networks:
+      - prometheus-network
     ports:
       - "3000:3000"
     environment:
