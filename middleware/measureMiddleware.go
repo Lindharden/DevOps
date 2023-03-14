@@ -12,4 +12,7 @@ func MeasueRequestTimeMiddleware(c *gin.Context) {
 	c.Next()
 	requestTime := time.Since(initialTime).Milliseconds()
 	helpers.RequestResponseTime.Observe(float64(requestTime))
+	if c.Writer.Status() > 500 {
+		helpers.ErrorCounter.Inc()
+	}
 }

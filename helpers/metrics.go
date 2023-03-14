@@ -18,3 +18,10 @@ var (
 		Help: "The response times measured for each request",
 	})
 )
+
+var (
+	ErrorCounter = promauto.NewCounter(prometheus.CounterOpts{
+		Name: "minitwit_error_codes",
+		Help: "The count of codes in the error range",
+	})
+)
