@@ -15,6 +15,7 @@ import (
 
 func AddMessageHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		helpers.TweetsProcessed.Inc()
 		user, err := helpers.GetUserSession(c)
 		if err != nil {
 			c.AbortWithStatus(http.StatusUnauthorized)
@@ -113,7 +114,7 @@ func GetMessageUserHandler() gin.HandlerFunc {
 
 func PostMessageUserHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-
+		helpers.TweetsProcessed.Inc()
 		var postMessage simModels.MessageRequest
 
 		// bind JSON body to postMessage

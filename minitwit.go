@@ -11,14 +11,14 @@ import (
 )
 
 func main() {
-	gormDb := helpers.GetGormDbConnection()
-	globals.SetDatabase(gormDb)
-	r := routes.SetupRouter()
-	r.Run(":8080")
-
 	go func() {
 		http.Handle("/metrics", promhttp.Handler())
 		fmt.Println("Serving metrics on 2112")
 		http.ListenAndServe(":2112", nil)
 	}()
+	gormDb := helpers.GetGormDbConnection()
+	globals.SetDatabase(gormDb)
+	r := routes.SetupRouter()
+	r.Run(":8080")
+
 }
