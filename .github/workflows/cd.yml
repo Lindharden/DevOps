@@ -79,7 +79,8 @@ jobs:
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage:webbuildcache,mode=max
       - name: Copy docker-compose.yml to server
         run: scp docker-compose.yml minitwit:/vagrant/docker-compose.yml
-
+      - name: Copy monitoring files
+        run: scp -r monitoring/ minitwit:/vagrant/monitoring
       - name: Copy deploy.sh to server
         run: >-
           chmod +x tools/deploy.sh &&
