@@ -16,7 +16,6 @@ services:
       - prometheus-network
     ports:
       - "8080:8080"
-      - "2112:2112"
     depends_on:
       - postgres
     deploy:
