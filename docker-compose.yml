@@ -39,8 +39,6 @@ services:
     networks:
       - prometheus-network
       - monitoring
-    ports:
-      - "9090:9090"
     volumes:
       - prometheus-data:/prometheus
       - type: bind
