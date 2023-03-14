@@ -1,5 +1,5 @@
 # Lecture 7: 
-[Week 7]("https://github.com/itu-devops/lecture_notes/blob/master/sessions/session_07/README_TASKS.md")
+[Week 7](https://github.com/itu-devops/lecture_notes/blob/master/sessions/session_07/README_TASKS.md)
 
 ## Add tests to your CI chain
 Tests have been added to our CI/CD setup. Our CI/CD actions script contains the following lines, which runs all our Go unit tests:
