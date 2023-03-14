@@ -2,7 +2,10 @@ version: "3.9"
 
 services:
   minitwit:
-    image: ${DOCKER_USERNAME}/minitwitimage
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    #image: ${DOCKER_USERNAME}/minitwitimage
     environment:
       GO_ENV: production
       POSTGRES_USERNAME: ${POSTGRES_USERNAME}
@@ -13,6 +16,7 @@ services:
       - prometheus-network
     ports:
       - "8080:8080"
+      - "2112:2112"
     depends_on:
       - postgres
     deploy:
@@ -38,6 +42,7 @@ services:
     container_name: prometheus
     networks:
       - prometheus-network
+      - monitoring
     ports:
       - "9090:9090"
     volumes:
@@ -60,7 +65,21 @@ services:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
       - ./grafana/dashboards:/var/lib/grafana/dashboards
     restart: unless-stopped
-    
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.rootfs=/rootfs"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+    networks:
+      - monitoring
 
 volumes:
   postgres-db:
@@ -75,3 +94,5 @@ networks:
     name: database-network
   prometheus-network:
     name: prometheus-network
+  monitoring:
+    driver: bridge

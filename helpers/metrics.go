@@ -11,3 +11,10 @@ var (
 		Help: "The total number of tweets made",
 	})
 )
+
+var (
+	RequestResponseTime = promauto.NewHistogram(prometheus.HistogramOpts{
+		Name: "minitwit_response_time",
+		Help: "The response times measured for each request",
+	})
+)

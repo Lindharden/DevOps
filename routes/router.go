@@ -21,6 +21,7 @@ func SetupRouter() *gin.Engine {
 	})
 	router.LoadHTMLGlob(filepath.Join(globals.Root, "templates/*.html"))
 	router.Use(sessions.Sessions("session", cookie.NewStore(globals.Secret)))
+	router.Use(middleware.MeasueRequestTimeMiddleware)
 
 	simulator := router.Group("/sim")
 	simulator.Use(middleware.CheckRequestFromSimulator)
