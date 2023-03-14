@@ -46,6 +46,9 @@ jobs:
         #- uses: actions/setup-node@v3
         #  with:
         #    node-version: 16
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '^1.20' # The Go version to download and use.
 
         env:
           # This is where you will need to introduce the Snyk API token created with your Snyk account
