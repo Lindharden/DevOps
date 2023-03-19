@@ -34,3 +34,14 @@ jobs:
         run: |
           pip install -r ./tools/requirements.txt
           pytest ./tools/test_sim_compliance.py
+      # Run end-to-end tests through Selenium
+      - name: Selenium tests
+        run: |
+          pip install selenium
+          pip install pymongo
+          sudo apt install firefox
+          wget https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz
+          tar xzvf geckodriver-v0.32.0-linux64.tar.gz
+          mv geckodriver ./test
+          rm geckodriver-v0.32.0-linux64.tar.gz
+          pytest ./test/test_itu_minitwit_ui.py
