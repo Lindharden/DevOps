@@ -37,8 +37,6 @@ jobs:
       # Run end-to-end tests through Selenium
       - name: Selenium tests
         run: |
-          pip install selenium
-          pip install pymongo
           sudo apt install firefox
           wget https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz
           tar xzvf geckodriver-v0.32.0-linux64.tar.gz
