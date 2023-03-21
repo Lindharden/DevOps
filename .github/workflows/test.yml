@@ -32,8 +32,8 @@ jobs:
       # Run simulator integration tests
       - name: Simulator tests
         run: |
-          pip install -r ./tools/requirements.txt
-          pytest ./tools/test_sim_compliance.py
+          pip install -r ./test/requirements.txt
+          pytest ./test/test_sim_compliance.py
       # Run end-to-end tests through Selenium
       - name: Selenium tests
         run: |
