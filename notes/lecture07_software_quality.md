@@ -1,4 +1,4 @@
-# Lecture 7: 
+# Lecture 7: Software Quality, Maintainability & Technical Debt
 [Week 7](https://github.com/itu-devops/lecture_notes/blob/master/sessions/session_07/README_TASKS.md)
 
 ## Add tests to your CI chain
