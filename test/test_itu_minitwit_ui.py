@@ -23,7 +23,7 @@ application can be started with `docker-compose up`.
 Now, the test itself can be executed via: `pytest test_itu_minitwit_ui.py`.
 """
 
-import pymongo
+import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -31,11 +31,25 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
+from test_sim_compliance import wait_for_port
+import os
+import subprocess
+import sqlite3
 
+GUI_URL = "http://localhost:8080/register"
+DATABASE = "itu-minitwit.db"
 
-GUI_URL = "http://localhost:5000/register"
-DB_URL = "mongodb://localhost:27017/test"
+con = sqlite3.connect(DATABASE)
 
+@pytest.fixture(scope='session', autouse=True)
+def start_service():
+    proc = subprocess.Popen(['go', 'run', 'minitwit.go'],
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.STDOUT,
+                            shell=False)
+    wait_for_port(8080, timeout=20)
+    yield
+    os.system("kill -9 $(lsof -t -i:8080)")
 
 def _register_user_via_gui(driver, data):
     driver.get(GUI_URL)
