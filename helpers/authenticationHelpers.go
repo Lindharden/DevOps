@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"DevOps/globals"
 	model "DevOps/model/gorm"
 	"errors"
 	"strings"
@@ -29,7 +30,8 @@ func RegisterUser(db *gorm.DB, username string, password string, password2 strin
 
 	pw_hash, err := HashPassword(password)
 	if err != nil {
-		panic("password hashing failed")
+		globals.GetLogger().Errorw("Password hashing failed at user register", "error", err.Error())
+		return model.User{}, errors.New("Something went wrong. Minitwit has been notified.")
 	}
 	user := model.User{Username: username, Email: email, PwHash: pw_hash}
 	result := db.Create(&user)

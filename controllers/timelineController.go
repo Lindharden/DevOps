@@ -32,6 +32,7 @@ func UserTimelineHandler() gin.HandlerFunc {
 		user_exists_err := db.Where(gormModel.User{Username: userProfileName}).First(&profile)
 
 		if user_exists_err.Error != nil {
+			globals.GetLogger().Warnw("Failed to find user", "username", userProfileName)
 			c.JSON(http.StatusNotFound, gin.H{"error": "User does not exist"})
 			return
 		}
