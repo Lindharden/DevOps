@@ -3,7 +3,12 @@ package globals
 import (
 	model "DevOps/model/gorm"
 	"fmt"
+	"log"
 	"os"
+	"time"
+
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
@@ -27,6 +32,8 @@ var latestRequestId int = -1
 var db *sqlx.DB
 
 var gormDb *gorm.DB
+
+var logger *zap.SugaredLogger
 
 func GetDatabase() *sqlx.DB {
 	return db
@@ -60,4 +67,21 @@ func SetLatestRequestId(requestId int) {
 
 func GetLatestRequestId() int {
 	return latestRequestId
+}
+
+func SetupLogger() {
+	loggerConfig := zap.NewProductionConfig()
+	loggerConfig.EncoderConfig.TimeKey = "timestamp"
+	loggerConfig.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(time.RFC3339)
+	_logger, err := loggerConfig.Build()
+	if err != nil {
+		log.Fatal(err)
+	}
+	sugar := _logger.Sugar()
+	logger = sugar
+	sugar.Info("Sugared logger initialized.")
+}
+
+func GetLogger() *zap.SugaredLogger {
+	return logger
 }

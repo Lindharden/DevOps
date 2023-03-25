@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -128,6 +127,7 @@ func LoginPostHandler() gin.HandlerFunc {
 		db.Where(&gormModel.User{Username: username}).First(&userStruct)
 
 		if err := helpers.SetUserSession(c, userStruct); err != nil {
+			globals.GetLogger().Errorw("Could not session", "user", userStruct.Username)
 			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Failed to save session"})
 			return
 		}
@@ -139,12 +139,12 @@ func LoginPostHandler() gin.HandlerFunc {
 func LogoutGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if _, err := helpers.GetUserSession(c); err != nil {
-			log.Println("Invalid session token")
+			globals.GetLogger().Warn("Invalid session token")
 			return
 		}
 
 		if err := helpers.TerminateUserSession(c); err != nil {
-			log.Println("Failed to save session:", err)
+			globals.GetLogger().Errorw("Failed to save session", "error", err.Error())
 			return
 		}
 

@@ -119,6 +119,7 @@ func PostMessageUserHandler() gin.HandlerFunc {
 
 		// bind JSON body to postMessage
 		if err := c.BindJSON(&postMessage); err != nil {
+			globals.GetLogger().Errorw("Bad post message request", "error", err.Error())
 			c.AbortWithError(http.StatusBadRequest, err)
 			return
 		}
@@ -130,9 +131,8 @@ func PostMessageUserHandler() gin.HandlerFunc {
 		username := c.Param("username")
 		userId, err := helpers.GetUserIdGorm(db, username)
 		if err != nil {
-			user, _ := helpers.RegisterUser(db, username, "pswd", "pswd", "test@mail.com")
-			userId = user.ID
-			//c.AbortWithStatus(404)
+			c.AbortWithStatus(404)
+			return
 		}
 
 		time := time.Now().Unix()
