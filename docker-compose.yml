@@ -85,7 +85,6 @@ services:
     environment:
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
       - "discovery.type=single-node"
-      - ELASTIC_USERNAME=${ELASTIC_USERNAME}
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - xpack.security.enabled=true
     volumes:
