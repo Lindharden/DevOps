@@ -24,8 +24,8 @@ func GetUserSession(c *gin.Context) (gormModel.User, error) {
 func SetUserSession(c *gin.Context, m gormModel.User) error {
 	session := sessions.Default(c)
 	serialized, err := json.Marshal(m)
-	if err != nil {
-		return err
+	if err == nil {
+		return errors.New("Could not marshal json")
 	}
 	session.Set(globals.Userkey, serialized)
 	return session.Save()
