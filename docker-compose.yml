@@ -83,14 +83,14 @@ services:
   elasticsearch:
     image: "docker.elastic.co/elasticsearch/elasticsearch:7.2.0"
     environment:
-      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - "discovery.type=single-node"
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - xpack.security.enabled=true
     volumes:
-      - elk_elasticsearch_data:/usr/share/elasticsearch/data
+      - efk_elasticsearch_data:/usr/share/elasticsearch/data
     networks:
-      - elk
+      - efk
 
   kibana:
     image: "docker.elastic.co/kibana/kibana:7.2.0"
@@ -101,7 +101,7 @@ services:
       - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME}
       - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
     networks:
-      - elk
+      - efk
     ports:
       - "5601:5601"
 
@@ -116,7 +116,7 @@ services:
       - /var/lib/docker:/var/lib/docker:ro
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - elk
+      - efk
     environment:
       - DOCKER_USERNAME=${DOCKER_USERNAME}
       - ELASTIC_USERNAME=${ELASTIC_USERNAME}
@@ -129,7 +129,7 @@ volumes:
     driver: local
   grafana-data:
     driver: local
-  elk_elasticsearch_data:
+  efk_elasticsearch_data:
     driver: local
 
 networks:
@@ -137,7 +137,7 @@ networks:
     name: database-network
   prometheus-network:
     name: prometheus-network
-  elk:
-    name: elk
+  efk:
+    name: efk
   monitoring:
     driver: bridge
