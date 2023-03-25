@@ -16,9 +16,12 @@ func main() {
 		fmt.Println("Serving metrics on 2112")
 		http.ListenAndServe(":2112", nil)
 	}()
+
+	globals.SetupLogger()
+
 	gormDb := helpers.GetGormDbConnection()
 	globals.SetDatabase(gormDb)
+
 	r := routes.SetupRouter()
 	r.Run(":8080")
-
 }
