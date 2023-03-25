@@ -28,9 +28,6 @@ output.elasticsearch:
     - index: "filebeat-minitwit-%{[agent.version]}-%{+yyyy.MM.dd}"
       when.equals:
         container.image.name: ${DOCKER_USERNAME}/minitwitimage
-    - index: "filebeat-ngix-%{[agent.version]}-%{+yyyy.MM.dd}"
-      when.equals:
-        container.image.name: nginx
 
 logging.json: true
 logging.metrics.enabled: false
