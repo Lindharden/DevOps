@@ -91,6 +91,7 @@ services:
       - efk_elasticsearch_data:/usr/share/elasticsearch/data
     networks:
       - efk
+    mem_limit: 1g
 
   kibana:
     image: "docker.elastic.co/kibana/kibana:7.2.0"
