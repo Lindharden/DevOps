@@ -25,6 +25,8 @@ Vagrant.configure("2") do |config|
     server.vm.provision "shell", inline: 'echo "export POSTGRES_PASSWORD=' + "'" + ENV["POSTGRES_PASSWORD"] + "'" + '" >> ~/.bash_profile'    
     server.vm.provision "shell", inline: 'echo "export GRAFANA_USERNAME=' + "'" + ENV["GRAFANA_USERNAME"] + "'" + '" >> ~/.bash_profile'
     server.vm.provision "shell", inline: 'echo "export GRAFANA_PASSWORD=' + "'" + ENV["GRAFANA_PASSWORD"] + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export ELASTIC_USERNAME=' + "'" + ENV["ELASTIC_USERNAME"] + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export ELASTIC_PASSWORD=' + "'" + ENV["ELASTIC_PASSWORD"] + "'" + '" >> ~/.bash_profile'
     server.vm.provision "shell", inline: <<-SHELL
       sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
       cd /vagrant
