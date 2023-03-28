@@ -6,8 +6,8 @@ import (
 
 type Following struct {
 	gorm.Model
-	UserID   uint
+	UserID   uint `gorm:"index:idx_user"`
 	User     User
-	WhomId   uint
+	WhomId   uint `gorm:"index:idx_user2"`
 	WhomUser User `gorm:"foreignKey:WhomId"`
 }
