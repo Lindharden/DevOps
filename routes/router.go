@@ -20,6 +20,7 @@ func SetupRouter() *gin.Engine {
 		"gravatarUrl":    helpers.GravatarUrl,
 	})
 	router.LoadHTMLGlob(filepath.Join(globals.Root, "templates/*.html"))
+
 	router.Use(sessions.Sessions("session", cookie.NewStore(globals.Secret)))
 	router.Use(middleware.MeasueRequestTimeMiddleware)
 
