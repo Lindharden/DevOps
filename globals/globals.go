@@ -17,7 +17,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var Secret = []byte("secret")
+var Secret = []byte(os.Getenv("SESSION_SECRET"))
 
 const ENV_KEY = "GO_ENV"
 
@@ -55,7 +55,6 @@ func GetDatabasePath() gorm.Dialector {
 		connectionString := fmt.Sprintf("postgresql://%s:%s@postgres/db",
 			os.Getenv("POSTGRES_USERNAME"),
 			os.Getenv("POSTGRES_PASSWORD"))
-		fmt.Println(connectionString)
 		return postgres.Open(connectionString)
 	}
 	return sqlite.Open("itu-minitwit.db")
