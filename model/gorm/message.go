@@ -9,6 +9,6 @@ type Message struct {
 	UserID  uint
 	User    User
 	Text    string
-	PubDate int64
+	PubDate int64 `gorm:"index:,sort:desc"`
 	Flagged int
 }
