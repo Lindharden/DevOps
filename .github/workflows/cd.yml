@@ -80,9 +80,9 @@ jobs:
       - name: Copy docker-compose.yml to server
         run: scp docker-compose.yml minitwit:/vagrant/docker-compose.yml
       - name: Copy logging files
-        run: scp -r logging/ minitwit:/vagrant/logging
+        run: scp -r logging/* minitwit:/vagrant/logging
       - name: Copy monitoring files
-        run: scp -r monitoring/ minitwit:/vagrant/monitoring
+        run: scp -r monitoring/* minitwit:/vagrant/monitoring
       - name: Copy deploy.sh to server
         run: >-
           chmod +x tools/deploy.sh &&
