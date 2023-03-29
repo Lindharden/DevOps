@@ -1,0 +1,2154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>minitwit ZAP report</title>
+<link
+	href="2023-03-29-ZAP-Report-/normalize/normalize.css" rel="stylesheet">
+<link
+	href="2023-03-29-ZAP-Report-/themes/original/main.css" rel="stylesheet">
+<link
+	href="2023-03-29-ZAP-Report-/themes/original/colors.css" rel="stylesheet">
+</head>
+<body>
+	<header>
+		<h1>minitwit ZAP report</h1>
+		<p>
+			<span>Generated with</span> <a href="https://zaproxy.org"><img
+				src="2023-03-29-ZAP-Report-/zap32x32.png" alt="The ZAP logo" class="zap-logo">ZAP</a>
+			<span>on ons. 29 mar. 2023, at 17:41:42</span>
+		</p>
+	</header>
+
+	<main>
+
+		<section id="contents" class="contents">
+			<h2>Contents</h2>
+			<nav>
+				<ol>
+					<li><a
+						href="#about-this-report">About this report</a>
+						<ol>
+							<li><a
+								href="#report-description">Report description</a></li>
+							<li><a
+								href="#report-parameters">Report parameters</a></li>
+						</ol></li>
+					<data-th-block>
+					<li><a
+						href="#summaries">Summaries</a>
+						<ol>
+							<li><a
+								href="#risk-confidence-counts">Alert counts by risk and confidence</a></li>
+							<li><a
+								href="#site-risk-counts">Alert counts by site and risk</a></li>
+							<li><a
+								href="#alert-type-counts">Alert counts by alert type</a></li>
+						</ol></li>
+					<li><a
+						href="#alerts">Alerts</a>
+						<ol>
+							
+							 
+							
+							
+							
+							
+							<li><a
+								href="#alerts--risk-2-confidence-3"><span>Risk</span>=<span
+									class="risk-level">Medium</span>, <span>Confidence</span>=<span
+									class="confidence-level">High</span> <span>(1)</span></a></li>
+							
+							<li><a
+								href="#alerts--risk-2-confidence-2"><span>Risk</span>=<span
+									class="risk-level">Medium</span>, <span>Confidence</span>=<span
+									class="confidence-level">Medium</span> <span>(1)</span></a></li>
+							
+							<li><a
+								href="#alerts--risk-2-confidence-1"><span>Risk</span>=<span
+									class="risk-level">Medium</span>, <span>Confidence</span>=<span
+									class="confidence-level">Low</span> <span>(1)</span></a></li>
+							  
+							
+							
+							
+							
+							
+							
+							<li><a
+								href="#alerts--risk-1-confidence-2"><span>Risk</span>=<span
+									class="risk-level">Low</span>, <span>Confidence</span>=<span
+									class="confidence-level">Medium</span> <span>(3)</span></a></li>
+							
+							
+							  
+							
+							
+							
+							
+							
+							
+							<li><a
+								href="#alerts--risk-0-confidence-2"><span>Risk</span>=<span
+									class="risk-level">Informational</span>, <span>Confidence</span>=<span
+									class="confidence-level">Medium</span> <span>(1)</span></a></li>
+							
+							
+							  
+						</ol></li>
+					<li><a
+						href="#appendix">Appendix</a>
+						<ol>
+							<li><a
+								href="#alert-types">Alert types</a></li>
+						</ol></li>
+					</data-th-block>
+				</ol>
+			</nav>
+		</section>
+
+		<section
+			id="about-this-report" class="about-this-report">
+			<h2>About this report</h2>
+
+			<section
+				id="report-description">
+				<h3>Report description</h3>
+				<div class="report-description--container">
+					
+
+<p>
+	
+	  OWASP ZAP report of minitwit 
+	  
+</p>
+ 
+				</div>
+			</section>
+
+			<section
+				id="report-parameters">
+				<h3>Report parameters</h3>
+				<div class="report-parameters--container">
+					<h4>Contexts</h4>
+					
+					
+					<p>No contexts were selected, so all contexts were included by default.</p>
+					  
+
+					<h4>Sites</h4>
+					
+					<p>The following sites were included:</p>
+					<ul class="sites-list">
+						<li><span class="site">http://164.90.223.49:8080</span></li>
+					</ul>
+					
+					<p>(If no sites were selected, all sites were included by default.)</p>
+					<p>An included site must also be within one of the included contexts for its data to be included in the report.</p>
+
+					<h4>Risk levels</h4>
+					<p>
+						<span>Included</span>:
+						 
+						<span class="included-risk-codes"><span class="risk-level">High</span>, <span class="risk-level">Medium</span>, <span class="risk-level">Low</span>, <span class="risk-level">Informational</span></span>
+					</p>
+					<p>
+						<span>Excluded</span>:
+						 <span>None</span>
+						
+					</p>
+
+					<h4>Confidence levels</h4>
+					<p>
+						<span>Included</span>:
+						
+						
+						<span class="included-confidence-codes"><span class="confidence-level">User Confirmed</span>, <span class="confidence-level">High</span>, <span class="confidence-level">Medium</span>, <span class="confidence-level">Low</span></span>
+					</p>
+					<p>
+						<span>Excluded</span>:
+						
+						
+						<span class="included-confidence-codes"> <span class="confidence-level">User Confirmed</span>, <span class="confidence-level">High</span>, <span class="confidence-level">Medium</span>, <span class="confidence-level">Low</span>, <span class="confidence-level">False Positive</span></span>
+					</p>
+				</div>
+			</section>
+		</section>
+
+		
+		<section>
+			
+		</section>
+		
+		<section id="summaries" class="summaries">
+			<h2>Summaries</h2>
+
+			<section
+				id="risk-confidence-counts">
+				<h3>Alert counts by risk and confidence</h3>
+				<table class="risk-confidence-counts-table">
+					<caption>
+						<p>This table shows the number of alerts for each level of risk and confidence included in the report.</p>
+						<p>(The percentages in brackets represent the count as a percentage of the total number of alerts included in the report, rounded to one decimal place.)</p>
+					</caption>
+					<colgroup>
+						<col>
+						<col>
+					</colgroup>
+					<colgroup>
+						<col
+							style="width: 14.0%"><col
+							style="width: 14.0%"><col
+							style="width: 14.0%"><col
+							style="width: 14.0%">
+						<col style="width: 14.0%">
+					</colgroup>
+					<thead>
+						<tr>
+							<td colspan="2" rowspan="2"></td>
+							<th scope="colgroup"
+								colspan="5">Confidence</th>
+						</tr>
+						<tr>
+							<th scope="col">User Confirmed</th>
+							<th scope="col">High</th>
+							<th scope="col">Medium</th>
+							<th scope="col">Low</th>
+							<th scope="col">Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="rowgroup"
+								rowspan="5">Risk</th>
+							<th scope="row">High</th>
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0,0 %)</span></td>
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0,0 %)</span></td>
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0,0 %)</span></td>
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0,0 %)</span></td>
+							<td><span>0</span><br> <span class="additional-info-percentages">(0,0 %)</span></td>
+						</tr>
+						<tr>
+							
+							<th scope="row">Medium</th>
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0,0 %)</span></td>
+							<td><span>1</span><br> <span
+								class="additional-info-percentages">(14,3 %)</span></td>
+							<td><span>1</span><br> <span
+								class="additional-info-percentages">(14,3 %)</span></td>
+							<td><span>1</span><br> <span
+								class="additional-info-percentages">(14,3 %)</span></td>
+							<td><span>3</span><br> <span class="additional-info-percentages">(42,9 %)</span></td>
+						</tr>
+						<tr>
+							
+							<th scope="row">Low</th>
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0,0 %)</span></td>
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0,0 %)</span></td>
+							<td><span>3</span><br> <span
+								class="additional-info-percentages">(42,9 %)</span></td>
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0,0 %)</span></td>
+							<td><span>3</span><br> <span class="additional-info-percentages">(42,9 %)</span></td>
+						</tr>
+						<tr>
+							
+							<th scope="row">Informational</th>
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0,0 %)</span></td>
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0,0 %)</span></td>
+							<td><span>1</span><br> <span
+								class="additional-info-percentages">(14,3 %)</span></td>
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0,0 %)</span></td>
+							<td><span>1</span><br> <span class="additional-info-percentages">(14,3 %)</span></td>
+						</tr>
+						<tr>
+							<th scope="row">Total</th>
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0,0 %)</span></td>
+							<td><span>1</span><br> <span
+								class="additional-info-percentages">(14,3 %)</span></td>
+							<td><span>5</span><br> <span
+								class="additional-info-percentages">(71,4 %)</span></td>
+							<td><span>1</span><br> <span
+								class="additional-info-percentages">(14,3 %)</span></td>
+							<td><span>7</span><br> <span
+								class="additional-info-percentages">(100%)</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+
+			<section
+				id="site-risk-counts">
+				<h3>Alert counts by site and risk</h3>
+				<table class="site-risk-counts-table">
+					<caption>
+						<p>This table shows, for each site for which one or more alerts were raised, the number of alerts raised at each risk level.</p>
+						<p>Alerts with a confidence level of &quot;False Positive&quot; have been excluded from these counts.</p>
+						<p>(The numbers in brackets are the number of alerts raised for the site at or above that risk level.)</p>
+					</caption>
+					<colgroup>
+						<col>
+						<col>
+					</colgroup>
+					<colgroup>
+						<col
+							style="width: 16.25%"><col
+							style="width: 16.25%"><col
+							style="width: 16.25%"><col
+							style="width: 16.25%">
+					</colgroup>
+					<thead>
+						<tr>
+							<td colspan="2" rowspan="2"></td>
+							<th scope="colgroup" colspan="4">Risk</th>
+						</tr>
+						<tr>
+							<th scope="col">
+								<span>High</span><br>  <span
+									class="additional-info-percentages">(= High)</span>  
+							</th>
+							<th scope="col">
+								<span>Medium</span><br>   <span
+									class="additional-info-percentages">(&gt;= Medium)</span> 
+							</th>
+							<th scope="col">
+								<span>Low</span><br>   <span
+									class="additional-info-percentages">(&gt;= Low)</span> 
+							</th>
+							<th scope="col">
+								<span>Informational</span><br>   <span
+									class="additional-info-percentages">(&gt;= Informational)</span> 
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="rowgroup"
+								rowspan="1">Site</th>
+							<th scope="row">http://164.90.223.49:8080</th>
+							
+							<td><span>0</span><br> <span
+								class="additional-info-percentages">(0)</span></td>
+							<td><span>3</span><br> <span
+								class="additional-info-percentages">(3)</span></td>
+							<td><span>3</span><br> <span
+								class="additional-info-percentages">(6)</span></td>
+							<td><span>1</span><br> <span
+								class="additional-info-percentages">(7)</span></td>
+							
+						</tr>
+					</tbody>
+				</table>
+			</section>
+
+			<section
+				id="alert-type-counts">
+				<h3>Alert counts by alert type</h3>
+				<table class="alert-type-counts-table">
+					<caption>
+						<p>This table shows the number of alerts of each alert type, together with the alert type&#39;s risk level.</p>
+						<p>(The percentages in brackets represent each count as a percentage, rounded to one decimal place, of the total number of alerts included in this report.)</p>
+					</caption>
+					<thead>
+						<tr>
+							<th scope="col">Alert type</th>
+							<th scope="col">Risk</th>
+							<th scope="col">Count</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row"><a
+								href="#alert-type-0">Content Security Policy (CSP) Header Not Set</a></th>
+							<td class="risk-level">Medium</td>
+							<td><span>34</span><br> <span
+								class="additional-info-percentages">(485,7 %)</span></td>
+						</tr>
+						<tr>
+							<th scope="row"><a
+								href="#alert-type-1">Fravær af Anti-CSRF Tokens</a></th>
+							<td class="risk-level">Medium</td>
+							<td><span>2</span><br> <span
+								class="additional-info-percentages">(28,6 %)</span></td>
+						</tr>
+						<tr>
+							<th scope="row"><a
+								href="#alert-type-2">Missing Anti-clickjacking Header</a></th>
+							<td class="risk-level">Medium</td>
+							<td><span>34</span><br> <span
+								class="additional-info-percentages">(485,7 %)</span></td>
+						</tr>
+						<tr>
+							<th scope="row"><a
+								href="#alert-type-3">Cookie No HttpOnly Flag</a></th>
+							<td class="risk-level">Low</td>
+							<td><span>1</span><br> <span
+								class="additional-info-percentages">(14,3 %)</span></td>
+						</tr>
+						<tr>
+							<th scope="row"><a
+								href="#alert-type-4">Cookie without SameSite Attribute</a></th>
+							<td class="risk-level">Low</td>
+							<td><span>1</span><br> <span
+								class="additional-info-percentages">(14,3 %)</span></td>
+						</tr>
+						<tr>
+							<th scope="row"><a
+								href="#alert-type-5">X-Content-Type-Options Header Missing</a></th>
+							<td class="risk-level">Low</td>
+							<td><span>35</span><br> <span
+								class="additional-info-percentages">(500,0 %)</span></td>
+						</tr>
+						<tr>
+							<th scope="row"><a
+								href="#alert-type-6">User Agent Fuzzer</a></th>
+							<td class="risk-level">Informational</td>
+							<td><span>24</span><br> <span
+								class="additional-info-percentages">(342,9 %)</span></td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th scope="row">Total</th>
+							<td></td>
+							<td>7</td>
+						</tr>
+					</tfoot>
+				</table>
+			</section>
+		</section>
+
+		<section id="alerts" class="alerts">
+			<h2>Alerts</h2>
+			<ol>
+				
+				 
+				 
+				
+				
+				<li id="alerts--risk-2-confidence-3">
+					<h3>
+						<span>Risk</span>=<span
+							class="risk-level">Medium</span>, <span>Confidence</span>=<span
+							class="confidence-level">High</span> <span>(1)</span>
+					</h3>
+					<ol>
+						
+						<li class="alerts--site-li">
+							<h4>
+								<span class="site">http://164.90.223.49:8080</span> <span>(1)</span>
+							</h4>
+							<ol>
+								
+								<li>
+									<h5>
+										<a
+											href="#alert-type-0">Content Security Policy (CSP) Header Not Set</a> <span>(1)</span>
+									</h5>
+									<ol>
+										<li><details>
+												<summary>
+													<span class="request-method-n-url">GET http://164.90.223.49:8080</span>
+												</summary>
+												
+<table class="alerts-table">
+	<tr>
+		<th scope="row">Alert tags</th>
+		<td>
+			<ul class="alert-tags-list">
+				<li>
+					<span><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP_2021_A05</a></span> 
+				</li>
+				<li>
+					<span><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration.html">OWASP_2017_A06</a></span> 
+				</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">Alert description</th>
+		<td> 
+<p>Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.</p>
+ </td>
+	</tr>
+	
+	<tr>
+		<th scope="row">Request</th>
+		<td><details open="open">
+				<summary>Request line and header section (205 bytes)</summary>
+				
+				<pre><code>GET http://164.90.223.49:8080 HTTP/1.1
+Host: 164.90.223.49:8080
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0
+Pragma: no-cache
+Cache-Control: no-cache
+
+</code></pre>
+				
+				
+			</details> <details class="request-body" open="open">
+				<summary>Request body (0 bytes)</summary>
+				
+				<pre><code></code></pre>
+				
+				
+			</details></td>
+	</tr>
+	<tr>
+		<th scope="row">Response</th>
+		<td><details open="open">
+				<summary>Status line and header section (118 bytes)</summary>
+				
+				<pre><code>HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Date: Wed, 29 Mar 2023 15:19:19 GMT
+Content-Length: 9748
+
+</code></pre>
+				
+				
+			</details> <details class="response-body">
+				<summary>Response body (9748 bytes)</summary>
+				
+				<pre><code>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;link rel=stylesheet type=text/css href=&quot;static/style.css&quot;&gt;
+&lt;/head&gt;
+&lt;div class=page&gt;
+  &lt;h1&gt;MiniTwit&lt;/h1&gt;
+  
+&lt;div class=navigation&gt;
+    
+      &lt;a href=&quot;/public&quot;&gt;public timeline&lt;/a&gt; |
+      &lt;a href=&quot;/register&quot;&gt;sign up&lt;/a&gt; |
+      &lt;a href=&quot;/login&quot;&gt;sign in&lt;/a&gt;
+    
+&lt;/div&gt;
+
+
+&lt;title&gt;Timeline&lt;/title&gt;
+&lt;h2&gt;Timeline&lt;/h2&gt;
+
+&lt;ul class=&quot;messages&quot;&gt;
+	
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/69a0729a26d70a8ee6ad7696b7aed833?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Dottie%20Herley&quot;&gt;Dottie Herley&lt;/a&gt;&lt;/strong&gt;
+			Jones yelled to them again, showed a light in the poison before I go,” said the inspector, with amusement.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/39b67cacef99b87ef8789efc83439cda?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Jose%20Kundinger&quot;&gt;Jose Kundinger&lt;/a&gt;&lt;/strong&gt;
+			Then they all agreed that he had been left in you.”
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/3719326fb7259141cd8ead98ddc9be66?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Dorene%20Laskoskie&quot;&gt;Dorene Laskoskie&lt;/a&gt;&lt;/strong&gt;
+			Gar! you’ll be all this desolate vacuity of life has been turned into a roar of laughter.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/7705e86d0254f2eb8e35c3e20ce178c1?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Russ%20Ducey&quot;&gt;Russ Ducey&lt;/a&gt;&lt;/strong&gt;
+			To this one matter, Ahab seemed no more to blame than you, Watson.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/6f110804cbfdfea91036f246341cb5a6?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Keith%20Gerlt&quot;&gt;Keith Gerlt&lt;/a&gt;&lt;/strong&gt;
+			You’ve got to the riggers at the top of a shudder!
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/34baa4041538aeeec0b0f90f930207c3?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Zoe%20Hanchett&quot;&gt;Zoe Hanchett&lt;/a&gt;&lt;/strong&gt;
+			This train stops at Canterbury; and there are none; the horizon lie a long rifle slung over his heart full of confusion and alarm.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/a264fc1ee2f9aa17d23fff1d9f5e9bd2?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Mellie%20Hurl&quot;&gt;Mellie Hurl&lt;/a&gt;&lt;/strong&gt;
+			The fact is, your Grace,” said he, ‘if you can hardly imagine a town practitioner carrying it.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/2095bc98ffba4e6e15dc3a1166ac1be1?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Kelley%20Schappach&quot;&gt;Kelley Schappach&lt;/a&gt;&lt;/strong&gt;
+			It was after five o&amp;#39;clock when Sherlock Holmes waved away the tied tendons that all was dark blue, the maker’s name was Hugh Pattins.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/2b6ace58c8287b3c1a7959f8e3bc683a?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Sanford%20Mcquigg&quot;&gt;Sanford Mcquigg&lt;/a&gt;&lt;/strong&gt;
+			He had been said.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/97dfebf4098c0f5c16bca61e2b76c373?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Marietta%20Weitzner&quot;&gt;Marietta Weitzner&lt;/a&gt;&lt;/strong&gt;
+			“What you say you can leave me to be a small wooden thicket, which led from the Shaster, which gives him far from its end.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/9fa0445925f163078efed38fb004187e?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Deandre%20Dickun&quot;&gt;Deandre Dickun&lt;/a&gt;&lt;/strong&gt;
+			’Tis but to and be at work in my life.”
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/d9afc8aea07d3521cf47f17fe650cb1e?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Blaine%20Ehrman&quot;&gt;Blaine Ehrman&lt;/a&gt;&lt;/strong&gt;
+			So now we have to do.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/97dfebf4098c0f5c16bca61e2b76c373?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Domenic%20Osmun&quot;&gt;Domenic Osmun&lt;/a&gt;&lt;/strong&gt;
+			He struck a chill to the bottom of the stable-lads held the small local storekeepers made up my pen to write every day.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/109ca698afe87f0629430385f574596a?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Lyn%20Labossiere&quot;&gt;Lyn Labossiere&lt;/a&gt;&lt;/strong&gt;
+			In his singular introspective fashion.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/a34aad12db3c32d79140dfb08cac0115?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Buster%20Ogram&quot;&gt;Buster Ogram&lt;/a&gt;&lt;/strong&gt;
+			From that hour we were to say so.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/6808d5a3a8ebd7f64742c33fb432fc3d?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Jayson%20Greenley&quot;&gt;Jayson Greenley&lt;/a&gt;&lt;/strong&gt;
+			Holmes nodded his acquiescence.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/6ad6cc0d392a5b3592f169ce2ae1c370?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Dave%20Sersen&quot;&gt;Dave Sersen&lt;/a&gt;&lt;/strong&gt;
+			Then he could give us time,” he said.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/b12a257c9048f5e7c74146c3f447479e?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Kurt%20Holmon&quot;&gt;Kurt Holmon&lt;/a&gt;&lt;/strong&gt;
+			“Well, what’s the report?” said Peleg when I awoke, and I know enough about your business!
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/7041a878047e22e953555cc90f06d1b6?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Manual%20Mcglade&quot;&gt;Manual Mcglade&lt;/a&gt;&lt;/strong&gt;
+			72,000 lbs. of stock fish.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/60f70a5f148df35427b6761772ca914a?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Cristi%20Laflamme&quot;&gt;Cristi Laflamme&lt;/a&gt;&lt;/strong&gt;
+			Stubb was but a stage in his breath the whole furniture.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/0e5d6bb39dc8c8e083b4fc1d4dbccd3c?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Claudio%20Stadheim&quot;&gt;Claudio Stadheim&lt;/a&gt;&lt;/strong&gt;
+			That hazard shall not be darted at him in the daytime.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/9753d289b674fa16f37b1e50c635672d?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Kris%20Hudson&quot;&gt;Kris Hudson&lt;/a&gt;&lt;/strong&gt;
+			“Why should you hold it here; he knows.”
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/9a4184a6c4616f7cc67575a44c3bed4e?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Un%20Vaissiere&quot;&gt;Un Vaissiere&lt;/a&gt;&lt;/strong&gt;
+			I glanced for an instant as fast as a passenger; nor, though I am not free to utter one, was unheard.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/97dfebf4098c0f5c16bca61e2b76c373?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Emmaline%20Mcdiarmid&quot;&gt;Emmaline Mcdiarmid&lt;/a&gt;&lt;/strong&gt;
+			“A good deal, and we settled at Bentley’s private hotel.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/26f9a15e1ddc449315d52c0e07521e49?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Tiffiny%20Tullis&quot;&gt;Tiffiny Tullis&lt;/a&gt;&lt;/strong&gt;
+			Not a fatter fish than he, Flounders round the corner of the Drama “Have you sent to his burrow.”
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/f4467d9b81f34a329caeed39b524bdc1?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Karlyn%20Flaharty&quot;&gt;Karlyn Flaharty&lt;/a&gt;&lt;/strong&gt;
+			“One other thing, Lestrade,” he added, motioning to me or my wife’s maid, during the night.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:13&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/832e2e40f3dbfb10a3135e3066dd6d3e?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Marcelino%20Hagey&quot;&gt;Marcelino Hagey&lt;/a&gt;&lt;/strong&gt;
+			Where the two deal chairs and tables small clams will sometimes pass on to the main-royal mast-head, was tossing one arm for the gallows.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:13&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/443ccce8417f194472fcd630dee30c96?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Hans%20Konma&quot;&gt;Hans Konma&lt;/a&gt;&lt;/strong&gt;
+			Sherlock Holmes said that the initials S.W.F.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:13&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/97dfebf4098c0f5c16bca61e2b76c373?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Lashandra%20Palomo&quot;&gt;Lashandra Palomo&lt;/a&gt;&lt;/strong&gt;
+			This would be an accomplice, and will be even with you I can talk freely of what seemed a little heap of correspondence.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:13&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/460a0935e8ac8c0d8f2317cbad16920a?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Aubrey%20Lacsamana&quot;&gt;Aubrey Lacsamana&lt;/a&gt;&lt;/strong&gt;
+			Well, Mr. Holmes, in a wild thrill as this man had offered me a true account of her own home.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:13&lt;/small&gt;
+			
+			&lt;/li&gt;
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=footer&gt;
+    MiniTwit &amp;mdash; A Gin-gonic Application
+&lt;/div&gt;
+&lt;/div&gt;
+
+</code></pre>
+				
+				
+			</details></td>
+	</tr>
+	
+	
+	
+	<tr>
+		<th scope="row">Solution</th>
+		<td> 
+<p>Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header, to achieve optimal browser support: &quot;Content-Security-Policy&quot; for Chrome 25+, Firefox 23+ and Safari 7+, &quot;X-Content-Security-Policy&quot; for Firefox 4.0+ and Internet Explorer 10+, and &quot;X-WebKit-CSP&quot; for Chrome 14+ and Safari 6+.</p>
+ </td>
+	</tr>
+</table>
+
+											</details></li>
+									</ol>
+								</li>
+								
+							</ol>
+						</li>
+						
+					</ol>
+				</li>
+				
+				<li id="alerts--risk-2-confidence-2">
+					<h3>
+						<span>Risk</span>=<span
+							class="risk-level">Medium</span>, <span>Confidence</span>=<span
+							class="confidence-level">Medium</span> <span>(1)</span>
+					</h3>
+					<ol>
+						
+						<li class="alerts--site-li">
+							<h4>
+								<span class="site">http://164.90.223.49:8080</span> <span>(1)</span>
+							</h4>
+							<ol>
+								
+								<li>
+									<h5>
+										<a
+											href="#alert-type-2">Missing Anti-clickjacking Header</a> <span>(1)</span>
+									</h5>
+									<ol>
+										<li><details>
+												<summary>
+													<span class="request-method-n-url">GET http://164.90.223.49:8080</span>
+												</summary>
+												
+<table class="alerts-table">
+	<tr>
+		<th scope="row">Alert tags</th>
+		<td>
+			<ul class="alert-tags-list">
+				<li>
+					<span><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP_2021_A05</a></span> 
+				</li>
+				<li>
+					<span><a href="https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/11-Client-side_Testing/09-Testing_for_Clickjacking">WSTG-v42-CLNT-09</a></span> 
+				</li>
+				<li>
+					<span><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration.html">OWASP_2017_A06</a></span> 
+				</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">Alert description</th>
+		<td> 
+<p>The response does not include either Content-Security-Policy with &#39;frame-ancestors&#39; directive or X-Frame-Options to protect against &#39;ClickJacking&#39; attacks.</p>
+ </td>
+	</tr>
+	
+	<tr>
+		<th scope="row">Request</th>
+		<td><details open="open">
+				<summary>Request line and header section (205 bytes)</summary>
+				
+				<pre><code>GET http://164.90.223.49:8080 HTTP/1.1
+Host: 164.90.223.49:8080
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0
+Pragma: no-cache
+Cache-Control: no-cache
+
+</code></pre>
+				
+				
+			</details> <details class="request-body" open="open">
+				<summary>Request body (0 bytes)</summary>
+				
+				<pre><code></code></pre>
+				
+				
+			</details></td>
+	</tr>
+	<tr>
+		<th scope="row">Response</th>
+		<td><details open="open">
+				<summary>Status line and header section (118 bytes)</summary>
+				
+				<pre><code>HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Date: Wed, 29 Mar 2023 15:19:19 GMT
+Content-Length: 9748
+
+</code></pre>
+				
+				
+			</details> <details class="response-body">
+				<summary>Response body (9748 bytes)</summary>
+				
+				<pre><code>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;link rel=stylesheet type=text/css href=&quot;static/style.css&quot;&gt;
+&lt;/head&gt;
+&lt;div class=page&gt;
+  &lt;h1&gt;MiniTwit&lt;/h1&gt;
+  
+&lt;div class=navigation&gt;
+    
+      &lt;a href=&quot;/public&quot;&gt;public timeline&lt;/a&gt; |
+      &lt;a href=&quot;/register&quot;&gt;sign up&lt;/a&gt; |
+      &lt;a href=&quot;/login&quot;&gt;sign in&lt;/a&gt;
+    
+&lt;/div&gt;
+
+
+&lt;title&gt;Timeline&lt;/title&gt;
+&lt;h2&gt;Timeline&lt;/h2&gt;
+
+&lt;ul class=&quot;messages&quot;&gt;
+	
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/69a0729a26d70a8ee6ad7696b7aed833?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Dottie%20Herley&quot;&gt;Dottie Herley&lt;/a&gt;&lt;/strong&gt;
+			Jones yelled to them again, showed a light in the poison before I go,” said the inspector, with amusement.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/39b67cacef99b87ef8789efc83439cda?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Jose%20Kundinger&quot;&gt;Jose Kundinger&lt;/a&gt;&lt;/strong&gt;
+			Then they all agreed that he had been left in you.”
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/3719326fb7259141cd8ead98ddc9be66?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Dorene%20Laskoskie&quot;&gt;Dorene Laskoskie&lt;/a&gt;&lt;/strong&gt;
+			Gar! you’ll be all this desolate vacuity of life has been turned into a roar of laughter.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/7705e86d0254f2eb8e35c3e20ce178c1?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Russ%20Ducey&quot;&gt;Russ Ducey&lt;/a&gt;&lt;/strong&gt;
+			To this one matter, Ahab seemed no more to blame than you, Watson.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/6f110804cbfdfea91036f246341cb5a6?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Keith%20Gerlt&quot;&gt;Keith Gerlt&lt;/a&gt;&lt;/strong&gt;
+			You’ve got to the riggers at the top of a shudder!
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/34baa4041538aeeec0b0f90f930207c3?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Zoe%20Hanchett&quot;&gt;Zoe Hanchett&lt;/a&gt;&lt;/strong&gt;
+			This train stops at Canterbury; and there are none; the horizon lie a long rifle slung over his heart full of confusion and alarm.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/a264fc1ee2f9aa17d23fff1d9f5e9bd2?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Mellie%20Hurl&quot;&gt;Mellie Hurl&lt;/a&gt;&lt;/strong&gt;
+			The fact is, your Grace,” said he, ‘if you can hardly imagine a town practitioner carrying it.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/2095bc98ffba4e6e15dc3a1166ac1be1?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Kelley%20Schappach&quot;&gt;Kelley Schappach&lt;/a&gt;&lt;/strong&gt;
+			It was after five o&amp;#39;clock when Sherlock Holmes waved away the tied tendons that all was dark blue, the maker’s name was Hugh Pattins.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/2b6ace58c8287b3c1a7959f8e3bc683a?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Sanford%20Mcquigg&quot;&gt;Sanford Mcquigg&lt;/a&gt;&lt;/strong&gt;
+			He had been said.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/97dfebf4098c0f5c16bca61e2b76c373?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Marietta%20Weitzner&quot;&gt;Marietta Weitzner&lt;/a&gt;&lt;/strong&gt;
+			“What you say you can leave me to be a small wooden thicket, which led from the Shaster, which gives him far from its end.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/9fa0445925f163078efed38fb004187e?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Deandre%20Dickun&quot;&gt;Deandre Dickun&lt;/a&gt;&lt;/strong&gt;
+			’Tis but to and be at work in my life.”
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/d9afc8aea07d3521cf47f17fe650cb1e?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Blaine%20Ehrman&quot;&gt;Blaine Ehrman&lt;/a&gt;&lt;/strong&gt;
+			So now we have to do.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:15&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/97dfebf4098c0f5c16bca61e2b76c373?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Domenic%20Osmun&quot;&gt;Domenic Osmun&lt;/a&gt;&lt;/strong&gt;
+			He struck a chill to the bottom of the stable-lads held the small local storekeepers made up my pen to write every day.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/109ca698afe87f0629430385f574596a?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Lyn%20Labossiere&quot;&gt;Lyn Labossiere&lt;/a&gt;&lt;/strong&gt;
+			In his singular introspective fashion.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/a34aad12db3c32d79140dfb08cac0115?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Buster%20Ogram&quot;&gt;Buster Ogram&lt;/a&gt;&lt;/strong&gt;
+			From that hour we were to say so.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/6808d5a3a8ebd7f64742c33fb432fc3d?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Jayson%20Greenley&quot;&gt;Jayson Greenley&lt;/a&gt;&lt;/strong&gt;
+			Holmes nodded his acquiescence.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/6ad6cc0d392a5b3592f169ce2ae1c370?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Dave%20Sersen&quot;&gt;Dave Sersen&lt;/a&gt;&lt;/strong&gt;
+			Then he could give us time,” he said.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/b12a257c9048f5e7c74146c3f447479e?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Kurt%20Holmon&quot;&gt;Kurt Holmon&lt;/a&gt;&lt;/strong&gt;
+			“Well, what’s the report?” said Peleg when I awoke, and I know enough about your business!
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/7041a878047e22e953555cc90f06d1b6?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Manual%20Mcglade&quot;&gt;Manual Mcglade&lt;/a&gt;&lt;/strong&gt;
+			72,000 lbs. of stock fish.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/60f70a5f148df35427b6761772ca914a?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Cristi%20Laflamme&quot;&gt;Cristi Laflamme&lt;/a&gt;&lt;/strong&gt;
+			Stubb was but a stage in his breath the whole furniture.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/0e5d6bb39dc8c8e083b4fc1d4dbccd3c?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Claudio%20Stadheim&quot;&gt;Claudio Stadheim&lt;/a&gt;&lt;/strong&gt;
+			That hazard shall not be darted at him in the daytime.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/9753d289b674fa16f37b1e50c635672d?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Kris%20Hudson&quot;&gt;Kris Hudson&lt;/a&gt;&lt;/strong&gt;
+			“Why should you hold it here; he knows.”
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/9a4184a6c4616f7cc67575a44c3bed4e?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Un%20Vaissiere&quot;&gt;Un Vaissiere&lt;/a&gt;&lt;/strong&gt;
+			I glanced for an instant as fast as a passenger; nor, though I am not free to utter one, was unheard.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/97dfebf4098c0f5c16bca61e2b76c373?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Emmaline%20Mcdiarmid&quot;&gt;Emmaline Mcdiarmid&lt;/a&gt;&lt;/strong&gt;
+			“A good deal, and we settled at Bentley’s private hotel.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/26f9a15e1ddc449315d52c0e07521e49?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Tiffiny%20Tullis&quot;&gt;Tiffiny Tullis&lt;/a&gt;&lt;/strong&gt;
+			Not a fatter fish than he, Flounders round the corner of the Drama “Have you sent to his burrow.”
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:14&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/f4467d9b81f34a329caeed39b524bdc1?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Karlyn%20Flaharty&quot;&gt;Karlyn Flaharty&lt;/a&gt;&lt;/strong&gt;
+			“One other thing, Lestrade,” he added, motioning to me or my wife’s maid, during the night.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:13&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/832e2e40f3dbfb10a3135e3066dd6d3e?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Marcelino%20Hagey&quot;&gt;Marcelino Hagey&lt;/a&gt;&lt;/strong&gt;
+			Where the two deal chairs and tables small clams will sometimes pass on to the main-royal mast-head, was tossing one arm for the gallows.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:13&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/443ccce8417f194472fcd630dee30c96?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Hans%20Konma&quot;&gt;Hans Konma&lt;/a&gt;&lt;/strong&gt;
+			Sherlock Holmes said that the initials S.W.F.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:13&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/97dfebf4098c0f5c16bca61e2b76c373?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Lashandra%20Palomo&quot;&gt;Lashandra Palomo&lt;/a&gt;&lt;/strong&gt;
+			This would be an accomplice, and will be even with you I can talk freely of what seemed a little heap of correspondence.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:13&lt;/small&gt;
+			
+	&lt;li&gt;
+		&lt;img src=&quot;http://www.gravatar.com/avatar/460a0935e8ac8c0d8f2317cbad16920a?d=identicon&amp;amp;s=48&quot; /&gt;
+		&lt;p&gt;
+			&lt;strong&gt;&lt;a href=&quot;/Aubrey%20Lacsamana&quot;&gt;Aubrey Lacsamana&lt;/a&gt;&lt;/strong&gt;
+			Well, Mr. Holmes, in a wild thrill as this man had offered me a true account of her own home.
+			&lt;small&gt;&amp;mdash; 29 Mar 2023 15:13&lt;/small&gt;
+			
+			&lt;/li&gt;
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=footer&gt;
+    MiniTwit &amp;mdash; A Gin-gonic Application
+&lt;/div&gt;
+&lt;/div&gt;
+
+</code></pre>
+				
+				
+			</details></td>
+	</tr>
+	<tr>
+		<th scope="row">Parameter</th>
+		<td><pre><code>X-Frame-Options</code></pre></td>
+	</tr>
+	
+	
+	<tr>
+		<th scope="row">Solution</th>
+		<td> 
+<p>Modern Web browsers support the Content-Security-Policy and X-Frame-Options HTTP headers. Ensure one of them is set on all web pages returned by your site/app.</p>
+
+<p>If you expect the page to be framed only by pages on your server (e.g. it&#39;s part of a FRAMESET) then you&#39;ll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. Alternatively consider implementing Content Security Policy&#39;s &quot;frame-ancestors&quot; directive.</p>
+ </td>
+	</tr>
+</table>
+
+											</details></li>
+									</ol>
+								</li>
+								
+							</ol>
+						</li>
+						
+					</ol>
+				</li>
+				
+				<li id="alerts--risk-2-confidence-1">
+					<h3>
+						<span>Risk</span>=<span
+							class="risk-level">Medium</span>, <span>Confidence</span>=<span
+							class="confidence-level">Low</span> <span>(1)</span>
+					</h3>
+					<ol>
+						
+						<li class="alerts--site-li">
+							<h4>
+								<span class="site">http://164.90.223.49:8080</span> <span>(1)</span>
+							</h4>
+							<ol>
+								
+								<li>
+									<h5>
+										<a
+											href="#alert-type-1">Fravær af Anti-CSRF Tokens</a> <span>(1)</span>
+									</h5>
+									<ol>
+										<li><details>
+												<summary>
+													<span class="request-method-n-url">GET http://164.90.223.49:8080/register</span>
+												</summary>
+												
+<table class="alerts-table">
+	<tr>
+		<th scope="row">Alert tags</th>
+		<td>
+			<ul class="alert-tags-list">
+				<li>
+					<span><a href="https://owasp.org/Top10/A01_2021-Broken_Access_Control/">OWASP_2021_A01</a></span> 
+				</li>
+				<li>
+					<span><a href="https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/06-Session_Management_Testing/05-Testing_for_Cross_Site_Request_Forgery">WSTG-v42-SESS-05</a></span> 
+				</li>
+				<li>
+					<span><a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control.html">OWASP_2017_A05</a></span> 
+				</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">Alert description</th>
+		<td> 
+<p>Ingen Anti-CSRF Tokens blev fundet i HTML formularerne.</p>
+
+<p>A cross-site request forgery is an attack that involves forcing a victim to send an HTTP request to a target destination without their knowledge or intent in order to perform an action as the victim. The underlying cause is application functionality using predictable URL/form actions in a repeatable way. The nature of the attack is that CSRF exploits the trust that a web site has for a user. By contrast, cross-site scripting (XSS) exploits the trust that a user has for a web site. Like XSS, CSRF attacks are not necessarily cross-site, but they can be. Cross-site request forgery is also known as CSRF, XSRF, one-click attack, session riding, confused deputy, and sea surf.</p>
+
+<p>CSRF attacks are effective in a number of situations, including:</p>
+
+<p>    * The victim has an active session on the target site.</p>
+
+<p>    * The victim is authenticated via HTTP auth on the target site.</p>
+
+<p>    * The victim is on the same local network as the target site.</p>
+
+<p>CSRF has primarily been used to perform an action against a target site using the victim&#39;s privileges, but recent techniques have been discovered to disclose information by gaining access to the response. The risk of information disclosure is dramatically increased when the target site is vulnerable to XSS, because XSS can be used as a platform for CSRF, allowing the attack to operate within the bounds of the same-origin policy.</p>
+ </td>
+	</tr>
+	<tr>
+		<th scope="row">Other info</th>
+		<td> 
+<p>Ingen kendte Anti-CSRF tokens [anticsrf, CSRFToken, __RequestVerificationToken, csrfmiddlewaretoken, authenticity_token, OWASP_CSRFTOKEN, anoncsrf, csrf_token, _csrf, _csrfSecret, __csrf_magic, CSRF, _token, _csrf_token] blev fundet i følgende HTML formularer: [Form 1: &quot;email&quot; &quot;password&quot; &quot;password2&quot; &quot;username&quot; ].  </p>
+ </td>
+	</tr>
+	<tr>
+		<th scope="row">Request</th>
+		<td><details open="open">
+				<summary>Request line and header section (257 bytes)</summary>
+				
+				<pre><code>GET http://164.90.223.49:8080/register HTTP/1.1
+Host: 164.90.223.49:8080
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0
+Pragma: no-cache
+Cache-Control: no-cache
+Referer: http://164.90.223.49:8080/public
+
+</code></pre>
+				
+				
+			</details> <details class="request-body" open="open">
+				<summary>Request body (0 bytes)</summary>
+				
+				<pre><code></code></pre>
+				
+				
+			</details></td>
+	</tr>
+	<tr>
+		<th scope="row">Response</th>
+		<td><details open="open">
+				<summary>Status line and header section (117 bytes)</summary>
+				
+				<pre><code>HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Date: Wed, 29 Mar 2023 15:19:20 GMT
+Content-Length: 982
+
+</code></pre>
+				
+				
+			</details> <details class="response-body" open="open">
+				<summary>Response body (982 bytes)</summary>
+				
+				<pre><code>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;link rel=stylesheet type=text/css href=&quot;static/style.css&quot;&gt;
+&lt;/head&gt;
+&lt;div class=page&gt;
+  &lt;h1&gt;MiniTwit&lt;/h1&gt;
+  
+&lt;div class=navigation&gt;
+    
+      &lt;a href=&quot;/public&quot;&gt;public timeline&lt;/a&gt; |
+      &lt;a href=&quot;/register&quot;&gt;sign up&lt;/a&gt; |
+      &lt;a href=&quot;/login&quot;&gt;sign in&lt;/a&gt;
+    
+&lt;/div&gt;
+
+
+&lt;title&gt;Sign up | MiniTwit&lt;/title&gt;
+&lt;h2&gt;Sign Up&lt;/h2&gt;
+
+&lt;form action=&quot;/register&quot; method=post&gt;
+  &lt;dl&gt;
+    &lt;dt&gt;Username:
+    &lt;dd&gt;&lt;input type=text name=username size=30 required&gt;
+    &lt;dt&gt;E-Mail:
+    &lt;dd&gt;&lt;input type=text name=email size=30 required&gt;
+    &lt;dt&gt;Password:
+    &lt;dd&gt;&lt;input type=password name=password size=30 required&gt;
+    &lt;dt&gt;Password &lt;small&gt;(repeat)&lt;/small&gt;:
+    &lt;dd&gt;&lt;input type=password name=password2 size=30 required&gt;
+  &lt;/dl&gt;
+  &lt;div class=actions&gt;&lt;input type=submit value=&quot;Sign Up&quot;&gt;&lt;/div&gt;
+&lt;/form&gt;
+
+&lt;div class=footer&gt;
+    MiniTwit &amp;mdash; A Gin-gonic Application
+&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+				
+				
+			</details></td>
+	</tr>
+	
+	
+	<tr>
+		<th scope="row">Evidence</th>
+		<td><pre><code>&lt;form action=&quot;/register&quot; method=post&gt;</code></pre></td>
+	</tr>
+	<tr>
+		<th scope="row">Solution</th>
+		<td> 
+<p>Phase: Architecture and Design</p>
+
+<p>Use a vetted library or framework that does not allow this weakness to occur or provides constructs that make this weakness easier to avoid.</p>
+
+<p>For example, use anti-CSRF packages such as the OWASP CSRFGuard.</p>
+
+<p>Phase: Implementation</p>
+
+<p>Ensure that your application is free of cross-site scripting issues, because most CSRF defenses can be bypassed using attacker-controlled script.</p>
+
+<p>Phase: Architecture and Design</p>
+
+<p>Generate a unique nonce for each form, place the nonce into the form, and verify the nonce upon receipt of the form. Be sure that the nonce is not predictable (CWE-330).</p>
+
+<p>Note that this can be bypassed using XSS.</p>
+
+<p>Identify especially dangerous operations. When the user performs a dangerous operation, send a separate confirmation request to ensure that the user intended to perform that operation.</p>
+
+<p>Note that this can be bypassed using XSS.</p>
+
+<p>Use the ESAPI Session Management control.</p>
+
+<p>This control includes a component for CSRF.</p>
+
+<p>Do not use the GET method for any request that triggers a state change.</p>
+
+<p>Phase: Implementation</p>
+
+<p>Check the HTTP Referer header to see if the request originated from an expected page. This could break legitimate functionality, because users or proxies may have disabled sending the Referer for privacy reasons.</p>
+ </td>
+	</tr>
+</table>
+
+											</details></li>
+									</ol>
+								</li>
+								
+							</ol>
+						</li>
+						
+					</ol>
+				</li>
+				  
+				 
+				
+				
+				
+				
+				<li id="alerts--risk-1-confidence-2">
+					<h3>
+						<span>Risk</span>=<span
+							class="risk-level">Low</span>, <span>Confidence</span>=<span
+							class="confidence-level">Medium</span> <span>(3)</span>
+					</h3>
+					<ol>
+						
+						<li class="alerts--site-li">
+							<h4>
+								<span class="site">http://164.90.223.49:8080</span> <span>(3)</span>
+							</h4>
+							<ol>
+								
+								<li>
+									<h5>
+										<a
+											href="#alert-type-3">Cookie No HttpOnly Flag</a> <span>(1)</span>
+									</h5>
+									<ol>
+										<li><details>
+												<summary>
+													<span class="request-method-n-url">POST http://164.90.223.49:8080/login</span>
+												</summary>
+												
+<table class="alerts-table">
+	<tr>
+		<th scope="row">Alert tags</th>
+		<td>
+			<ul class="alert-tags-list">
+				<li>
+					<span><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP_2021_A05</a></span> 
+				</li>
+				<li>
+					<span><a href="https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/06-Session_Management_Testing/02-Testing_for_Cookies_Attributes">WSTG-v42-SESS-02</a></span> 
+				</li>
+				<li>
+					<span><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration.html">OWASP_2017_A06</a></span> 
+				</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">Alert description</th>
+		<td> 
+<p>A cookie has been set without the HttpOnly flag, which means that the cookie can be accessed by JavaScript. If a malicious script can be run on this page then the cookie will be accessible and can be transmitted to another site. If this is a session cookie then session hijacking may be possible.</p>
+ </td>
+	</tr>
+	
+	<tr>
+		<th scope="row">Request</th>
+		<td><details open="open">
+				<summary>Request line and header section (323 bytes)</summary>
+				
+				<pre><code>POST http://164.90.223.49:8080/login HTTP/1.1
+Host: 164.90.223.49:8080
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+Referer: http://164.90.223.49:8080/login
+Content-Length: 25
+
+</code></pre>
+				
+				
+			</details> <details class="request-body" open="open">
+				<summary>Request body (25 bytes)</summary>
+				
+				<pre><code>username=ZAP&amp;password=ZAP</code></pre>
+				
+				
+			</details></td>
+	</tr>
+	<tr>
+		<th scope="row">Response</th>
+		<td><details open="open">
+				<summary>Status line and header section (827 bytes)</summary>
+				
+				<pre><code>HTTP/1.1 301 Moved Permanently
+Location: /public
+Set-Cookie: session=MTY4MDEwMzE2OHxEdi1CQkFFQ180SUFBUkFCRUFBQV9nRXRfNElBQVFaemRISnBibWNNQmdBRWRYTmxjZ2RiWFhWcGJuUTRDdjRCRGdELUFRcDdJa2xFSWpveE9UazRPQ3dpUTNKbFlYUmxaRUYwSWpvaU1qQXlNeTB3TXkweU9WUXhOVG94T1RveU9DNDBNemt3TXpGYUlpd2lWWEJrWVhSbFpFRjBJam9pTWpBeU15MHdNeTB5T1ZReE5Ub3hPVG95T0M0ME16a3dNekZhSWl3aVJHVnNaWFJsWkVGMElqcHVkV3hzTENKVmMyVnlibUZ0WlNJNklscEJVQ0lzSWtWdFlXbHNJam9pWm05dkxXSmhja0JsZUdGdGNHeGxMbU52YlNJc0lsQjNTR0Z6YUNJNklpUXlZU1F4TUNSdU16bDBSbTV3ZEhSM2NYWjZWV2xQWVZJeExsVXVhVmgzYTJabFVtWkVkRmw2WVZWVVFsQmtaRXRUZUc4NVRsZ3ZWV05OWlNJc0lrMWxjM05oWjJWeklqcHVkV3hzTENKR2IyeHNiM2RwYm1keklqcHVkV3hzZlE9PXzOxTTFQdR39XWcr_t3YpwRigoROTYsVhBzU0XTPxIcOA==; Path=/; Expires=Fri, 28 Apr 2023 15:19:28 GMT; Max-Age=2592000
+Date: Wed, 29 Mar 2023 15:19:28 GMT
+Content-Length: 0
+
+</code></pre>
+				
+				
+			</details> <details class="response-body" open="open">
+				<summary>Response body (0 bytes)</summary>
+				
+				<pre><code></code></pre>
+				
+				
+			</details></td>
+	</tr>
+	<tr>
+		<th scope="row">Parameter</th>
+		<td><pre><code>session</code></pre></td>
+	</tr>
+	
+	<tr>
+		<th scope="row">Evidence</th>
+		<td><pre><code>Set-Cookie: session</code></pre></td>
+	</tr>
+	<tr>
+		<th scope="row">Solution</th>
+		<td> 
+<p>Ensure that the HttpOnly flag is set for all cookies.</p>
+ </td>
+	</tr>
+</table>
+
+											</details></li>
+									</ol>
+								</li>
+								
+								<li>
+									<h5>
+										<a
+											href="#alert-type-4">Cookie without SameSite Attribute</a> <span>(1)</span>
+									</h5>
+									<ol>
+										<li><details>
+												<summary>
+													<span class="request-method-n-url">POST http://164.90.223.49:8080/login</span>
+												</summary>
+												
+<table class="alerts-table">
+	<tr>
+		<th scope="row">Alert tags</th>
+		<td>
+			<ul class="alert-tags-list">
+				<li>
+					<span><a href="https://owasp.org/Top10/A01_2021-Broken_Access_Control/">OWASP_2021_A01</a></span> 
+				</li>
+				<li>
+					<span><a href="https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/06-Session_Management_Testing/02-Testing_for_Cookies_Attributes">WSTG-v42-SESS-02</a></span> 
+				</li>
+				<li>
+					<span><a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control.html">OWASP_2017_A05</a></span> 
+				</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">Alert description</th>
+		<td> 
+<p>A cookie has been set without the SameSite attribute, which means that the cookie can be sent as a result of a &#39;cross-site&#39; request. </p>
+
+<p>The SameSite attribute is an effective counter measure to cross-site request forgery, cross-site script inclusion, and timing attacks.</p>
+ </td>
+	</tr>
+	
+	<tr>
+		<th scope="row">Request</th>
+		<td><details open="open">
+				<summary>Request line and header section (323 bytes)</summary>
+				
+				<pre><code>POST http://164.90.223.49:8080/login HTTP/1.1
+Host: 164.90.223.49:8080
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+Referer: http://164.90.223.49:8080/login
+Content-Length: 25
+
+</code></pre>
+				
+				
+			</details> <details class="request-body" open="open">
+				<summary>Request body (25 bytes)</summary>
+				
+				<pre><code>username=ZAP&amp;password=ZAP</code></pre>
+				
+				
+			</details></td>
+	</tr>
+	<tr>
+		<th scope="row">Response</th>
+		<td><details open="open">
+				<summary>Status line and header section (827 bytes)</summary>
+				
+				<pre><code>HTTP/1.1 301 Moved Permanently
+Location: /public
+Set-Cookie: session=MTY4MDEwMzE2OHxEdi1CQkFFQ180SUFBUkFCRUFBQV9nRXRfNElBQVFaemRISnBibWNNQmdBRWRYTmxjZ2RiWFhWcGJuUTRDdjRCRGdELUFRcDdJa2xFSWpveE9UazRPQ3dpUTNKbFlYUmxaRUYwSWpvaU1qQXlNeTB3TXkweU9WUXhOVG94T1RveU9DNDBNemt3TXpGYUlpd2lWWEJrWVhSbFpFRjBJam9pTWpBeU15MHdNeTB5T1ZReE5Ub3hPVG95T0M0ME16a3dNekZhSWl3aVJHVnNaWFJsWkVGMElqcHVkV3hzTENKVmMyVnlibUZ0WlNJNklscEJVQ0lzSWtWdFlXbHNJam9pWm05dkxXSmhja0JsZUdGdGNHeGxMbU52YlNJc0lsQjNTR0Z6YUNJNklpUXlZU1F4TUNSdU16bDBSbTV3ZEhSM2NYWjZWV2xQWVZJeExsVXVhVmgzYTJabFVtWkVkRmw2WVZWVVFsQmtaRXRUZUc4NVRsZ3ZWV05OWlNJc0lrMWxjM05oWjJWeklqcHVkV3hzTENKR2IyeHNiM2RwYm1keklqcHVkV3hzZlE9PXzOxTTFQdR39XWcr_t3YpwRigoROTYsVhBzU0XTPxIcOA==; Path=/; Expires=Fri, 28 Apr 2023 15:19:28 GMT; Max-Age=2592000
+Date: Wed, 29 Mar 2023 15:19:28 GMT
+Content-Length: 0
+
+</code></pre>
+				
+				
+			</details> <details class="response-body" open="open">
+				<summary>Response body (0 bytes)</summary>
+				
+				<pre><code></code></pre>
+				
+				
+			</details></td>
+	</tr>
+	<tr>
+		<th scope="row">Parameter</th>
+		<td><pre><code>session</code></pre></td>
+	</tr>
+	
+	<tr>
+		<th scope="row">Evidence</th>
+		<td><pre><code>Set-Cookie: session</code></pre></td>
+	</tr>
+	<tr>
+		<th scope="row">Solution</th>
+		<td> 
+<p>Ensure that the SameSite attribute is set to either &#39;lax&#39; or ideally &#39;strict&#39; for all cookies.</p>
+ </td>
+	</tr>
+</table>
+
+											</details></li>
+									</ol>
+								</li>
+								
+								<li>
+									<h5>
+										<a
+											href="#alert-type-5">X-Content-Type-Options Header Missing</a> <span>(1)</span>
+									</h5>
+									<ol>
+										<li><details>
+												<summary>
+													<span class="request-method-n-url">GET http://164.90.223.49:8080/register</span>
+												</summary>
+												
+<table class="alerts-table">
+	<tr>
+		<th scope="row">Alert tags</th>
+		<td>
+			<ul class="alert-tags-list">
+				<li>
+					<span><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP_2021_A05</a></span> 
+				</li>
+				<li>
+					<span><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration.html">OWASP_2017_A06</a></span> 
+				</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">Alert description</th>
+		<td> 
+<p>The Anti-MIME-Sniffing header X-Content-Type-Options was not set to &#39;nosniff&#39;. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.</p>
+ </td>
+	</tr>
+	<tr>
+		<th scope="row">Other info</th>
+		<td> 
+<p>This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.</p>
+
+<p>At &quot;High&quot; threshold this scan rule will not alert on client or server error responses.</p>
+ </td>
+	</tr>
+	<tr>
+		<th scope="row">Request</th>
+		<td><details open="open">
+				<summary>Request line and header section (257 bytes)</summary>
+				
+				<pre><code>GET http://164.90.223.49:8080/register HTTP/1.1
+Host: 164.90.223.49:8080
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0
+Pragma: no-cache
+Cache-Control: no-cache
+Referer: http://164.90.223.49:8080/public
+
+</code></pre>
+				
+				
+			</details> <details class="request-body" open="open">
+				<summary>Request body (0 bytes)</summary>
+				
+				<pre><code></code></pre>
+				
+				
+			</details></td>
+	</tr>
+	<tr>
+		<th scope="row">Response</th>
+		<td><details open="open">
+				<summary>Status line and header section (117 bytes)</summary>
+				
+				<pre><code>HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Date: Wed, 29 Mar 2023 15:19:20 GMT
+Content-Length: 982
+
+</code></pre>
+				
+				
+			</details> <details class="response-body" open="open">
+				<summary>Response body (982 bytes)</summary>
+				
+				<pre><code>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;link rel=stylesheet type=text/css href=&quot;static/style.css&quot;&gt;
+&lt;/head&gt;
+&lt;div class=page&gt;
+  &lt;h1&gt;MiniTwit&lt;/h1&gt;
+  
+&lt;div class=navigation&gt;
+    
+      &lt;a href=&quot;/public&quot;&gt;public timeline&lt;/a&gt; |
+      &lt;a href=&quot;/register&quot;&gt;sign up&lt;/a&gt; |
+      &lt;a href=&quot;/login&quot;&gt;sign in&lt;/a&gt;
+    
+&lt;/div&gt;
+
+
+&lt;title&gt;Sign up | MiniTwit&lt;/title&gt;
+&lt;h2&gt;Sign Up&lt;/h2&gt;
+
+&lt;form action=&quot;/register&quot; method=post&gt;
+  &lt;dl&gt;
+    &lt;dt&gt;Username:
+    &lt;dd&gt;&lt;input type=text name=username size=30 required&gt;
+    &lt;dt&gt;E-Mail:
+    &lt;dd&gt;&lt;input type=text name=email size=30 required&gt;
+    &lt;dt&gt;Password:
+    &lt;dd&gt;&lt;input type=password name=password size=30 required&gt;
+    &lt;dt&gt;Password &lt;small&gt;(repeat)&lt;/small&gt;:
+    &lt;dd&gt;&lt;input type=password name=password2 size=30 required&gt;
+  &lt;/dl&gt;
+  &lt;div class=actions&gt;&lt;input type=submit value=&quot;Sign Up&quot;&gt;&lt;/div&gt;
+&lt;/form&gt;
+
+&lt;div class=footer&gt;
+    MiniTwit &amp;mdash; A Gin-gonic Application
+&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+				
+				
+			</details></td>
+	</tr>
+	<tr>
+		<th scope="row">Parameter</th>
+		<td><pre><code>X-Content-Type-Options</code></pre></td>
+	</tr>
+	
+	
+	<tr>
+		<th scope="row">Solution</th>
+		<td> 
+<p>Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to &#39;nosniff&#39; for all web pages.</p>
+
+<p>If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.</p>
+ </td>
+	</tr>
+</table>
+
+											</details></li>
+									</ol>
+								</li>
+								
+							</ol>
+						</li>
+						
+					</ol>
+				</li>
+				
+				
+				  
+				 
+				
+				
+				
+				
+				<li id="alerts--risk-0-confidence-2">
+					<h3>
+						<span>Risk</span>=<span
+							class="risk-level">Informational</span>, <span>Confidence</span>=<span
+							class="confidence-level">Medium</span> <span>(1)</span>
+					</h3>
+					<ol>
+						
+						<li class="alerts--site-li">
+							<h4>
+								<span class="site">http://164.90.223.49:8080</span> <span>(1)</span>
+							</h4>
+							<ol>
+								
+								<li>
+									<h5>
+										<a
+											href="#alert-type-6">User Agent Fuzzer</a> <span>(1)</span>
+									</h5>
+									<ol>
+										<li><details>
+												<summary>
+													<span class="request-method-n-url">POST http://164.90.223.49:8080/register</span>
+												</summary>
+												
+<table class="alerts-table">
+	<tr>
+		<th scope="row">Alert tags</th>
+		<td>
+			<ul class="alert-tags-list">
+				
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">Alert description</th>
+		<td> 
+<p>Check for differences in response based on fuzzed User Agent (eg. mobile sites, access as a Search Engine Crawler). Compares the response statuscode and the hashcode of the response body with the original response.</p>
+ </td>
+	</tr>
+	
+	<tr>
+		<th scope="row">Request</th>
+		<td><details open="open">
+				<summary>Request line and header section (299 bytes)</summary>
+				
+				<pre><code>POST http://164.90.223.49:8080/register HTTP/1.1
+Host: 164.90.223.49:8080
+User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+Referer: http://164.90.223.49:8080/register
+Content-Length: 67
+
+</code></pre>
+				
+				
+			</details> <details class="request-body" open="open">
+				<summary>Request body (67 bytes)</summary>
+				
+				<pre><code>username=ZAP&amp;email=foo-bar%40example.com&amp;password=ZAP&amp;password2=ZAP</code></pre>
+				
+				
+			</details></td>
+	</tr>
+	<tr>
+		<th scope="row">Response</th>
+		<td><details open="open">
+				<summary>Status line and header section (127 bytes)</summary>
+				
+				<pre><code>HTTP/1.1 400 Bad Request
+Content-Type: text/html; charset=utf-8
+Date: Wed, 29 Mar 2023 15:21:47 GMT
+Content-Length: 1058
+
+</code></pre>
+				
+				
+			</details> <details class="response-body" open="open">
+				<summary>Response body (1058 bytes)</summary>
+				
+				<pre><code>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;link rel=stylesheet type=text/css href=&quot;static/style.css&quot;&gt;
+&lt;/head&gt;
+&lt;div class=page&gt;
+  &lt;h1&gt;MiniTwit&lt;/h1&gt;
+  
+&lt;div class=navigation&gt;
+    
+      &lt;a href=&quot;/public&quot;&gt;public timeline&lt;/a&gt; |
+      &lt;a href=&quot;/register&quot;&gt;sign up&lt;/a&gt; |
+      &lt;a href=&quot;/login&quot;&gt;sign in&lt;/a&gt;
+    
+&lt;/div&gt;
+
+
+&lt;title&gt;Sign up | MiniTwit&lt;/title&gt;
+&lt;h2&gt;Sign Up&lt;/h2&gt;
+&lt;div class=error&gt;&lt;strong&gt;Error:&lt;/strong&gt; The username is already taken&lt;/div&gt;
+&lt;form action=&quot;/register&quot; method=post&gt;
+  &lt;dl&gt;
+    &lt;dt&gt;Username:
+    &lt;dd&gt;&lt;input type=text name=username size=30 required&gt;
+    &lt;dt&gt;E-Mail:
+    &lt;dd&gt;&lt;input type=text name=email size=30 required&gt;
+    &lt;dt&gt;Password:
+    &lt;dd&gt;&lt;input type=password name=password size=30 required&gt;
+    &lt;dt&gt;Password &lt;small&gt;(repeat)&lt;/small&gt;:
+    &lt;dd&gt;&lt;input type=password name=password2 size=30 required&gt;
+  &lt;/dl&gt;
+  &lt;div class=actions&gt;&lt;input type=submit value=&quot;Sign Up&quot;&gt;&lt;/div&gt;
+&lt;/form&gt;
+
+&lt;div class=footer&gt;
+    MiniTwit &amp;mdash; A Gin-gonic Application
+&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+				
+				
+			</details></td>
+	</tr>
+	<tr>
+		<th scope="row">Parameter</th>
+		<td><pre><code>Header User-Agent</code></pre></td>
+	</tr>
+	<tr>
+		<th scope="row">Attack</th>
+		<td><pre><code>Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)</code></pre></td>
+	</tr>
+	
+	
+</table>
+
+											</details></li>
+									</ol>
+								</li>
+								
+							</ol>
+						</li>
+						
+					</ol>
+				</li>
+				
+				
+				  
+			</ol>
+		</section>
+
+		<section id="appendix" class="appendix">
+			<h2>Appendix</h2>
+
+			<section id="alert-types" class="alert-types">
+				<h3>Alert types</h3>
+				<p class="alert-types-intro">This section contains additional information on the types of alerts in the report.</p>
+				<ol>
+					<li
+						id="alert-type-0">
+						<h4>Content Security Policy (CSP) Header Not Set</h4>
+						<table class="alert-types-table">
+							<tr>
+								<th scope="row">Source</th>
+								<td>
+									
+									   <span>raised by a passive scanner</span> <span>(<a
+										href="https://www.zaproxy.org/docs/alerts/10038/">Content Security Policy (CSP) Header Not Set</a>)
+									</span>   
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">CWE ID</th>
+								<td><a
+									href="https://cwe.mitre.org/data/definitions/693.html">693</a></td>
+							</tr>
+							<tr>
+								<th scope="row">WASC ID</th>
+								<td>15</td>
+							</tr>
+							<tr>
+								<th scope="row">Reference</th>
+								<td>
+									<ol>
+										<li><a
+											href="https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy">https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy</a></li>
+										<li><a
+											href="https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html</a></li>
+										<li><a
+											href="http://www.w3.org/TR/CSP/">http://www.w3.org/TR/CSP/</a></li>
+										<li><a
+											href="http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html">http://w3c.github.io/webappsec/specs/content-security-policy/csp-specification.dev.html</a></li>
+										<li><a
+											href="http://www.html5rocks.com/en/tutorials/security/content-security-policy/">http://www.html5rocks.com/en/tutorials/security/content-security-policy/</a></li>
+										<li><a
+											href="http://caniuse.com/#feat=contentsecuritypolicy">http://caniuse.com/#feat=contentsecuritypolicy</a></li>
+										<li><a
+											href="http://content-security-policy.com/">http://content-security-policy.com/</a></li>
+									</ol>
+								</td>
+							</tr>
+						</table>
+					</li>
+					<li
+						id="alert-type-1">
+						<h4>Fravær af Anti-CSRF Tokens</h4>
+						<table class="alert-types-table">
+							<tr>
+								<th scope="row">Source</th>
+								<td>
+									
+									   <span>raised by a passive scanner</span> <span>(<a
+										href="https://www.zaproxy.org/docs/alerts/10202/">Fravær af Anti-CSRF Tokens</a>)
+									</span>   
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">CWE ID</th>
+								<td><a
+									href="https://cwe.mitre.org/data/definitions/352.html">352</a></td>
+							</tr>
+							<tr>
+								<th scope="row">WASC ID</th>
+								<td>9</td>
+							</tr>
+							<tr>
+								<th scope="row">Reference</th>
+								<td>
+									<ol>
+										<li><a
+											href="http://projects.webappsec.org/Cross-Site-Request-Forgery">http://projects.webappsec.org/Cross-Site-Request-Forgery</a></li>
+										<li><a
+											href="http://cwe.mitre.org/data/definitions/352.html">http://cwe.mitre.org/data/definitions/352.html</a></li>
+									</ol>
+								</td>
+							</tr>
+						</table>
+					</li>
+					<li
+						id="alert-type-2">
+						<h4>Missing Anti-clickjacking Header</h4>
+						<table class="alert-types-table">
+							<tr>
+								<th scope="row">Source</th>
+								<td>
+									
+									   <span>raised by a passive scanner</span> <span>(<a
+										href="https://www.zaproxy.org/docs/alerts/10020/">Anti-clickjacking Header</a>)
+									</span>   
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">CWE ID</th>
+								<td><a
+									href="https://cwe.mitre.org/data/definitions/1021.html">1021</a></td>
+							</tr>
+							<tr>
+								<th scope="row">WASC ID</th>
+								<td>15</td>
+							</tr>
+							<tr>
+								<th scope="row">Reference</th>
+								<td>
+									<ol>
+										<li><a
+											href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options</a></li>
+									</ol>
+								</td>
+							</tr>
+						</table>
+					</li>
+					<li
+						id="alert-type-3">
+						<h4>Cookie No HttpOnly Flag</h4>
+						<table class="alert-types-table">
+							<tr>
+								<th scope="row">Source</th>
+								<td>
+									
+									   <span>raised by a passive scanner</span> <span>(<a
+										href="https://www.zaproxy.org/docs/alerts/10010/">Cookie No HttpOnly Flag</a>)
+									</span>   
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">CWE ID</th>
+								<td><a
+									href="https://cwe.mitre.org/data/definitions/1004.html">1004</a></td>
+							</tr>
+							<tr>
+								<th scope="row">WASC ID</th>
+								<td>13</td>
+							</tr>
+							<tr>
+								<th scope="row">Reference</th>
+								<td>
+									<ol>
+										<li><a
+											href="https://owasp.org/www-community/HttpOnly">https://owasp.org/www-community/HttpOnly</a></li>
+									</ol>
+								</td>
+							</tr>
+						</table>
+					</li>
+					<li
+						id="alert-type-4">
+						<h4>Cookie without SameSite Attribute</h4>
+						<table class="alert-types-table">
+							<tr>
+								<th scope="row">Source</th>
+								<td>
+									
+									   <span>raised by a passive scanner</span> <span>(<a
+										href="https://www.zaproxy.org/docs/alerts/10054/">Cookie without SameSite Attribute</a>)
+									</span>   
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">CWE ID</th>
+								<td><a
+									href="https://cwe.mitre.org/data/definitions/1275.html">1275</a></td>
+							</tr>
+							<tr>
+								<th scope="row">WASC ID</th>
+								<td>13</td>
+							</tr>
+							<tr>
+								<th scope="row">Reference</th>
+								<td>
+									<ol>
+										<li><a
+											href="https://tools.ietf.org/html/draft-ietf-httpbis-cookie-same-site">https://tools.ietf.org/html/draft-ietf-httpbis-cookie-same-site</a></li>
+									</ol>
+								</td>
+							</tr>
+						</table>
+					</li>
+					<li
+						id="alert-type-5">
+						<h4>X-Content-Type-Options Header Missing</h4>
+						<table class="alert-types-table">
+							<tr>
+								<th scope="row">Source</th>
+								<td>
+									
+									   <span>raised by a passive scanner</span> <span>(<a
+										href="https://www.zaproxy.org/docs/alerts/10021/">X-Content-Type-Options Header Missing</a>)
+									</span>   
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">CWE ID</th>
+								<td><a
+									href="https://cwe.mitre.org/data/definitions/693.html">693</a></td>
+							</tr>
+							<tr>
+								<th scope="row">WASC ID</th>
+								<td>15</td>
+							</tr>
+							<tr>
+								<th scope="row">Reference</th>
+								<td>
+									<ol>
+										<li><a
+											href="http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx">http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx</a></li>
+										<li><a
+											href="https://owasp.org/www-community/Security_Headers">https://owasp.org/www-community/Security_Headers</a></li>
+									</ol>
+								</td>
+							</tr>
+						</table>
+					</li>
+					<li
+						id="alert-type-6">
+						<h4>User Agent Fuzzer</h4>
+						<table class="alert-types-table">
+							<tr>
+								<th scope="row">Source</th>
+								<td>
+									
+									   <span>raised by an active scanner</span> <span>(<a
+										href="https://www.zaproxy.org/docs/alerts/10104/">User Agent Fuzzer</a>)
+									</span>   
+								</td>
+							</tr>
+							
+							
+							<tr>
+								<th scope="row">Reference</th>
+								<td>
+									<ol>
+										<li><a
+											href="https://owasp.org/wstg">https://owasp.org/wstg</a></li>
+									</ol>
+								</td>
+							</tr>
+						</table>
+					</li>
+				</ol>
+			</section>
+		</section>
+		 
+	</main>
+</body>
+</html>
+
+
+
