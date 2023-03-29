@@ -24,9 +24,7 @@ We identified the following **threat sources** in our application:
 The following **risk scenarios** are constructed from our identified threats and assets:
  - An attacker gains access to one of our GitHub accounts that has “admin” status on our code repository. This could either happen by one of us having a weak password on our GitHub account with no two-factor authentication, or getting one of our phones/computers, which are logged into GitHub, stolen/hijacked. When the attacker has admin access to our GitHub repository, they can freely change or add malicious code to our repository. This could e.g. be changing our CI/CD pipeline such that the database is sent to a remote server. The attacker could also remove access from everyone else and hijack the entire repository to create a ransom attack.
 
-
  - After looking through our publicly available code hosted on GitHub (or through trial and error), they might discover some input field which could be exploited through SQL injection. The attacker then sends requests to obtain sensitive information about the users of the application. 
-
 
  - An attacker decides to DoS our service by sending many requests at once, which would overload the processor which runs the application at DigitalOcean. This would make the application unresponsive/unreachable for some time. If this happens often, users might start to leave minitwit.
 
