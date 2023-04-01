@@ -60,16 +60,24 @@ def _register_user_via_gui(driver, data):
 
     for idx, str_content in enumerate(data):
         input_fields[idx].send_keys(str_content)
-    input_fields[4].send_keys(Keys.RETURN)
+    input_fields[4].click()
 
     wait = WebDriverWait(driver, 5)
-    flashes = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "flashes")))
-
+    driver.save_screenshot("ss.png")
+    flashes = wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, "h2")))
     return flashes
 
 
-def _get_user_by_name(db_client, name):
-    return db_client.test.user.find_one({"username": name})
+def _get_user_by_name(name):
+
+    try:
+        cur = con.cursor()
+        cur.execute("select * from users where username =?", (name,))
+        rows = cur.fetchall()
+        return rows[0]
+    except Exception as e:
+        print(e)
+        return None
 
 
 def test_register_user_via_gui():
@@ -80,14 +88,11 @@ def test_register_user_via_gui():
     firefox_options = Options()
     firefox_options.add_argument("--headless")
     # firefox_options = None
-    with webdriver.Firefox(service=Service("./geckodriver"), options=firefox_options) as driver:
+    with webdriver.Firefox(service=Service("./test/geckodriver"), options=firefox_options) as driver:
         generated_msg = _register_user_via_gui(driver, ["Me", "me@some.where", "secure123", "secure123"])[0].text
-        expected_msg = "You were successfully registered and can login now"
+        expected_msg = "Sign In"
         assert generated_msg == expected_msg
 
-    # cleanup, make test case idempotent
-    db_client = pymongo.MongoClient(DB_URL, serverSelectionTimeoutMS=5000)
-    db_client.test.user.delete_one({"username": "Me"})
 
 
 def test_register_user_via_gui_and_check_db_entry():
@@ -98,16 +103,14 @@ def test_register_user_via_gui_and_check_db_entry():
     firefox_options = Options()
     firefox_options.add_argument("--headless")
     # firefox_options = None
-    with webdriver.Firefox(service=Service("./geckodriver"), options=firefox_options) as driver:
-        db_client = pymongo.MongoClient(DB_URL, serverSelectionTimeoutMS=5000)
+    with webdriver.Firefox(service=Service("./test/geckodriver"), options=firefox_options) as driver:
 
-        assert _get_user_by_name(db_client, "Me") == None
+        assert _get_user_by_name("Me2") == None
 
-        generated_msg = _register_user_via_gui(driver, ["Me", "me@some.where", "secure123", "secure123"])[0].text
-        expected_msg = "You were successfully registered and can login now"
+        generated_msg = _register_user_via_gui(driver, ["Me2", "me@some.where", "secure123", "secure123"])[0].text
+        expected_msg = "Sign In"
         assert generated_msg == expected_msg
+   
+        assert _get_user_by_name("Me2")[4] == "Me2"
 
-        assert _get_user_by_name(db_client, "Me")["username"] == "Me"
 
-        # cleanup, make test case idempotent
-        db_client.test.user.delete_one({"username": "Me"})
