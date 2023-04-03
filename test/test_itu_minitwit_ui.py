@@ -75,7 +75,6 @@ def _get_user_by_name(name):
         rows = cur.fetchall()
         return rows[0]
     except Exception as e:
-        print(e)
         return None
 
 
