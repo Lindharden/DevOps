@@ -63,7 +63,6 @@ def _register_user_via_gui(driver, data):
     input_fields[4].click()
 
     wait = WebDriverWait(driver, 5)
-    driver.save_screenshot("ss.png")
     flashes = wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, "h2")))
     return flashes
 
