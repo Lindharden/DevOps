@@ -24,39 +24,38 @@ Vagrant.configure("2") do |config|
         provider.privatenetworking = true
       end
 
-      server.vm.hostname = name
-      server.vm.provision "shell", inline: 'echo "export DOCKER_USERNAME=' + "'" + ENV["DOCKER_USERNAME"] + "'" + '" >> ~/.bash_profile'
-      server.vm.provision "shell", inline: 'echo "export POSTGRES_USERNAME=' + "'" + ENV["POSTGRES_USERNAME"] + "'" + '" >> ~/.bash_profile'
-      server.vm.provision "shell", inline: 'echo "export POSTGRES_PASSWORD=' + "'" + ENV["POSTGRES_PASSWORD"] + "'" + '" >> ~/.bash_profile'    
-      server.vm.provision "shell", inline: 'echo "export GRAFANA_USERNAME=' + "'" + ENV["GRAFANA_USERNAME"] + "'" + '" >> ~/.bash_profile'
-      server.vm.provision "shell", inline: 'echo "export GRAFANA_PASSWORD=' + "'" + ENV["GRAFANA_PASSWORD"] + "'" + '" >> ~/.bash_profile'
-      server.vm.provision "shell", inline: <<-SHELL
-        sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-        cd /vagrant
-        docker compose up -d
-        echo "================================================================="
-        echo "=                            DONE                               ="
-        echo "================================================================="
-        echo "Navigate in your browser to:"
-        THIS_IP=`hostname -I | cut -d" " -f1`
-      SHELL
-      servers.push(server)
-      puts servers[0].vm.hostname
-    end
-    config.vm.provision "shell", privileged: false, inline: <<-SHELL
-      sudo apt-get update
-      sudo apt-get install \
-      ca-certificates \
-      curl \
-      gnupg \
-      lsb-release
-      sudo mkdir -m 0755 -p /etc/apt/keyrings
-      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-      echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-      sudo apt update
+    server.vm.hostname = "webserver"
+    server.vm.provision "shell", inline: 'echo "export DOCKER_USERNAME=' + "'" + ENV["DOCKER_USERNAME"] + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export POSTGRES_USERNAME=' + "'" + ENV["POSTGRES_USERNAME"] + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export POSTGRES_PASSWORD=' + "'" + ENV["POSTGRES_PASSWORD"] + "'" + '" >> ~/.bash_profile'    
+    server.vm.provision "shell", inline: 'echo "export GRAFANA_USERNAME=' + "'" + ENV["GRAFANA_USERNAME"] + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export GRAFANA_PASSWORD=' + "'" + ENV["GRAFANA_PASSWORD"] + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export ELASTIC_USERNAME=' + "'" + ENV["ELASTIC_USERNAME"] + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export ELASTIC_PASSWORD=' + "'" + ENV["ELASTIC_PASSWORD"] + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: 'echo "export SESSION_SECRET=' + "'" + ENV["SESSION_SECRET"] + "'" + '" >> ~/.bash_profile'
+    server.vm.provision "shell", inline: <<-SHELL
+      sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      cd /vagrant
+      docker compose up -d
+      echo "================================================================="
+      echo "=                            DONE                               ="
+      echo "================================================================="
+      echo "Navigate in your browser to:"
+      THIS_IP=`hostname -I | cut -d" " -f1`
     SHELL
   end
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    sudo apt-get update
+    sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+    sudo mkdir -m 0755 -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo apt update
+  SHELL
 end
-

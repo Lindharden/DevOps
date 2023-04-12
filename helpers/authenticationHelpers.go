@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"DevOps/globals"
 	model "DevOps/model/gorm"
 	"errors"
 	"strings"
@@ -23,13 +24,18 @@ func RegisterUser(db *gorm.DB, username string, password string, password2 strin
 		return model.User{}, errors.New("You have to enter a valid email address")
 	}
 
+	if CheckInvalidUsername(username) {
+		return model.User{}, errors.New("Username contains an invalid character, '/'")
+	}
+
 	if CheckUsernameExists(db, username) {
 		return model.User{}, errors.New("The username is already taken")
 	}
 
 	pw_hash, err := HashPassword(password)
 	if err != nil {
-		panic("password hashing failed")
+		globals.GetLogger().Errorw("Password hashing failed at user register", "error", err.Error())
+		return model.User{}, errors.New("Something went wrong. Minitwit has been notified.")
 	}
 	user := model.User{Username: username, Email: email, PwHash: pw_hash}
 	result := db.Create(&user)
@@ -44,6 +50,10 @@ func CheckUserPasswords(password, password2 string) bool {
 func CheckUsernameExists(db *gorm.DB, username string) bool {
 	_, err := GetUserIdGorm(db, username)
 	return err == nil
+}
+
+func CheckInvalidUsername(username string) bool {
+	return strings.Contains(username, "/")
 }
 
 func CheckUserEmail(email string) bool {

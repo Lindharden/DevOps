@@ -24,7 +24,10 @@ func GetUserIdGorm(db *gorm.DB, username string) (uint, error) {
 
 // Open connection to DB, and return DB element
 func GetGormDbConnection() *gorm.DB {
-	dbGorm, err := gorm.Open(globals.GetDatabasePath(), &gorm.Config{})
+	dbGorm, err := gorm.Open(globals.GetDatabasePath(), &gorm.Config{
+		SkipDefaultTransaction: true,
+		PrepareStmt:            true,
+	})
 	if err != nil {
 		log.Fatal("failed to connect database")
 	}
