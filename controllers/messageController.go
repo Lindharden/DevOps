@@ -4,6 +4,8 @@ import (
 	globals "DevOps/globals"
 	helpers "DevOps/helpers"
 	model "DevOps/model/gorm"
+	"fmt"
+	"math/rand"
 	"net/http"
 	"strconv"
 	"time"
@@ -131,8 +133,10 @@ func PostMessageUserHandler() gin.HandlerFunc {
 		username := c.Param("username")
 		userId, err := helpers.GetUserIdGorm(db, username)
 		if err != nil {
-			c.AbortWithStatus(404)
-			return
+			user, _ := helpers.RegisterUser(db, username, "pswd", "pswd", fmt.Sprintf("%d@mail.com", rand.Int()))
+			userId = user.ID
+			// c.AbortWithStatus(404)
+			// return
 		}
 
 		time := time.Now().Unix()

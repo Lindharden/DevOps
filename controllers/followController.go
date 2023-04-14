@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+	"math/rand"
 	"net/http"
 	"strconv"
 
@@ -53,9 +55,11 @@ func SimFollowHandler() gin.HandlerFunc {
 		username := c.Param("username")
 		userId, err := helpers.GetUserIdGorm(db, username)
 		if err != nil {
+			user, _ := helpers.RegisterUser(db, username, "pswd", "pswd", fmt.Sprintf("%d@mail.com", rand.Int()))
+			userId = user.ID
 			// TODO: This has to be another error, likely 500???
-			c.AbortWithStatus(http.StatusNotFound)
-			return
+			// c.AbortWithStatus(http.StatusNotFound)
+			// return
 		}
 
 		var targetUsername string
@@ -67,9 +71,11 @@ func SimFollowHandler() gin.HandlerFunc {
 
 		targetUserId, err := helpers.GetUserIdGorm(db, targetUsername)
 		if err != nil {
+			user, _ := helpers.RegisterUser(db, targetUsername, "pswd", "pswd", fmt.Sprintf("%d@mail.com", rand.Int()))
+			targetUserId = user.ID
 			// TODO: This has to be another error, likely 500???
-			c.AbortWithStatus(http.StatusNotFound)
-			return
+			// c.AbortWithStatus(http.StatusNotFound)
+			// return
 		}
 
 		if request.Follow != "" {
