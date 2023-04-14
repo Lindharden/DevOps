@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
         provider.privatenetworking = true
       end
 
-    server.vm.hostname = "webserver"
+    server.vm.hostname = name
     server.vm.provision "shell", inline: 'echo "export DOCKER_USERNAME=' + "'" + ENV["DOCKER_USERNAME"] + "'" + '" >> ~/.bash_profile'
     server.vm.provision "shell", inline: 'echo "export POSTGRES_USERNAME=' + "'" + ENV["POSTGRES_USERNAME"] + "'" + '" >> ~/.bash_profile'
     server.vm.provision "shell", inline: 'echo "export POSTGRES_PASSWORD=' + "'" + ENV["POSTGRES_PASSWORD"] + "'" + '" >> ~/.bash_profile'    
@@ -58,4 +58,5 @@ Vagrant.configure("2") do |config|
     $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt update
   SHELL
+end
 end
