@@ -52,7 +52,7 @@ require (
 	github.com/gin-contrib/sessions v0.0.5
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
-	github.com/prometheus/client_golang v1.14.0
+	github.com/prometheus/client_golang v1.15.0
 	github.com/stretchr/testify v1.8.2
 	go.uber.org/zap v1.24.0
 	golang.org/x/crypto v0.8.0
