@@ -2,7 +2,7 @@
 
 
 <b>1. Service Availability </b> <br/>
-During normal operation of service we gaurantee at least 95% avaliability of Minitwit API.
+During normal operation of service we gaurantee at least 95% availability of Minitwit API.
 
 <b>2. Scheduled Maintenance </b><br/>
 In case of maintenance, a notification will be sent out in advance.
