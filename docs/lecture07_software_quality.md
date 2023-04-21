@@ -27,7 +27,7 @@ run: if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
 
 [CodeQL](https://codeql.github.com/) - for flagging vulnerabilities across the codebase. Defined in [codeql.yml](https://github.com/Lindharden/DevOps/blob/main/.github/workflows/codeql.yml).
 
-[Snyk](https://snyk.io/) - for finding and fixing vulnerabilities in our dependencies. Defined in [snyk-security.yml](https://github.com/Lindharden/DevOps/blob/main/.github/workflows/snyk-security.yml).
+[Snyk](https://snyk.io/) - for finding and fixing vulnerabilities in our dependencies. Snyk is integrated with Github through their webapp and runs automatically on every push to the repository.
 
 ## Add Maintainability and Technical Debt estimation tools to your projects
 We added [Sonarqube](https://www.sonarsource.com/products/sonarcloud/) and [Code Climate](https://codeclimate.com/) to our application. These tools will create comments on our pull-requests, detailing any potential problems with the committed code. Additionally we can visit the websites to view detailed statistics and improvements which are proposed to our code.
