@@ -32,5 +32,16 @@ jobs:
       # Run simulator integration tests
       - name: Simulator tests
         run: |
-          pip install -r ./tools/requirements.txt
-          pytest ./tools/test_sim_compliance.py
+          pip install --ignore-installed -r ./test/requirements.txt
+          pytest ./test/test_sim_compliance.py
+      # Run end-to-end tests through Selenium
+      - name: Selenium tests
+        run: |
+          sudo snap remove --purge firefox
+          sudo add-apt-repository ppa:mozillateam/ppa
+          sudo apt install firefox-esr
+          wget https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz
+          tar xzvf geckodriver-v0.32.0-linux64.tar.gz
+          mv geckodriver ./test
+          rm geckodriver-v0.32.0-linux64.tar.gz
+          pytest ./test/test_itu_minitwit_ui.py

@@ -64,8 +64,8 @@ jobs:
       # Run simulator integration tests
       - name: Simulator tests
         run: |
-          pip install -r ./tools/requirements.txt
-          pytest ./tools/test_sim_compliance.py
+          pip install -r ./test/requirements.txt
+          pytest ./test/test_sim_compliance.py
 
       # Build and push docker image
       - name: Build and push minitwitimage
