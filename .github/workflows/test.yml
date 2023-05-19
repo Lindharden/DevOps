@@ -32,7 +32,7 @@ jobs:
       # Run simulator integration tests
       - name: Simulator tests
         run: |
-          pip install -r ./test/requirements.txt
+          pip install --ignore-installed -r ./test/requirements.txt
           pytest ./test/test_sim_compliance.py
       # Run end-to-end tests through Selenium
       - name: Selenium tests
