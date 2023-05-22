@@ -53,7 +53,7 @@ require (
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible
 	github.com/prometheus/client_golang v1.15.1
-	github.com/stretchr/testify v1.8.2
+	github.com/stretchr/testify v1.8.3
 	go.uber.org/zap v1.24.0
 	golang.org/x/crypto v0.9.0
 	gorm.io/driver/postgres v1.5.0
