@@ -1,0 +1,19 @@
+#Tankdem Exam Project
+
+##Rapport
+
+Compare with game “Brothers” where one player controls two characters. This is kind of the opposite of the Tandem concept. 
+
+Use Rapport to write down failed ideas. That could be failed control schemes. Document playtesting.
+
+Test the game on ourselves. Is the communication important? how do we communicate with each other when we play. 
+
+Compare the game idea with similar indie games we can find.
+
+##Ideas
+
+Back when there wasn't a lot of multiplayer games, people was forced to play in tandem when they wanted to play together. Also many games don't have multiplayer, so if people want to play those games together, tandem is the only way. The tandem playstyle requires communication and planning amongst the players, this is very similar to how competitive esports are played.
+
+Tandem was made possible by the width of the computer keyboard, and the mouse. It was not possible to play in tandem beforehand when games were mainly played with controllers.
+
+Back in the day games were extra difficult because only the developers (who are good at the game) tested them.

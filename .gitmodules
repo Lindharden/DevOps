@@ -1,3 +1,3 @@
 [submodule "report"]
-	path = report
+	path = report-submodule
 	url = https://github.com/nikso-itu/devops-report
