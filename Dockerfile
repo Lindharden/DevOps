@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Fetch GO
-FROM golang:latest
+FROM golang:1.22.4
 
 # Create sub directory
 WORKDIR /app
